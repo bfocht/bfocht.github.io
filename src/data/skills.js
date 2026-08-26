@@ -1,0 +1,165 @@
+// TABLE 3: skills — competencies and technologies.
+// `cat` groups them in the sidebar/drawer. `alias` lists extra spellings that should
+// light up inside a position write-up (the canonical `label` is always matched).
+// `desc` is the one-line explainer shown in the drawer when a skill node is opened.
+const SKILLS = [
+  // ---- leadership ----
+  { id:'S_LEAD',    label:'Engineering Leadership', cat:'Leadership',
+    desc:'Setting technical direction for engineering orgs from individual contributor through staff level, and growing managers to own delivery so leverage comes from architecture review and staffing rather than doing the work myself.' },
+  { id:'S_GLOBAL',  label:'Global Team Management',  cat:'Leadership', alias:['global teams','follow the sun','on-call'],
+    desc:'Running teams deliberately spread across US, European and Indian time zones for near-continuous delivery rather than a single-region handoff model, including follow-the-sun on-call coverage for Tier 0 platform systems.' },
+  { id:'S_HIRE',    label:'Hiring & Team Building',  cat:'Leadership', alias:['hiring'],
+    desc:'Sourcing, interviewing and standing up cross-functional engineering teams, then shaping the mix of levels and specialties a program actually needs.' },
+  { id:'S_CONTRACT',label:'Contractor & Staffing Management', cat:'Leadership', alias:['contractors','staff augmentation','SOW','statement of work'],
+    desc:'Running the full software engineering contractor lifecycle — sourcing and acquisition, statement-of-work negotiation, onboarding, day-to-day management and renewal or offboarding — with staffing vendors including EPAM, Tech Systems, Globant, Apex Systems, Lviv IT and others.' },
+  { id:'S_RECRUIT', label:'Full-cycle Recruiting',   cat:'Leadership', alias:['recruiting','sourcing','interview loops'],
+    desc:'Owning full-cycle engineering recruiting — sourcing, screening, structured interview loops, offer strategy and closing — using tooling including HackerRank, ModernLoop, Greenhouse, LinkedIn Recruiting and WorkDay.' },
+  { id:'S_ROADMAP', label:'Roadmap & Product Strategy', cat:'Leadership', alias:['roadmap'],
+    desc:'Setting and defending a multi-quarter platform roadmap in partnership with product and business stakeholders, and sequencing delivery so risk gets bought down before scale.' },
+  { id:'S_PARTNER', label:'Partner & Vendor Management', cat:'Leadership', alias:['partners'],
+    desc:'Coordinating delivery with external partners and vendors, from the technical integration work through the ongoing account relationship.' },
+  { id:'S_FDE',     label:'Forward-Deployed Engineering', cat:'Leadership', alias:['FDE','forward-deployed engineer'],
+    desc:'Embedded directly remote or onsite at client sites to design and implement solutions against their specific constraints, rather than delivering a standard off-the-shelf package.' },
+  { id:'S_MENTOR',  label:'Mentorship & Career Growth', cat:'Leadership', alias:['mentorship'],
+    desc:'Growing engineers and managers into broader scope through architecture review, staffing decisions and career coaching rather than centralizing decisions.' },
+
+  // ---- practices ----
+  { id:'S_AGILE',   label:'Agile / Scrum',           cat:'Practices', alias:['agile','Scrum'],
+    desc:'Running sprint planning, backlog grooming and retros as the operating rhythm for cross-functional delivery teams; Certified ScrumMaster since 2011.' },
+  { id:'S_ITIL',    label:'ITIL',                    cat:'Practices',
+    desc:'Applying ITIL service-management practice to change control, incident response and release process; ITIL v3 certified since 2012.' },
+  { id:'S_ARCH',    label:'Architecture Review',     cat:'Practices', alias:['architecture review'],
+    desc:'Reviewing proposed designs before they ship, catching integration and data-ownership issues early rather than after they reach production.' },
+  { id:'S_SOX',     label:'SOX / Compliance',        cat:'Practices', alias:['SOX'],
+    desc:'Building and reviewing controls and tooling that keep product-lifecycle changes compliant with SOX requirements.' },
+  { id:'S_TEST',    label:'Test Strategy & Coverage',cat:'Practices', alias:['unit test','coverage'],
+    desc:'Defining coverage targets and test strategy — unit, integration and functional-API — and holding teams to them per repository rather than as an aspiration.' },
+
+  // ---- languages ----
+  { id:'S_JAVA',    label:'Java',                    cat:'Languages', alias:['Java 21'],
+    desc:'Primary backend language for current platform work, including modern Java 21 services on Spring Boot.' },
+  { id:'S_CSHARP',  label:'C#',                      cat:'Languages',
+    desc:'Backend language used across .NET application development, including payments-processing and Google-integration work.' },
+  { id:'S_DOTNET',  label:'.NET',                    cat:'Languages',
+    desc:'Application framework used for legacy modernization, integration and backend services across more than a decade of consulting and platform work.' },
+  { id:'S_PYTHON',  label:'Python',                  cat:'Languages',
+    desc:'Used for backend services, including a Django-based e-commerce marketplace platform.' },
+  { id:'S_JS',      label:'JavaScript',              cat:'Languages',
+    desc:'Frontend and full-stack language behind a storefront platform and the APIs it consumes.' },
+  { id:'S_COBOL',   label:'COBOL',                   cat:'Languages', alias:['AS/400 COBOL'],
+    desc:'Legacy language encountered migrating an AS/400 financial system into a modern .NET and SQL Server stack.' },
+  { id:'S_SQL',     label:'SQL',                     cat:'Languages',
+    desc:'Core query language across every relational data store used since 1998, from AS/400 through SQL Server.' },
+
+  // ---- backend & cloud ----
+  { id:'S_SPRING',  label:'Spring Boot',             cat:'Backend & Cloud', alias:['Spring Boot 3.x'],
+    desc:'Application framework for current Java microservices, including Spring Boot 3.x on the catalog and basket platform.' },
+  { id:'S_AWS',     label:'AWS',                     cat:'Backend & Cloud',
+    alias:['Fargate','ECS','EKS','Managed Kubernetes','Athena','S3','Lambda','RDS','Aurora','SQS','SNS',
+           'EventBridge','Step Functions','Glue','Kinesis','CloudWatch','CloudTrail','X-Ray','IAM','KMS',
+           'Secrets Manager','VPC','Route 53','API Gateway','CloudFront','ELB','ALB','NLB','ECR',
+           'CloudFormation','CDK','Elastic Beanstalk','Auto Scaling','CodePipeline','CodeBuild','CodeDeploy',
+           'Systems Manager','SSM','WAF','Shield','Organizations','Cost Explorer','Well-Architected'],
+    desc:'Cloud platform hosting the current commerce, catalog and basket services, across:',
+    descList:[
+      'Compute — ECS, Fargate, managed Kubernetes (EKS), Lambda',
+      'Data — DynamoDB, S3, RDS/Aurora, Athena',
+      'Messaging & events — SQS, SNS, EventBridge, Step Functions, Kinesis, Glue',
+      'Networking & delivery — VPC, Route 53, API Gateway, CloudFront, ELB/ALB/NLB',
+      'Security & identity — IAM, KMS, Secrets Manager, WAF, Shield',
+      'Observability — CloudWatch, CloudTrail, X-Ray',
+      'CI/CD & infra — CloudFormation, CDK, ECR, Elastic Beanstalk, Auto Scaling, CodePipeline, CodeBuild, CodeDeploy, Systems Manager (SSM)',
+      'Governance — Organizations, Cost Explorer, Well-Architected Framework'
+    ] },
+  { id:'S_REST',    label:'REST APIs',               cat:'Backend & Cloud', alias:['RESTful'],
+    desc:'Designing and documenting RESTful APIs consumed by first-party storefronts and by third-party integrators building on the platform.' },
+  { id:'S_MICRO',   label:'Microservices',           cat:'Backend & Cloud',
+    desc:'Decomposing platform capabilities into independently deployable services rather than a single monolith.' },
+  { id:'S_J2EE',    label:'J2EE',                    cat:'Backend & Cloud',
+    desc:'Enterprise Java platform used building early real-time financial-transaction systems.' },
+  { id:'S_ASPNET',  label:'ASP.NET',                 cat:'Backend & Cloud',
+    desc:'Web application framework used across .NET-based legacy modernization and integration projects.' },
+  { id:'S_DJANGO',  label:'Django',                  cat:'Backend & Cloud',
+    desc:'Python web framework behind an e-commerce marketplace platform, including its first send-cart and shared-shopping features.' },
+  { id:'S_OAUTH',   label:'OAuth',                   cat:'Backend & Cloud',
+    desc:'Implemented an OAuth integration letting customers link a third-party account to a platform purchase.' },
+  { id:'S_SWAGGER', label:'Swagger / OpenAPI',       cat:'Backend & Cloud', alias:['swagger'],
+    desc:'Documenting public APIs with Swagger/OpenAPI so external integrators can build against them without direct support.' },
+
+  // ---- devops ----
+  { id:'S_K8S',     label:'Kubernetes',              cat:'DevOps',
+    desc:'Container orchestration for deployed services, as the target of a fully automated release pipeline.' },
+  { id:'S_DOCKER',  label:'Docker',                  cat:'DevOps',
+    desc:'Containerizing services as part of CI/CD, from build through Kubernetes deployment.' },
+  { id:'S_JENKINS', label:'Jenkins',                 cat:'DevOps',
+    desc:'CI/CD orchestration, including automated change-order creation as part of the release process.' },
+  { id:'S_CICD',    label:'CI/CD',                   cat:'DevOps',
+    desc:'Fully automated build-test-deploy pipelines that removed manual steps from the release process.' },
+  { id:'S_OBS',     label:'Observability',           cat:'DevOps', alias:['Elasticsearch'],
+    desc:'Instrumentation and monitoring, including Elasticsearch-based tooling, used to catch platform issues before they reach customers.' },
+
+  // ---- data ----
+  { id:'S_ETL',     label:'ETL',                     cat:'Data',
+    desc:'Extracting and transforming data out of systems that were never designed to give it up — the specialty running through every role since 1998.' },
+  { id:'S_MSSQL',   label:'SQL Server',              cat:'Data',
+    desc:'Primary relational data store for legacy modernization work and current platform services.' },
+  { id:'S_DDB',     label:'DynamoDB',                cat:'Data',
+    desc:'NoSQL data store used in the current commerce and catalog platform.' },
+  { id:'S_REDIS',   label:'Redis',                   cat:'Data',
+    desc:'In-memory cache backing platform performance and the platform’s caching strategy.' },
+  { id:'S_SSIS',    label:'SSIS',                    cat:'Data',
+    desc:'ETL tooling used migrating legacy AS/400 data into SQL Server without data loss.' },
+  { id:'S_CACHE',   label:'Caching Strategy',        cat:'Data', alias:['caching strategy'],
+    desc:'Designing cache TTLs and invalidation rules that balance data freshness against load on downstream systems.' },
+
+  // ---- frontend ----
+  { id:'S_REACT',   label:'React',                   cat:'Frontend', alias:['ReactJS'],
+    desc:'Frontend framework behind a turnkey, internationalized storefront experience.' },
+  { id:'S_NODE',    label:'Node.js',                 cat:'Frontend',
+    desc:'Backend-for-frontend runtime powering a responsive storefront and its API layer; Node.js Foundation member since 2017.' },
+  { id:'S_WP',      label:'WordPress',               cat:'Frontend',
+    desc:'Authored a companion plugin and theme extending an e-commerce platform into the WordPress ecosystem.' },
+  { id:'S_I18N',    label:'Internationalization',    cat:'Frontend', alias:['multi-language','multi language','multi-currency','multi currency'],
+    desc:'Multi-language, multi-currency and multi-brand platform support that carried a program into 50+ markets.' },
+
+  // ---- ai ----
+  { id:'S_AGENTS',  label:'LLM Agents',              cat:'AI', alias:['agent tooling','LLM','Claude Code'],
+    desc:'Standing up agent tooling on the platform, and using it hands-on to build things myself:',
+    descList:[
+      'Platform — a multi-domain catalog agent and an intern-built agent that replaced a manual review process',
+      'This site — this resume itself is an agentic build: the knowledge-graph visualization, drawer UI and content pipeline were built end-to-end working with Claude Code rather than hand-authoring it'
+    ] },
+  { id:'S_PROMPT',  label:'Prompt Engineering',      cat:'AI',
+    desc:'Applying prompt-engineering practice to production agent tooling, backed by formal training in the discipline.' },
+  { id:'S_MCP',     label:'MCP',                     cat:'AI',
+    desc:'Built a catalog MCP server exposing platform data to agent tooling over a standard protocol.' },
+
+  // ---- domain ----
+  { id:'S_ECOM',    label:'E-commerce Platforms',    cat:'Domain', alias:['e-commerce','ecommerce','GPV','ARPU'],
+    desc:'Product, storefront and API work across a full e-commerce program, from checkout through partner integrations — platform work that sits directly on GoDaddy’s two public revenue segments (FY2025):',
+    descList:[
+      'Core Platform (~62% of revenue, $3.1B) — domain registrations, web hosting (shared, Managed WordPress, VPS, dedicated) and security products (SSL, site security, malware protection)',
+      'Applications & Commerce (~38% of revenue, $1.9B, growing ~14% YoY) — website builders (GoDaddy Airo), business productivity (Microsoft 365, professional email, marketing tools) and commerce & payments (online stores, GoDaddy Payments, Poynt point-of-sale)',
+      'GoDaddy Payments Gross Payments Volume hit $2.6B in 2024, up 55% YoY, alongside GoDaddy Capital, a merchant cash advance program launched in 2024',
+      'Business model — domains act as a low-cost (~$20/yr) top-of-funnel acquisition tool, monetized over time by attaching higher-value software subscriptions and commerce tools',
+      'As of Q1 2026: ~20.4M customers at trailing-12-month ARPU of $246, up 9.3% YoY; FY2024 revenue of $4.6B with $1.4B free cash flow, up 25% YoY'
+    ] },
+  { id:'S_CATALOG', label:'Catalog & Pricing Systems',cat:'Domain', alias:['catalog modernization','pricing engine','SKU management','offer model'],
+    desc:'Modernizing and running the pricing and catalog engine behind a long-lived legacy system onto a single variant/offer model — one source of truth for price, availability and lifecycle across a product line that spans:',
+    descList:[
+      'Domains — registration, transfer, renewal and aftermarket pricing across hundreds of TLDs',
+      'Hosting & infrastructure — shared, VPS, dedicated and managed hosting plans',
+      'Security — SSL certificates and other security products, including certificate lifecycle automation',
+      'Email & productivity — email hosting and Microsoft 365 plans',
+      'Websites & commerce — website builder, storefront and e-commerce add-ons',
+      'Mobile — plans and add-ons surfaced through mobile apps',
+      'Payments — payment products woven directly into checkout and basket pricing',
+      'AI products — the emerging AI Credit reserve and other AI-powered offerings entering the catalog'
+    ] },
+  { id:'S_PAY',     label:'Payments & Fraud',        cat:'Domain', alias:['fraud','transaction'],
+    desc:'Real-time transaction-inquiry and fraud-elimination systems built under strict latency and correctness requirements.' },
+  { id:'S_RESIL',   label:'Resilience Engineering',  cat:'Domain', alias:['circuit breaker','resilience'],
+    desc:'Timeouts, circuit breakers, bounded caches and connection-pool isolation that keep one slow dependency from taking down the whole platform.' },
+  { id:'S_MIGRATE', label:'Large-scale Migration',   cat:'Domain', alias:['migration','shadow mode'],
+    desc:'Shipping large migrations behind translation seams, shadow-mode comparison and per-item kill switches instead of a single high-risk cutover.' }
+];
