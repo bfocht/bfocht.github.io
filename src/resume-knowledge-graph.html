@@ -74,6 +74,13 @@
   .brand .plainlink a:hover{filter:brightness(1.08);box-shadow:0 2px 14px rgba(125,211,252,.34)}
   .brand .plainlink a:active{transform:translateY(1px)}
   .brand .plainlink a:focus-visible{outline:2px solid #fff;outline-offset:2px}
+  /* One-shot callout after the coach tour ends, so first-time visitors notice the
+     printable CV escape hatch without it looking like a permanent, nagging badge. */
+  .brand .plainlink a.cta-flash{animation:cta-flash 1s ease-in-out 3}
+  @keyframes cta-flash{
+    0%,100%{border-color:var(--accent);box-shadow:0 1px 10px rgba(125,211,252,.22),0 0 0 0 rgba(255,209,64,.9);transform:none}
+    50%{border-color:#ffd440;box-shadow:0 1px 10px rgba(125,211,252,.22),0 0 0 7px rgba(255,209,64,0);transform:scale(1.045)}
+  }
   .sec{padding:14px 18px;border-bottom:1px solid var(--stroke)}
   .sec h2{margin:0 0 9px;font-size:10.5px;letter-spacing:1.3px;text-transform:uppercase;color:var(--txt-dim);font-weight:600}
   input[type=search]{
@@ -270,7 +277,7 @@
     <div class="brand">
       <h1>Bryan Focht</h1>
       <p>Director of Engineering · GoDaddy</p>
-      <p class="plainlink"><a href="resume.html">Printable CV →</a></p>
+      <p class="plainlink"><a id="printCvLink" href="resume.html">Printable CV →</a></p>
     </div>
     <div class="sec"><h2>Search</h2><label class="sr-only" for="q">Filter nodes</label><input id="q" type="search" placeholder="Filter nodes…" autocomplete="off"></div>
     <div class="sec" id="layersSec"><h2>Layers</h2><div class="filters" id="filters"></div></div>
@@ -325,9 +332,14 @@
   <h4>The write-up</h4>
   <p>This panel holds all the details of a section, with <b>Organizations</b>, <b>Skills</b> and <b>Credentials</b> chips beneath it.</p>
   <p>Close it with <b>✕</b> or <b>Esc</b>, then pick any other section to read it here.</p>
-  <p>Prefer a printable CV? <a href="resume.html">Read the plain-text version →</a></p>
-  <label class="coach-skip"><input type="checkbox" id="coachSkip3"> Don't show these tips again</label>
   <button id="coach3Ok">Got it</button>
+</div>
+
+<div id="coach4" class="coach" role="dialog" aria-label="About the printable CV">
+  <h4>One more thing</h4>
+  <p>Prefer a printable CV? <a href="resume.html">Read the plain-text version →</a></p>
+  <label class="coach-skip"><input type="checkbox" id="coachSkip4"> Don't show these tips again</label>
+  <button id="coach4Ok">Got it</button>
 </div>
 
 <script src="data/orgs.js"></script>
@@ -1208,14 +1220,15 @@ fbox.addEventListener('click', e=>{
   reheat();
 });
 
-/* The coach runs in three beats: what the layers and the timeline do, then the profile
+/* The coach runs in four beats: what the layers and the timeline do, then the profile
    opened so the write-up and its clickable skills are on screen rather than described,
-   then a hop across the canvas to point at the drawer it landed in. */
+   then a hop across the canvas to point at the drawer it landed in, then back to the
+   sidebar to call out the printable CV escape hatch as the closing beat. */
 const coach = document.getElementById('coach'), coach2 = document.getElementById('coach2'),
-      coach3 = document.getElementById('coach3');
+      coach3 = document.getElementById('coach3'), coach4 = document.getElementById('coach4');
 const PROFILE_KEY = 'profile';
 const COACH_COOKIE = 'rkg_hide_coach';
-let coachDismissed = false, coachAnchor = null, autoSelecting = false;
+let coachDismissed = false, coachAnchor = null, autoSelecting = false, printCvFlashTimer = null;
 
 function getCookie(name){
   return document.cookie.split('; ').reduce((acc,c)=>{
@@ -1254,6 +1267,13 @@ function showCoach(el, target, side){
   coachAnchor = { el, target, side };
   placeCoach();
   el.classList.add('show');
+  if(el === coach4) printCvFlashTimer = setTimeout(flashPrintCV, 1000);
+}
+function flashPrintCV(){
+  const el = document.getElementById('printCvLink');
+  if(!el) return;
+  el.classList.add('cta-flash');
+  el.addEventListener('animationend', ()=> el.classList.remove('cta-flash'), { once:true });
 }
 function dismissCoach(){
   if(autoSelecting) return;
@@ -1262,6 +1282,8 @@ function dismissCoach(){
   coach.classList.remove('show');
   coach2.classList.remove('show');
   coach3.classList.remove('show');
+  coach4.classList.remove('show');
+  if(printCvFlashTimer){ clearTimeout(printCvFlashTimer); printCvFlashTimer = null; }
 }
 function showLayersCoach(){ if(coachSkipped) return; showCoach(coach, document.getElementById('layersSec')); }
 
@@ -1282,7 +1304,13 @@ document.getElementById('coach2Ok').onclick = ()=>{
   if(!head || !drawer.classList.contains('open')){ dismissCoach(); return; }
   setTimeout(()=>showCoach(coach3, head, 'right'), 420);
 };
-document.getElementById('coach3Ok').onclick = ()=>{ maybeSkip('coachSkip3'); dismissCoach(); };
+document.getElementById('coach3Ok').onclick = ()=>{
+  coach3.classList.remove('show');
+  const link = document.getElementById('printCvLink');
+  if(!link){ dismissCoach(); return; }
+  setTimeout(()=>showCoach(coach4, link), 420);
+};
+document.getElementById('coach4Ok').onclick = ()=>{ maybeSkip('coachSkip4'); dismissCoach(); };
 cv.addEventListener('mousedown', dismissCoach);
 window.addEventListener('resize', placeCoach);
 
