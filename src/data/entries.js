@@ -154,12 +154,13 @@ const ENTRIES = [
 "## Lead Software Engineer · First Data",
 "*Oct 2005 - Dec 2011, Scottsdale, AZ*",
 "",
-"Tech lead for high-performance applications on **C# and J2EE** for financial systems, centred on **Batch processing new account inquiries** - eliminating new account fraud with velocity checks, identity verification, and KYC/OFAC screening.",
+"Tech lead for high-performance financial-systems applications on **C# and J2EE**, centered on **batch processing of new-account inquiries** - eliminating new-account fraud through velocity checks, identity verification, and KYC/OFAC screening.",
 "",
-"Design and build of real-time service on **C++ and C#** for payments systems, centred on **Real-time Transaction Inquiry & Fraud Elimination** - low latency scoring backend for payments processing systems.",
+"Designed and built a **real-time payments scoring service** on C++, delivering sub-millisecond transaction inquiry for high-volume payments processing.",
+"- Automated **nightly failover** of the scoring service, rebuilding **in-memory scoring models** from scratch on each cutover to guarantee fresh, consistent fraud scoring without manual intervention.",
 "",
-"- Migrated an **AS/400 COBOL system to .NET and SQL Server**, using ASP.NET, C# and SSIS - a **legacy modernization** with no tolerance for data loss.",
-"- Owned technical direction and delivery for the team and serving as **ScrumMaster**.",
+"Migrated an AS/400 COBOL system to .NET and SQL Server with zero data loss - a **legacy modernization** using ASP.NET, C# and SSIS. Tech lead and ScrumMaster for the team.",
+
 ].join("\n")},
 
 /* ------------------------------------------------------- FMC Corporation */
