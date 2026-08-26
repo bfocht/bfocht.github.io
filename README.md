@@ -1,6 +1,6 @@
 # Bryan Focht — Resume
 
-Two self-contained, static HTML pages, served with [GitHub Pages](https://bfocht.github.io/bryan-focht-resume/) — no build step, no dependencies, nothing to install.
+Two self-contained, static HTML pages, served with [GitHub Pages](https://bfocht.github.io/) — no build step, no dependencies, nothing to install.
 
 | File | What it is |
 | --- | --- |
