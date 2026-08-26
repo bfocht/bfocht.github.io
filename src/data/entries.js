@@ -11,7 +11,7 @@ const ENTRIES = [
    role:'Director of Engineering',
   orgs:['O_GD'],
   highlights:[
-    { v:'28+ years', k:'Software Development & Leadership' },
+    { v:'28+ years', k:'Development & Leadership' },
     { v:'$1.4M', k:'AWS budget' },
     { v:'$6B+', k:'Driving billion dollar global growth' },
     { v:'MBA', k:'Boston University' }
@@ -44,7 +44,7 @@ const ENTRIES = [
   orgs:['O_GD'], y0:2020, y1:2026,
   highlights:[
     { v:'$1.8B', k:'acquisition platform integration' },
-    { v:'eCommerce', k:'operations, product, & technology' },
+    { v:'3', k:'global AWS regions' },
     { v:'10M+', k:'monthly orders & renewals' },
   ],
   skills:['S_LEAD','S_GLOBAL','S_ROADMAP','S_MENTOR','S_PARTNER','S_CONTRACT','S_BUDGET','S_RECRUIT','S_ARCH','S_AGILE','S_TEST','S_SOX',
@@ -96,7 +96,7 @@ const ENTRIES = [
   orgs:['O_GD'], y0:2012, y1:2020,
   highlights:[
     { v:'50+', k:'markets launched' },
-    { v:'$126M+', k:'program revenue, 129% growth' },
+    { v:'$126M+', k:'revenue, 129% growth' },
     { v:'4+', k:'major partners onboarded' }
   ],
   skills:['S_LEAD','S_HIRE','S_ROADMAP','S_PARTNER','S_CONTRACT','S_RECRUIT','S_GLOBAL','S_AGILE','S_ITIL','S_TEST',
@@ -106,7 +106,7 @@ const ENTRIES = [
 "## Senior Engineering Manager · GoDaddy",
 "*Jan 2012 - Oct 2020, Arizona*",
 "",
-"Bootstrapped and managed a cross-functional agile team - software engineers, test engineers and a product owner - and drove the roadmap in partnership with business development. Responsible for hiring, delivery and platform direction.",
+"Bootstrapped and managed a cross-functional agile team - software engineers, test engineers, product owner, and mareketing professional. Drove the roadmap in partnership with business development. Responsible for hiring, delivery and platform direction.",
 "",
 "Ran full-cycle recruiting for the team - budgeting, sourcing, screening, interview loops and closing",
 "",
@@ -114,20 +114,21 @@ const ENTRIES = [
 "- Grew the private label reseller program from **$55M to $126M in annual revenue** under my leadership.",
 "- Expanded the private label reseller program into **50+ global markets**, adding localization to the platform: multi-language, multi-currency and multi-brand support.",
 "- Launched a brand-new internationalized, responsive turnkey **storefront on Node.js, React, and Bootstrap**.",
-"- Onboarded recognizable partners onto the platform, including **WHMCS, Microsoft and Amazon**.",
+"- Onboarded recognizable partners onto the platform, including **WHMCS, Microsoft, and Amazon**.",
 "- Consistently delivered roadmap commitments on time.",
 "",
 "### Platform and engineering",
+"- Redesigned and launched a new **markup-based pricing platform**, replacing a rigid legacy pricing system - cutting cost and complexity while letting the platform scale past **25,000 resellers** with no added cost to the platform or storage.",
 "- Partnered directly with **Google** to build a secure OAuth flow allowing Google Apps and Gmail customers to link a GoDaddy-purchased domain (.NET and C#). Helped author the Domain Connect whitepaper.",
 "",
 "- Built a **RESTful e-commerce API** for partners building their own ecommerce stores, fully documented with OpenAPI so any platform can integrate.",
 "- Authored the companion **WordPress ecommerce plugin and storefront theme**.",
 "- Fully automated **CI/CD with Jenkins**, building Docker images and deploying to Kubernetes, including automated change-order creation for new releases.",
 "- Held **97% unit test coverage** plus integration tests across all core features.",
-"- Lead engineer on the **Web Pro platform** (Django/Python), launching the first send-cart, shared-shopping, and customer delegation experience. Added integration with WebPro Marketplace matching website builders with customers.",
+"- Lead engineer on the **Web Pro platform** (Django/Python), launching the first send-cart, shared-shopping, and customer delegation experience. Added integration for WebPro Marketplace matching website builders with customers.",
 "",
 "### Customer growth",
-"Started a **YouTube channel, Discord Server, and Twitter account** to improve onboarding for customers new to the program. It worked well enough that the team expanded to include marketing, with monthly livestreams and social content, and eventually monthly **webinars where engineers can demo directly to customers**.",
+"Started a **YouTube channel, Discord Server, and Twitter account** to improve onboarding for new customers to the reseller program. Worked well enough that I expanded the team to include a marketing professional, hosting monthly livestreams and social content. We held monthly **webinars where engineers can demo directly to customers**.",
 "",
 "*ITIL certified since 2012.*"
 ].join("\n")},
@@ -150,7 +151,7 @@ const ENTRIES = [
 "",
 "- Worked directly with over 150 clients from Fortune 500 corporations down to small businesses, designing and implementing solutions against their specific constraints rather than a standard package.",
 "- Streamlined client processes and optimized data flow, improving overall operating efficiency.",
-"- Long-running relationships - a decade of repeat projects."
+"- Long-running relationships and a decade of successful projects."
 ].join("\n")},
 
 /* ------------------------------------------------------------ First Data */
@@ -180,8 +181,8 @@ const ENTRIES = [
   dates:'May 1998 - Oct 2005', tenure:'7 yr 6 mo', location:'-',
   orgs:['O_FMC'], y0:1998, y1:2005,
   highlights:[
-    { v:'7 yr', k:'first engineering role' },
-    { v:'legacy → SQL', k:'conversion focus' }
+    { v:'7 yr', k:'Career growth to Sr Engineer' },
+    { v:'C++/SQL', k:'System Integration' }
   ],
   skills:['S_ETL','S_SQL','S_MSSQL'],
   md:[
