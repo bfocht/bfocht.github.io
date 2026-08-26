@@ -34,7 +34,7 @@ const ENTRIES = [
 "`Claude Code` · `Cursor` · `Codex` · `Copilot` · `OpenClaw` · `LiteLLM` ",
 "",
 "### Core technology",
-"`Java 21` · `Spring Boot 3.x` · `AWS` · `SQL Server` · `Kubernetes`",
+"`Java 21` · `Spring Boot 3.x` · `AWS` · `SQL Server` · `Kubernetes` · `Elastic/Graphana` · `Cloudtrail/Cloudwatch`",
 ""
 ].join("\n")},
 
