@@ -23,7 +23,7 @@ const ENTRIES = [
 "A consistent pattern across roles: taking on more organizational, financial and cross-functional scope at each step - from individual technical ownership to running global, multi-region engineering organizations with budget authority over infrastructure spend, vendor and contractor investment, and capital planning - while staying accountable for the business outcome, not just the delivery.",
 "",
 "### How I work",
-"- **Buy down risk before scale.** De-risked large-scale enterprise migrations by pioneering a framework of translation seams, shadow-mode validation, and granular kill switches; eliminated systemic deployment risks and ensured zero-downtime business continuity.",
+"- **Buy down risk before scale.** De-risked large-scale enterprise migrations by pioneering a framework of translation seams, shadow-mode validation, and granular feature switches; eliminated systemic deployment risks and ensured zero-downtime business continuity.",
 "- **Fix causes, not symptoms.** Enforced strict architectural governance by prioritizing root-cause remediation over tactical patches; structurally resolved downstream pricing anomalies at the catalog layer to eliminate technical debt across consuming microservices.",
 "- **Grow people into scope.** Scaled organizational capacity through proactive talent cultivation; empowered engineering managers and staff engineers with complete delivery ownership while maximizing executive leverage via architectural governance, strategic staffing, and systemic unblocking.",
 "",

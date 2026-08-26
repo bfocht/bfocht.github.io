@@ -165,5 +165,5 @@ const SKILLS = [
   { id:'S_RESIL',   label:'Resilience Engineering',  cat:'Domain', alias:['circuit breaker','resilience'],
     desc:'Timeouts, circuit breakers, bounded caches and connection-pool isolation that keep one slow dependency from taking down the whole platform.' },
   { id:'S_MIGRATE', label:'Large-scale Migration',   cat:'Domain', alias:['migration','shadow mode'],
-    desc:'Shipping large migrations behind translation seams, shadow-mode comparison and per-item kill switches instead of a single high-risk cutover.' }
+    desc:'Shipping large migrations behind translation seams, shadow-mode comparison and per-item feature switches instead of a single high-risk cutover.' }
 ];
