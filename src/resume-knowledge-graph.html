@@ -1311,6 +1311,13 @@ document.getElementById('coach3Ok').onclick = ()=>{
   setTimeout(()=>showCoach(coach4, link), 420);
 };
 document.getElementById('coach4Ok').onclick = ()=>{ maybeSkip('coachSkip4'); dismissCoach(); };
+document.addEventListener('keydown', e=>{
+  if(e.key !== 'Enter') return;
+  const active = [coach, coach2, coach3, coach4].find(c=>c.classList.contains('show'));
+  if(!active) return;
+  e.preventDefault();
+  document.getElementById(active.id+'Ok').click();
+});
 cv.addEventListener('mousedown', dismissCoach);
 window.addEventListener('resize', placeCoach);
 
