@@ -12,7 +12,7 @@ const ENTRIES = [
   orgs:['O_GD'],
   highlights:[
     { v:'28+ years', k:'Software Development & Leadership' },
-    { v:'$200K+', k:'AWS budget owned' },
+    { v:'$1M+', k:'AWS budget' },
     { v:'$5B+', k:'Driving billion dollar global growth' },
     { v:'MBA', k:'Boston University' }
   ],
