@@ -43,10 +43,9 @@ const ENTRIES = [
   dates:'Oct 2020 - Present', tenure:'5 yr 11 mo', location:'Arizona · Global teams',
   orgs:['O_GD'], y0:2020, y1:2026,
   highlights:[
-    { v:'14+ yr', k:'at GoDaddy' },
     { v:'~25', k:'engineers & managers' },
     { v:'eCommerce', k:'operations, product, & technology' },
-    { v:'100K+', k:'monthly orders in scope' },
+    { v:'10M+', k:'monthly orders & renewals' },
   ],
   skills:['S_LEAD','S_GLOBAL','S_ROADMAP','S_MENTOR','S_PARTNER','S_CONTRACT','S_BUDGET','S_RECRUIT','S_ARCH','S_AGILE','S_TEST','S_SOX',
           'S_JAVA','S_SPRING','S_AWS','S_MICRO','S_REST','S_SQL','S_MSSQL','S_DDB','S_REDIS','S_CACHE',
