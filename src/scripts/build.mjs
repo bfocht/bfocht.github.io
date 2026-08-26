@@ -256,7 +256,7 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid #dde3ec;font-size:1
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bryan Focht — Resume</title>
-<meta name="description" content="Bryan Focht — Director of Software Engineering at GoDaddy. Plain-text resume, ${YEARS.from}–${YEARS.to}.">
+<meta name="description" content="Bryan Focht — Director of Engineering at GoDaddy. Plain-text resume, ${YEARS.from}–${YEARS.to}.">
 <style>
 ${CSS}
 </style>
@@ -264,12 +264,12 @@ ${CSS}
 <body>
 <div class="wrap">
 <header>
-${profile && profile.photo ? `<img class="photo" src="${profile.photo}" alt="Bryan Focht">\n` : ''}<h1>Bryan Focht</h1>
-<p>Director of Software Engineering · GoDaddy</p>
+${profile && profile.photo ? `<img class="photo" src="${profile.photo}" alt="">\n` : ''}<h1>Bryan Focht</h1>
+<p>Director of Engineering · GoDaddy</p>
 <p class="meta">${YEARS.from} – ${YEARS.to} · ${positions.length} positions · ${SKILLS.length} skills · ${CREDS.length} credentials</p>
 </header>
 
-<div class="switch">View the <a href="${GRAPH_HREF}">interactive knowledge graph</a>, requires a browser with canvas support.</p></div>
+<div class="switch"><p>View the <a href="${GRAPH_HREF}">interactive knowledge graph</a>.</p></div>
 
 <nav aria-label="Sections"><ul>
 ${navItems.map(([k, t]) => `<li><a href="#${esc(k)}">${esc(t)}</a></li>`).join('\n')}

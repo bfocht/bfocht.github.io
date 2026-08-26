@@ -83,6 +83,8 @@ const SKILLS = [
     desc:'Python web framework behind an e-commerce marketplace platform, including its first send-cart and shared-shopping features.' },
   { id:'S_OAUTH',   label:'OAuth',                   cat:'Backend & Cloud',
     desc:'Implemented an OAuth integration letting customers link a third-party account to a platform purchase.' },
+  { id:'S_IDENTITY',label:'Identity',                cat:'Backend & Cloud', alias:['SSO','JWT','Authentication','CSSLP'],
+    desc:'Authentication and identity integrations — single sign-on, JWT-based session/token handling and third-party account linking — backed by a CSSLP (Certified Secure Software Lifecycle Professional) security foundation.' },
   { id:'S_SWAGGER', label:'Swagger / OpenAPI',       cat:'Backend & Cloud', alias:['swagger'],
     desc:'Documenting public APIs with Swagger/OpenAPI so external integrators can build against them without direct support.' },
 
@@ -156,7 +158,7 @@ const SKILLS = [
       'Payments — payment products woven directly into checkout and basket pricing',
       'AI products — the emerging AI Credit reserve and other AI-powered offerings entering the catalog'
     ] },
-  { id:'S_PAY',     label:'Payments & Fraud',        cat:'Domain', alias:['fraud','transaction'],
+  { id:'S_PAY',     label:'Payments & Fraud',        cat:'Domain', alias:['fraud','transaction','payments','payment'],
     desc:'Real-time transaction-inquiry and fraud-elimination systems built under strict latency and correctness requirements.' },
   { id:'S_RESIL',   label:'Resilience Engineering',  cat:'Domain', alias:['circuit breaker','resilience'],
     desc:'Timeouts, circuit breakers, bounded caches and connection-pool isolation that keep one slow dependency from taking down the whole platform.' },
