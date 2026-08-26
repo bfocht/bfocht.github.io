@@ -68,9 +68,9 @@ const ENTRIES = [
 "- **Commerce-stack migration** - moved order and basket traffic onto a new AWS-based stack in shadow mode, cutting over only once diffs were clean (**99.6% shadow match**), protecting revenue-critical checkout flows from a high-risk infrastructure migration.",
 "- **Platform resilience** - built circuit breakers, bounded caches, and connection-pool isolation so a single slow dependency can't cascade into an outage across a platform processing **10M+ monthly orders and renewals**.",
 "- **Engineering standards** - raised code coverage requirements (**90% unit, 100% functional-API**) to cut regression risk as the team and codebase scale.",
-"- **Org build-out and staffing** - built and grew three globally distributed teams (~25 engineers/managers, staff to SDE I plus interns) for near-continuous delivery; run full-cycle recruiting and contractor/vendor management (**EPAM, Tech Systems, Globant, Apex Systems, Lviv IT**) so I can flex capacity without headcount risk.",
+"- **Org build-out and staffing** - built and grew three globally distributed teams for near-continuous delivery; run full-cycle recruiting and contractor/vendor management (**EPAM, Tech Systems, Globant, Apex Systems, Lviv IT**) so I can flex capacity without headcount risk.",
 "- **Budget and investment ownership** - own the AWS infrastructure budget across **3 global regions** and the org's emerging AI budget, plus capital investment/software capitalization reporting, so infrastructure spend scales predictably with the business.",
-"- **Security and compliance** - own vulnerability remediation, certificate automation, and SOX review tooling, keeping the platform audit-ready as scope expands.",
+"- **Security and compliance** - own vulnerability remediation, certificate automation, attestation management, and SOX review tooling, keeping the platform audit-ready as scope expands.",
 "",
 "### Technology",
 "`Java 21` · `Spring Boot 3.x` · `AWS` · `DynamoDB` · `Redis` · `SQL Server` · `Elasticsearch` · `Kubernetes` · `Github Workflows`"
