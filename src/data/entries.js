@@ -57,7 +57,7 @@ const ENTRIES = [
 "I own the **catalog, product-creation and basket platform** behind GoDaddy's commerce stack. Three teams, roughly 25 engineers and managers from staff level to SDE I plus interns, deliberately spread globally for near-continuous delivery.",
 "",
 "### Selected impact",
-"- Played a critical engineering role in integrating GoDaddy's **$1.8B Host Europe Group (HEG) acquisition**, migrating one HEG brand fully onto GoDaddy's platform and merging five other HEG brands onto a single unified commerce platform.",
+"- Played a critical engineering role in integrating GoDaddy's **$1.8 Billion Host Europe Group (HEG) acquisition**, migrating one HEG brand fully onto GoDaddy's platform and merging five other HEG brands onto a single unified commerce platform.",
 "- Caught a cart add-on defect that broke the domain/add-on parent-child relationship with roughly **$1M exposure**, and staffed the fix by pairing my staff engineer directly with the owning team rather than filing it across a boundary.",
 "- Root-caused a pricing defect projected to affect **10-16% of 100K+ monthly orders** during migration events, and drove the fix into the owning service instead of accepting a downstream patch.",
 "- Prevented a single slow dependency from taking down the platform-wide catalog - root-caused a live instability incident **same-day** and re-architected the call path (**connection pooling**) to make it structurally impossible to recur.",
