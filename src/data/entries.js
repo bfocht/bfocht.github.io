@@ -76,18 +76,18 @@ const ENTRIES = [
 "",
 "**Contractor and staffing management.** I own the full software engineering contractor lifecycle end to end - sourcing and acquisition, statement-of-work negotiation, onboarding, day-to-day management, and renewal or offboarding - including **budget ownership and contract approval** for every engagement - augmenting my full-time teams with staffing vendors including **EPAM, Tech Systems, Globant, Apex Systems, Lviv IT** and others.",
 "",
-"**Budget, vendor and investment management.** I define and own a **$200K+ AWS infrastructure budget**, tracking spend monthly and updating the forecast semi-annually, plus determining and monitoring the org's **AI compute budget** as that spend scales. This extends to vendor management with delivery partners such as **Capella**, and to managing capital investment spend - submitting accurate **quarterly software capitalization reports** for engineering work that qualifies for capitalization.",
+"**Budget, vendor and investment management.** I define and own a **$200K+ AWS infrastructure budget**, tracking spend monthly and updating the forecast semi-annually, plus determining and monitoring the org's **AI budget** as that spend scales. This extends to vendor management with delivery partners, and to managing capital investment spend - submitting accurate **quarterly software capitalization reports** for engineering work that qualifies.",
 "",
-"**Security and compliance.** Vulnerability remediation, certificate renew/install/retire automation, and SOX review tooling for product-lifecycle changes.",
+"**Security and compliance.** Vulnerability remediation, certificate automation, Attestations and SOX review tooling for development and product-lifecycle changes.",
 "",
 "### Selected impact",
 "- Caught a cart add-on defect that broke the domain/add-on parent-child relationship with roughly **$1M exposure**, and staffed the fix by pairing my staff engineer directly with the owning team rather than filing it across a boundary.",
-"- Root-caused a prorated-pricing defect projected to affect **10-16% of 100K+ monthly orders** during migration events, and drove the fix into the catalog layer instead of accepting a downstream patch.",
-"- Traced platform-wide catalog instability to upstream **API latency**; the same-day fix ended the timeout alerts, and I moved those calls behind a dedicated connection pool so one slow dependency cannot take the platform with it.",
-"- Building **LLM agent tooling** on the platform: a catalog MCP server, a multi-domain catalog AI agent, and an intern-built AI-backed SOX tax-review agent that replaced a manual spreadsheet process.",
+"- Root-caused a pricing defect projected to affect **10-16% of 100K+ monthly orders** during migration events, and drove the fix into the owning service instead of accepting a downstream patch.",
+"- Traced platform-wide catalog instability to upstream **API latency**; the same-day fix ended the timeout alerts, and moved those calls behind a dedicated connection pool so one slow dependency cannot take the platform with it.",
+"- Building **LLM agent tooling** on the platform: a product catalog MCP server, a multi-domain catalog AI agent, and an intern-built AI-backed SOX tax-review agent that replaced a manual spreadsheet process.",
 "",
 "### Technology",
-"`Java 21` · `Spring Boot 3.x` · `AWS` · `DynamoDB` · `Redis` · `SQL Server` · `Elasticsearch` · `Kubernetes`"
+"`Java 21` · `Spring Boot 3.x` · `AWS` · `DynamoDB` · `Redis` · `SQL Server` · `Elasticsearch` · `Kubernetes` · `Github Workflows`"
 ].join("\n")},
 
 /* --------------------------------------------- GoDaddy · Senior Manager */
@@ -107,9 +107,9 @@ const ENTRIES = [
 "## Senior Engineering Manager · GoDaddy",
 "*Jan 2012 - Oct 2020, Arizona*",
 "",
-"Built and ran a cross-functional agile team - software engineers, test engineers and a product owner - and drove the roadmap in partnership with business development. Responsible for hiring, delivery and platform direction.",
+"Bootstrapped and managed a cross-functional agile team - software engineers, test engineers and a product owner - and drove the roadmap in partnership with business development. Responsible for hiring, delivery and platform direction.",
 "",
-"Ran full-cycle recruiting for the team - sourcing, screening, interview loops and closing",
+"Ran full-cycle recruiting for the team - budgeting, sourcing, screening, interview loops and closing",
 "",
 "### Growth and reach",
 "- Expanded the private label reseller program into **50+ global markets**, adding localization to the platform: multi-language, multi-currency and multi-brand support.",
@@ -167,12 +167,12 @@ const ENTRIES = [
 "## Lead Software Engineer · First Data",
 "*Oct 2005 - Dec 2011, Scottsdale, AZ*",
 "",
-"Lead engineering of high-performance applications on **C# and J2EE** for financial systems, centred on **Batch processing new account inquiries** - eliminating new account fraud with velocity checks, identity verification, and KYC/OFAC screening.",
+"Tech lead for high-performance applications on **C# and J2EE** for financial systems, centred on **Batch processing new account inquiries** - eliminating new account fraud with velocity checks, identity verification, and KYC/OFAC screening.",
 "",
 "Design and build of real-time service on **C++ and C#** for payments systems, centred on **Real-time Transaction Inquiry & Fraud Elimination** - low latency scoring backend for payments processing systems.",
 "",
 "- Migrated an **AS/400 COBOL system to .NET and SQL Server**, using ASP.NET, C# and SSIS - a **legacy modernization** with no tolerance for data loss.",
-"- Owned technical direction and delivery for the team, acting as a **ScrumMaster** and earning a **Certified ScrumMaster** certification.",
+"- Owned technical direction and delivery for the team and serving as **ScrumMaster**.",
 ].join("\n")},
 
 /* ------------------------------------------------------- FMC Corporation */
@@ -188,11 +188,9 @@ const ENTRIES = [
 "## Software Engineer · FMC Corporation",
 "*May 1998 - Oct 2005, Scottsdale, AZ*",
 "",
-"First engineering role building professional and scalable software. Specialised in **ETL processes converting legacy-system data into SQL databases** for **CRM, Scheduling, & Invoicing software** in the services industry.",
+"Building professional and scalable software, specialising in **ETL processes converting legacy-system data into SQL databases** for **CRM, Scheduling, & Invoicing software** in the services industry.",
 "",
-"- Collaborated with cross-functional teams to optimize software performance and improve the user experience, reducing integration complexity and cost, streamlining new client onboarding and time to launch.",
-"",
-"This is where the pattern that still defines my work started: **modernize a legacy system underneath live business traffic**. Every year after, I've been able to apply the same pattern to a new platform."
+"- Collaborated with cross-functional teams to optimize software performance and improve the user experience, reducing integration complexity and cost, streamlining new client onboarding and time to launch."
 ].join("\n")},
 
 /* ------------------------------------------------------------- education */
