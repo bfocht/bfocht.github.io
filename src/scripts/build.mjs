@@ -153,7 +153,13 @@ function buildPlainResumeHtml() {
     return `<ul class="metrics">${hs.map(h => `<li><b>${esc(h.v)}</b> ${esc(h.k)}</li>`).join('')}</ul>`;
   }
   function orgLine(e) {
-    if (e.tagline) return `<p class="meta">${inline(e.tagline)}</p>`;
+    if (e.tagline) {
+      // The profile's role repeats the page header (name + title), so only
+      // the link part of the tagline is shown here.
+      const m = e.key === 'profile' && e.tagline.match(/^(.*?)\s*·\s*(\[[^\]]+\]\([^)]+\))$/);
+      if (m) return `<p class="meta">${inline(m[2])}</p>`;
+      return `<p class="meta">${inline(e.tagline)}</p>`;
+    }
     const names = (e.orgs || []).map(id => orgById.get(id)?.name).filter(Boolean);
     const bits = [names.join(', '), e.dates, e.tenure, e.location].filter(Boolean);
     return bits.length ? `<p class="meta">${esc(bits.join(' · '))}</p>` : '';
@@ -169,8 +175,11 @@ function buildPlainResumeHtml() {
   }
 
   function section(e, tag, headingOverride) {
+    // The profile heading repeats the page header's name, which is always
+    // visible right above it — showing it again here is pure redundancy.
+    const heading = e.key === 'profile' ? '' : `<h2>${esc(headingOverride || e.title)}</h2>`;
     return `<section id="${esc(e.key)}">
-<h2>${esc(headingOverride || e.title)}</h2>
+${heading}
 ${orgLine(e)}
 ${highlightList(e.highlights)}
 ${bodyOf(e)}
@@ -201,15 +210,11 @@ body{margin:0;background:#f6f7f9;color:#1c2330;
   -webkit-text-size-adjust:100%}
 .wrap{max-width:820px;margin:0 auto;padding:28px 22px 72px;background:#fff}
 a{color:#1a5fb4}
-header{border-bottom:2px solid #1c2330;padding-bottom:16px;margin-bottom:8px}
+header{position:relative;border-bottom:2px solid #1c2330;padding-bottom:16px;margin-bottom:8px}
 header h1{margin:0;font-size:30px;letter-spacing:.2px}
 header p{margin:4px 0 0;font-size:15px;color:#4a5568}
 .photo{width:96px;height:96px;border-radius:50%;margin-bottom:12px}
-.switch{margin:14px 0 0;padding:10px 14px;background:#eef2f8;border:1px solid #d3dced;font-size:14px}
-.switch p{margin:0}
-nav{margin:22px 0 6px;padding:12px 0;border-top:1px solid #dde3ec;border-bottom:1px solid #dde3ec;font-size:14px}
-nav ul{margin:0;padding:0;list-style:none}
-nav li{display:inline-block;margin:2px 14px 2px 0}
+.switch{position:absolute;top:0;right:0;margin:0;font-size:14px}
 section{padding:26px 0 6px;border-bottom:1px solid #e6eaf1}
 section:last-of-type{border-bottom:none}
 h2{margin:0 0 4px;font-size:22px;letter-spacing:.2px}
@@ -233,18 +238,11 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid #dde3ec;font-size:1
 @media print{
   body{background:#fff;font-size:11.5pt}
   .wrap{max-width:none;padding:0}
-  .switch,nav{display:none}
+  .switch{display:none}
   section{page-break-inside:avoid;border-bottom:none}
   a{color:#000;text-decoration:none}
 }
 `.trim();
-
-  const navItems = [
-    ['profile', 'Profile'],
-    ...positions.map(p => [p.key, p.title]),
-    certifications && [certifications.key, 'Education & Certifications'],
-    ['skills', 'Skills'],
-  ].filter(Boolean);
 
   // Always index.html: that's the name the graph is published under in this
   // GitHub Pages repo, which is the only place this link matters.
@@ -264,16 +262,11 @@ ${CSS}
 <body>
 <div class="wrap">
 <header>
+<p class="switch">View the <a href="${GRAPH_HREF}">interactive knowledge graph</a>.</p>
 ${profile && profile.photo ? `<img class="photo" src="${profile.photo}" alt="">\n` : ''}<h1>Bryan Focht</h1>
 <p>Director of Engineering · GoDaddy</p>
 <p class="meta">${YEARS.from} – ${YEARS.to} · ${positions.length} positions · ${SKILLS.length} skills · ${CREDS.length} credentials</p>
 </header>
-
-<div class="switch"><p>View the <a href="${GRAPH_HREF}">interactive knowledge graph</a>.</p></div>
-
-<nav aria-label="Sections"><ul>
-${navItems.map(([k, t]) => `<li><a href="#${esc(k)}">${esc(t)}</a></li>`).join('\n')}
-</ul></nav>
 
 ${profile ? section(profile) : ''}
 ${positions.map(p => section(p)).join('\n\n')}
