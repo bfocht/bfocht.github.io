@@ -123,7 +123,7 @@ const ENTRIES = [
 "",
 "- Built a **RESTful e-commerce API** for partners building their own ecommerce stores, fully documented with OpenAPI so any platform can integrate.",
 "- Authored the companion **WordPress ecommerce plugin and storefront theme**.",
-"- Fully automated **CI/CD with Jenkins**, building Docker images and deploying to Kubernetes, including automated change-order creation for new releases.",
+"- Rapidly accelerated the pace of delivery and reduced the time to market for new features by fully automated CI/CD with Jenkins, building Docker images, and deploying to Kubernetes, including automated change-order creation for new releases.",
 "- Held **97% unit test coverage** plus integration tests across all core features.",
 "- Lead engineer on the **Web Pro platform** (Django/Python), launching the first send-cart, shared-shopping, and customer delegation experience. Added integration for WebPro Marketplace matching website builders with customers.",
 "",
