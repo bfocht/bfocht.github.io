@@ -11,9 +11,9 @@ const ENTRIES = [
    role:'Director of Engineering',
   orgs:['O_GD'],
   highlights:[
-    { v:'28 yr', k:'in software dev & management' },
+    { v:'28+ years', k:'Software Development & Leadership' },
     { v:'$200K+', k:'AWS budget owned' },
-    { v:'$5B+', k:'driving billion dollar global growth' },
+    { v:'$5B+', k:'Driving billion dollar global growth' },
     { v:'MBA', k:'Boston University' }
   ],
   skills:['S_LEAD','S_GLOBAL','S_ROADMAP','S_ECOM','S_CATALOG','S_JAVA','S_AWS','S_AGENTS','S_FDE'],
