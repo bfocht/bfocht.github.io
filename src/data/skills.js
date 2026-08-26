@@ -13,7 +13,7 @@ const SKILLS = [
   { id:'S_CONTRACT',label:'Contractor & Staffing Management', cat:'Leadership', alias:['contractors','staff augmentation','SOW','statement of work'],
     desc:'Running the full software engineering contractor lifecycle — sourcing and acquisition, statement-of-work negotiation, onboarding, day-to-day management and renewal or offboarding — with staffing vendors including EPAM, Tech Systems, Globant, Apex Systems, Lviv IT and others, including budget and contract approval authority over the engagements.' },
   { id:'S_BUDGET',  label:'Budget & Financial Management', cat:'Leadership', alias:['budget','P&L','financial management','cost management','capitalization'],
-    desc:'Responsible for a $200K+ AWS infrastructure budget ($1M at VP level) with monthly tracking and semi-annual updates, determining and monitoring AI & Inference compute as that spend scales (~$50K), and managing capital investment spend including quarterly software capitalization reporting.' },
+    desc:'Responsible for a $250K+ AWS infrastructure budget (additional $1.2M shared account) with monthly tracking and semi-annual updates, determining and monitoring AI & Inference compute as that spend scales (~$50K), and managing capital investment spend including quarterly software capitalization reporting.' },
   { id:'S_RECRUIT', label:'Full-cycle Recruiting',   cat:'Leadership', alias:['recruiting','sourcing','interview loops'],
     desc:'Owning full-cycle engineering recruiting — sourcing, screening, structured interview loops, offer strategy and closing — using tooling including HackerRank, ModernLoop, Greenhouse, LinkedIn Recruiting and WorkDay.' },
   { id:'S_ROADMAP', label:'Roadmap & Product Strategy', cat:'Leadership', alias:['roadmap, OKR, MBR'],
