@@ -155,38 +155,38 @@
   /* ---------- coach marks ---------- */
   .coach{
     position:fixed;z-index:20;width:288px;
-    background:#0e1526;border:1px solid var(--stroke-2);border-radius:12px;
-    padding:13px 15px 14px;box-shadow:0 22px 55px rgba(0,0,0,.65);
+    background:#f7fafd;border:1px solid rgba(15,23,42,.16);border-radius:12px;
+    padding:13px 15px 14px;box-shadow:0 22px 55px rgba(0,0,0,.65),0 0 24px rgba(247,250,253,.35);
     opacity:0;transform:translateX(-10px);pointer-events:none;
     transition:opacity .32s ease,transform .32s cubic-bezier(.4,0,.2,1);
   }
   .coach.show{opacity:1;transform:none;pointer-events:auto}
   .coach::before{
-    content:"";position:absolute;left:-7px;top:var(--arrow,24px);width:12px;height:12px;background:#0e1526;
-    border-left:1px solid var(--stroke-2);border-bottom:1px solid var(--stroke-2);transform:rotate(45deg);
+    content:"";position:absolute;left:-7px;top:var(--arrow,24px);width:12px;height:12px;background:#f7fafd;
+    border-left:1px solid rgba(15,23,42,.16);border-bottom:1px solid rgba(15,23,42,.16);transform:rotate(45deg);
   }
   /* the last beat sits on the far side of the canvas, so it arrives from the right and aims right */
   .coach.at-right:not(.show){transform:translateX(18px)}
   .coach.at-right::before{
     left:auto;right:-7px;
     border-left:0;border-bottom:0;
-    border-right:1px solid var(--stroke-2);border-top:1px solid var(--stroke-2);
+    border-right:1px solid rgba(15,23,42,.16);border-top:1px solid rgba(15,23,42,.16);
   }
-  .coach h4{margin:0 0 6px;font-size:12px;letter-spacing:.4px;color:var(--accent)}
-  .coach p{margin:0 0 9px;font-size:12.5px;color:#c8d6ea;line-height:1.55}
+  .coach h4{margin:0 0 6px;font-size:12px;letter-spacing:.4px;color:#0b4a75}
+  .coach p{margin:0 0 9px;font-size:12.5px;color:#1b2836;line-height:1.55}
   .coach p:last-of-type{margin-bottom:0}
-  .coach a,.coach a:visited{color:var(--accent);text-decoration:none;border-bottom:1px dotted rgba(125,211,252,.45)}
+  .coach a,.coach a:visited{color:#0369a1;text-decoration:none;border-bottom:1px dotted rgba(3,105,161,.5)}
   .coach a:hover{border-bottom-style:solid}
-  .coach ul{margin:0;padding-left:16px;font-size:12.5px;color:#c8d6ea;line-height:1.55}
+  .coach ul{margin:0;padding-left:16px;font-size:12.5px;color:#1b2836;line-height:1.55}
   .coach li{margin:4px 0}
-  .coach b{color:#fff}
+  .coach b{color:#0b1b2c}
   .coach button{
     margin-top:12px;width:100%;padding:6px 0;border-radius:8px;cursor:pointer;font-size:12px;
-    border:1px solid var(--stroke-2);background:rgba(125,211,252,.10);color:var(--accent);
+    border:1px solid rgba(3,105,161,.35);background:rgba(3,105,161,.10);color:#0369a1;
   }
-  .coach button:hover{background:rgba(125,211,252,.18)}
+  .coach button:hover{background:rgba(3,105,161,.18)}
   .coach-skip{
-    display:flex;align-items:center;gap:6px;margin:11px 0 0;font-size:11.5px;color:#9fb3cf;cursor:pointer;
+    display:flex;align-items:center;gap:6px;margin:11px 0 0;font-size:11.5px;color:#4b5d75;cursor:pointer;
   }
   .coach-skip input{margin:0;cursor:pointer}
 
@@ -316,22 +316,20 @@
   <p><b>Profile</b> anchors the middle and the sections ring it <b>clockwise from oldest to newest</b>. Organizations, skills and credentials start hidden so the ring stays readable.</p>
   <ul>
     <li>Use <b>Layers</b> to switch any of them back on.</li>
-    <li>Click a <b>section</b> to read the full write-up.</li>
   </ul>
   <button id="coachOk">Got it</button>
 </div>
 
 <div id="coach2" class="coach" role="dialog" aria-label="About the profile section">
-  <h4>Here's one open</h4>
-  <p><b>Profile</b> is selected — the summary is on the right. Every section in this list opens the same way.</p>
-  <p>Inside a write-up, highlighted <b>skills</b> are clickable and jump straight to that node in the graph.</p>
+  <h4>Here's a section open</h4>
+  <p><b>Profile</b> is selected — the summary is on the right. </p>
+  <p>Every section in this list opens the same way.</p>
   <button id="coach2Ok">Got it</button>
 </div>
 
 <div id="coach3" class="coach at-right" role="dialog" aria-label="About the detail drawer">
   <h4>The write-up</h4>
-  <p>This panel holds all the details of a section, with <b>Organizations</b>, <b>Skills</b> and <b>Credentials</b> chips beneath it.</p>
-  <p>Close it with <b>✕</b> or <b>Esc</b>, then pick any other section to read it here.</p>
+  <p>This panel holds all the details of a section, with Organizations, Skills and Credentials.</p>
   <button id="coach3Ok">Got it</button>
 </div>
 

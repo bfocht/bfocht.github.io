@@ -7,8 +7,8 @@ const ENTRIES = [
 
 /* ------------------------------------------------------------------ profile */
 { key:'profile', title:'Bryan Focht', icon:'👤', photo:'assets/bryan-focht.jpg', kind:'profile', tl:5.4, scale:3,
-  tagline:'Director of Engineering · [linkedin.com/in/fochtb](https://www.linkedin.com/in/fochtb)',
-   role:'Director of Engineering',
+  tagline:'Engineering Executive · [linkedin.com/in/fochtb](https://www.linkedin.com/in/fochtb)',
+   role:'Engineering Executive',
   orgs:['O_GD'],
   highlights:[
     { v:'28+ years', k:'Development & Leadership' },
@@ -16,7 +16,7 @@ const ENTRIES = [
     { v:'$6B+', k:'Driving billion dollar global growth' },
     { v:'MBA', k:'Boston University' }
   ],
-  skills:['S_LEAD','S_GLOBAL','S_ROADMAP','S_ECOM','S_CATALOG','S_JAVA','S_AWS','S_AGENTS','S_FDE'],
+  skills:['S_LEAD','S_GLOBAL','S_ROADMAP','S_ECOM','S_CATALOG','S_AWS','S_AGENTS','S_FDE'],
   md:[
 "Engineering executive with **28 years** building enterprise software, currently owning technology strategy, budget and P&L for the platform behind GoDaddy's commerce stack - the systems that decide what can be sold, at what price, in which market, and how it reaches a cart.",
 "",
@@ -34,7 +34,7 @@ const ENTRIES = [
 "`Claude Code` · `Cursor` · `Codex` · `Copilot` · `OpenClaw` · `LiteLLM` ",
 "",
 "### Core technology",
-"`Java 21` · `Spring Boot 3` · `AWS` · `SQL Server` · `Kubernetes` · `Elastic/Grafana` · `Cloudwatch/trail`",
+"`AWS` · `Kubernetes` · `Elastic/Grafana` · `Cloudwatch/trail`",
 ""
 ].join("\n")},
 
@@ -58,9 +58,9 @@ const ENTRIES = [
 "",
 "### Selected impact",
 "- Achieved cost savings integrating GoDaddy's **$1.8 Billion Host Europe Group acquisition** onto a single platform - shut down several costly e-commerce platforms, rebranding five HEG brands into GoDaddy while one kept its standalone identity.",
+"- Driving **AI adoption** across the org - an intern-built agent replaced a manual SOX tax-review process for a **10x productivity** gain, on infrastructure (Catalog MCP server, Product Creation Agent) other teams now build on.",
 "- Caught two costly defects before they compounded: a pricing bug projected to hit **10-16% of 100K+ monthly orders**, and a cart bug with **~$1M exposure** - drove both fixes into the owning services rather than patching downstream.",
 "- Root-caused a live catalog outage same-day and re-architected the call path so a single slow dependency can't take the platform down again.",
-"- Driving **AI adoption** across the org - an intern-built agent replaced a manual SOX tax-review process for a **10x productivity** gain, on infrastructure (Catalog MCP server, Product Creation Agent) other teams now build on.",
 "",
 "### Platform ownership",
 "- **Catalog, product-creation and basket platform** - the pricing and offer engine behind GoDaddy's storefront. Re-architected around a variant/offer/product model behind a translation seam, so every SKU (domains, hosting, email, add-ons, payments, and the emerging AI Credit reserve) prices consistently without breaking existing callers.",
@@ -70,7 +70,7 @@ const ENTRIES = [
 "- **Security and compliance** - vulnerability remediation, certificate automation, attestation management, and SOX review tooling.",
 "",
 "### Technology",
-"`Java 21` · `Spring Boot 3.x` · `AWS` · `DynamoDB` · `Redis` · `SQL Server` · `Elasticsearch` · `Kubernetes` · `Github Workflows`"
+"`Java 21` · `Spring Boot 3.x` · `SQL Server` · `DynamoDB` · `Redis` · `Github Workflows`"
 ].join("\n")},
 
 /* --------------------------------------------- GoDaddy · Senior Manager */
