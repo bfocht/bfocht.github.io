@@ -935,7 +935,7 @@ cv.addEventListener('wheel', e=>{
   view.x += after.x-before.x; view.y += after.y-before.y;
 }, {passive:false});
 
-const KIND_LABEL = { profile:'Profile', position:'Position', education:'Education', credentials:'Credentials' };
+const KIND_LABEL = { profile:'Profile', position:'Role', education:'Education', credentials:'Credentials' };
 function tipHtml(n){
   if(n.type==='entry')
     return '<div class="t">'+esc(n.title)+'</div><div class="s">'+(KIND_LABEL[n.entryKind]||'Section')+

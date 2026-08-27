@@ -271,7 +271,7 @@ ${CSS}
 <p class="switch">View the <a href="${GRAPH_HREF}">interactive knowledge graph</a>.</p>
 ${profile && profile.photo ? `<img class="photo" src="${profile.photo}" alt="">\n` : ''}<h1>Bryan Focht</h1>
 <p>Director of Engineering · GoDaddy${profileLinkMd ? ` · ${inline(profileLinkMd)}` : ''}</p>
-<p class="meta">${YEARS.from} – ${YEARS.to} · ${positions.length} positions · ${SKILLS.length} skills · ${CREDS.length} credentials</p>
+<p class="meta">${YEARS.from} – ${YEARS.to} · ${positions.length} roles · ${SKILLS.length} skills · ${CREDS.length} credentials</p>
 </header>
 
 ${profile ? section(profile) : ''}
