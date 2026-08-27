@@ -12,8 +12,8 @@ const ENTRIES = [
   orgs:['O_GD'],
   highlights:[
     { v:'28+ years', k:'Engineering & Leadership' },
-    { v:'$1.4M', k:'AWS budget' },
     { v:'$6B+', k:'Driving billion dollar global growth' },
+    { v:'$1.4M', k:'AWS budget' },
     { v:'MBA', k:'Boston University' }
   ],
   skills:['S_LEAD','S_GLOBAL','S_ROADMAP','S_ECOM','S_CATALOG','S_AWS','S_AGENTS','S_FDE'],
@@ -44,8 +44,8 @@ const ENTRIES = [
   orgs:['O_GD'], y0:2020, y1:2026,
   highlights:[
     { v:'$2B+', k:'M&A platform integration (2 acquisitions)' },
-    { v:'3', k:'global AWS regions' },
     { v:'10M+', k:'monthly orders & renewals' },
+    { v:'3', k:'Global AWS regions' },
   ],
   skills:['S_LEAD','S_GLOBAL','S_ROADMAP','S_MENTOR','S_PARTNER','S_CONTRACT','S_BUDGET','S_RECRUIT','S_ARCH','S_AGILE','S_TEST','S_SOX',
           'S_JAVA','S_SPRING','S_AWS','S_MICRO','S_REST','S_SQL','S_MSSQL','S_DDB','S_REDIS','S_CACHE',
