@@ -59,7 +59,7 @@ const ENTRIES = [
 "### Selected impact",
 "- Driving **AI adoption** across the org - an intern-built agent replaced a manual SOX tax-review process for a **10x productivity** gain; shipped AI infrastructure other teams now build on (Catalog MCP server, Product Creation Agent and workflow orchestration).",
 "- Achieved **cost savings** integrating GoDaddy's $1.8 Billion Host Europe Group acquisition onto a single platform - shut down several costly e-commerce platforms, rebranding five HEG brands into GoDaddy while one kept its standalone identity.",
-"- Integrated the $325M Poynt payments acquisition directly into the catalog and ordering system, launching the product to GoDaddy's storefront.",
+"- Unlocked a new revenue stream from the $325M Poynt payments acquisition by integrating it directly into the catalog and ordering system, launching the product to GoDaddy's storefront.",
 "- Invested in observability to catch defects before they compound: caught a pricing bug projected to hit 10% of monthly orders and a cart bug with ~$1M exposure, driving both fixes into the owning services rather than patching downstream.",
 "- Treated operational reliability of tier-0 services as non-negotiable - root-caused a live catalog outage same-day and re-architected the call path so a single slow dependency can't take the platform down.",
 "",
