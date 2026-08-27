@@ -43,7 +43,7 @@ const ENTRIES = [
   dates:'Oct 2020 - Present', tenure:'5 yr 11 mo', location:'Arizona · Global teams',
   orgs:['O_GD'], y0:2020, y1:2026,
   highlights:[
-    { v:'$1.8B', k:'acquisition platform integration' },
+    { v:'$2B+', k:'M&A platform integration (2 acquisitions)' },
     { v:'3', k:'global AWS regions' },
     { v:'10M+', k:'monthly orders & renewals' },
   ],
@@ -58,6 +58,7 @@ const ENTRIES = [
 "",
 "### Selected impact",
 "- Achieved cost savings integrating GoDaddy's **$1.8 Billion Host Europe Group acquisition** onto a single platform - shut down several costly e-commerce platforms, rebranding five HEG brands into GoDaddy while one kept its standalone identity.",
+"- Integrated the Poynt payments acquisition directly into the catalog and ordering system, launching the product to GoDaddy's storefront.",
 "- Driving **AI adoption** across the org - an intern-built agent replaced a manual SOX tax-review process for a **10x productivity** gain, and AI infrastructure other teams now build on (Catalog MCP server, Product Creation Agent and workflow orchestration).",
 "- Caught two costly defects before they compounded: a pricing bug projected to hit **10-16% of 100K+ monthly orders**, and a cart bug with **~$1M exposure** - drove both fixes into the owning services rather than patching downstream.",
 "- Root-caused a live catalog outage same-day and re-architected the call path so a single slow dependency can't take the platform down again.",
