@@ -28,7 +28,7 @@ const ENTRIES = [
 "- **Grow people into scope.** Scale organizational capacity through proactive talent cultivation; empower engineering managers and staff engineers with complete delivery ownership while maximizing executive leverage via architectural governance, strategic staffing, and systemic unblocking.",
 "",
 "### Currently accountable for",
-"Directly spearheading the enterprise-wide modernization of core commerce infrastructure, overseeing the architectural migration of high-volume order and basket traffic to AWS via a next-generation product/variant/offer semantic model. Directly accountable for global engineering standards, platform resilience, and enterprise security/compliance, with an expanding executive scope driving automated revenue recovery systems, refund automation, and AI-driven credit reserve strategies.",
+"Directly spearheading the enterprise-wide modernization of core commerce infrastructure and its migration to AWS, with direct accountability for global engineering standards, platform resilience, and enterprise security/compliance. Expanding executive scope now spans automated revenue recovery and refund systems, plus emerging AI-driven monetization strategy.",
 "",
 "### AI & Agentic tools",
 "`Claude Code` · `Cursor` · `Codex` · `Copilot` · `OpenClaw` · `LiteLLM` ",
