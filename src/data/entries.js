@@ -11,7 +11,7 @@ const ENTRIES = [
    role:'Engineering Executive',
   orgs:['O_GD'],
   highlights:[
-    { v:'28+ years', k:'Development & Leadership' },
+    { v:'28+ years', k:'Engineering & Leadership' },
     { v:'$1.4M', k:'AWS budget' },
     { v:'$6B+', k:'Driving billion dollar global growth' },
     { v:'MBA', k:'Boston University' }

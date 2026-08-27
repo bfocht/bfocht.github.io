@@ -6,7 +6,7 @@ const ORGS = [
   { id:'O_FD',   name:'First Data',                kind:'employer',    meta:'Payments processing · Scottsdale, AZ' },
   { id:'O_FMC',  name:'FMC Corporation',           kind:'employer',    meta:'Industrial / field-service software' },
   { id:'O_BU',   name:'Boston University',         kind:'school',      meta:'Questrom · MBA' },
-  { id:'O_ASU',  name:'Arizona State University',  kind:'school',      meta:'Engineering' },
+  { id:'O_ASU',  name:'Arizona State University',  kind:'school',      meta:'Engineering Studies' },
   { id:'O_UOP',  name:'University of Phoenix',     kind:'school',      meta:'BS, Information Technology' },
   { id:'O_GCC',  name:'Glendale Community College',kind:'school',      meta:'AA' },
   { id:'O_SA',   name:'Scrum Alliance',            kind:'institution', meta:'Certification body' },
