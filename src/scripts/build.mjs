@@ -195,7 +195,9 @@ ${tag || ''}
       .join('\n');
   }
 
-  const credRows = groupedSection(CREDS, 'kind', kind => `${kind}s`, items => `<ul class="creds">${items.map(c => {
+  // 'Certification' rows are excluded: they duplicate the "Professional
+  // certifications" list already rendered from the credentials entry's markdown.
+  const credRows = groupedSection(CREDS.filter(c => c.kind !== 'Certification'), 'kind', kind => `${kind}s`, items => `<ul class="creds">${items.map(c => {
     const org = orgById.get(c.orgId);
     const bits = [org && org.name, c.issued, c.expired ? 'expired ' + c.expired : null].filter(Boolean);
     return `<li><b>${esc(c.title || c.label)}</b><span class="meta"> — ${esc(bits.join(' · '))}</span>${c.note ? `<br><span class="note">${esc(c.note)}</span>` : ''}</li>`;
