@@ -57,20 +57,17 @@ const ENTRIES = [
 "I own the **catalog, product-creation and basket platform** behind GoDaddy's commerce stack. Three teams, roughly 25 engineers and managers from staff level to SDE I plus interns, deliberately spread globally for near-continuous delivery.",
 "",
 "### Selected impact",
-"- Played a critical engineering role in integrating GoDaddy's **$1.8 Billion Host Europe Group (HEG) acquisition**, migrating one HEG brand fully onto GoDaddy's platform and merging five other HEG brands into a single unified commerce platform.",
-"- Driving **AI adoption** across the org's platform and compliance work - including an intern-built AI agent that replaced a manual **SOX tax-review** spreadsheet process, delivering a **10x productivity** gain - while building the underlying agent infrastructure other teams now build on (Catalog MCP server, Product Creation Agent and workflow orchestration).",
-"- Prevented a single slow dependency from taking down the platform-wide catalog - root-caused a live instability incident **same-day** and re-architected the call path (**connection pooling**) to make it structurally impossible to recur.",
-"- Root-caused a pricing defect projected to affect **10-16% of 100K+ monthly orders** during migration events, and drove the fix into the owning service instead of accepting a downstream patch.",
-"- Caught a cart add-on defect that broke the domain/add-on parent-child relationship with roughly **$1M exposure**, and staffed the fix by pairing my staff engineer directly with the owning team rather than filing it across a boundary.",
+"- Achieved cost savings integrating GoDaddy's **$1.8 Billion Host Europe Group acquisition** onto a single platform - shut down several costly e-commerce platforms, rebranding five HEG brands into GoDaddy while one kept its standalone identity.",
+"- Caught two costly defects before they compounded: a pricing bug projected to hit **10-16% of 100K+ monthly orders**, and a cart bug with **~$1M exposure** - drove both fixes into the owning services rather than patching downstream.",
+"- Root-caused a live catalog outage same-day and re-architected the call path so a single slow dependency can't take the platform down again.",
+"- Driving **AI adoption** across the org - an intern-built agent replaced a manual SOX tax-review process for a **10x productivity** gain, on infrastructure (Catalog MCP server, Product Creation Agent) other teams now build on.",
 "",
-"### Platform ownership & impact",
-"- **Catalog, product-creation and basket platform** - the pricing and offer engine behind GoDaddy's entire storefront. I re-architected a long-lived legacy catalog around a variant/offer/product semantic model behind a translation seam, so every SKU (domains, hosting, email, add-ons, payment products, and the emerging AI Credit reserve) prices consistently without breaking existing callers mid-rollout.",
-"- **Commerce-stack migration** - moved order and basket traffic onto a new AWS-based stack in shadow mode, cutting over only once diffs were clean (**99.6% shadow match**), protecting revenue-critical checkout flows from a high-risk infrastructure migration.",
-"- **Platform resilience** - built circuit breakers, bounded caches, and connection-pool isolation so a single slow dependency can't cascade into an outage across a platform processing **10M+ monthly orders and renewals**.",
-"- **Engineering standards** - raised code coverage requirements (**90% unit, 100% functional-API**) to cut regression risk as the team and codebase scale.",
-"- **Org build-out and staffing** - built and grew three globally distributed teams for near-continuous delivery; run full-cycle recruiting and contractor/vendor management (**EPAM, Tech Systems, Globant, Apex Systems, Lviv IT**) so I can flex capacity without headcount risk.",
-"- **Budget and investment ownership** - own the AWS infrastructure budget across **3 global regions** and the org's emerging AI budget, plus capital investment/software capitalization reporting, so infrastructure spend scales predictably with the business.",
-"- **Security and compliance** - own vulnerability remediation, certificate automation, attestation management, and SOX review tooling, keeping the platform audit-ready as scope expands.",
+"### Platform ownership",
+"- **Catalog, product-creation and basket platform** - the pricing and offer engine behind GoDaddy's storefront. Re-architected around a variant/offer/product model behind a translation seam, so every SKU (domains, hosting, email, add-ons, payments, and the emerging AI Credit reserve) prices consistently without breaking existing callers.",
+"- **Commerce-stack migration** - moved order and basket traffic onto AWS in shadow mode, cutting over only once diffs were clean (**99.6% match**), protecting revenue-critical checkout from a high-risk migration.",
+"- **Resilience and standards** - circuit breakers, bounded caches, and connection-pool isolation so one slow dependency can't cascade into an outage at **10M+ monthly orders**; raised coverage requirements to 90% unit / 100% functional-API.",
+"- **Team, budget and vendor ownership** - built and grew three globally distributed teams; own the AWS and AI infrastructure budget across **3 global regions**, full-cycle recruiting, and contractor/vendor management (EPAM, Tech Systems, Globant, Apex Systems, Lviv IT).",
+"- **Security and compliance** - vulnerability remediation, certificate automation, attestation management, and SOX review tooling.",
 "",
 "### Technology",
 "`Java 21` · `Spring Boot 3.x` · `AWS` · `DynamoDB` · `Redis` · `SQL Server` · `Elasticsearch` · `Kubernetes` · `Github Workflows`"
@@ -121,7 +118,7 @@ const ENTRIES = [
 
 /* -------------------------------------------------------- TheServicePro */
 { key:'tsp_consultant', title:'Senior Technical Consultant', icon:'🧩', kind:'position', tl:1.6, scale:1.5,
-  dates:'Nov 2005 - Dec 2015', tenure:'10 yr 2 mo', location:'Remote/Travel',
+  dates:'Nov 2005 - Dec 2015', tenure:'10 yr 2 mo', location:'Remote & Onsite',
   orgs:['O_TSP'], y0:2005, y1:2015,
   highlights:[
     { v:'10 yr', k:'consulting tenure' },
@@ -131,13 +128,12 @@ const ENTRIES = [
   skills:['S_FDE','S_ETL','S_DOTNET','S_CSHARP','S_ASPNET','S_MSSQL','S_SQL','S_PARTNER'],
   md:[
 "## Senior Technical Consultant · TheServicePro",
-"*Nov 2005 - Dec 2015, Remote/Travel*",
+"*Nov 2005 - Dec 2015, Remote & Onsite*",
 "",
-"Software and data consulting, specialising in **System Integration & Data Migration** alongside **.NET application development** - working as a **forward-deployed engineer (FDE)**, embedded directly into client sites.",
+"Software and data consulting - System Integration & Data Migration and .NET development, working as a forward-deployed engineer embedded directly at client sites.",
 "",
-"- Worked directly with over 150 clients from Fortune 500 corporations down to small businesses, designing and implementing solutions against their specific constraints rather than a standard package.",
-"- Streamlined client processes and optimized data flow, improving overall operating efficiency.",
-"- Long-running relationships and a decade of successful projects."
+"- Worked with 150+ clients, from Fortune 500s to small businesses, designing solutions around their specific constraints rather than a standard package.",
+"- Streamlined client processes and data flow to improve operating efficiency."
 ].join("\n")},
 
 /* ------------------------------------------------------------ First Data */
@@ -154,12 +150,12 @@ const ENTRIES = [
 "## Lead Software Engineer · First Data",
 "*Oct 2005 - Dec 2011, Scottsdale, AZ*",
 "",
-"Tech lead for high-performance financial-systems applications on **C# and J2EE**, centered on **batch processing of new-account inquiries** - eliminating new-account fraud through velocity checks, identity verification, and KYC/OFAC screening.",
+"Tech lead for financial-systems applications on C# and J2EE, batch-processing new-account inquiries to eliminate fraud through velocity checks, identity verification, and KYC/OFAC screening.",
 "",
-"Designed and built a **real-time payments scoring service** on C++, delivering sub-millisecond transaction inquiry for high-volume payments processing.",
-"- Automated **nightly failover** of the scoring service, rebuilding **in-memory scoring models** from scratch on each cutover to guarantee fresh, consistent fraud scoring without manual intervention.",
+"Designed and built a real-time payments scoring service on C++, delivering sub-millisecond transaction inquiry for high-volume payments processing.",
+"- Automated nightly failover of the scoring service, rebuilding in-memory scoring models from scratch on each cutover for fresh, consistent fraud scoring without manual intervention.",
 "",
-"Migrated an AS/400 COBOL system to .NET and SQL Server with zero data loss - a **legacy modernization** using ASP.NET, C# and SSIS. Tech lead and ScrumMaster for the team.",
+"Migrated an AS/400 COBOL system to .NET and SQL Server with zero data loss, using ASP.NET, C# and SSIS. Tech lead and ScrumMaster for the team.",
 
 ].join("\n")},
 
@@ -176,9 +172,9 @@ const ENTRIES = [
 "## Software Engineer · FMC Corporation",
 "*May 1998 - Oct 2005, Scottsdale, AZ*",
 "",
-"Building professional and scalable software, specialising in **ETL processes converting legacy-system data into SQL databases** for **CRM, Scheduling, & Invoicing software** in the services industry.",
+"Built ETL processes converting legacy-system data into SQL databases for CRM, scheduling and invoicing software in the services industry.",
 "",
-"- Collaborated with cross-functional teams to optimize software performance and improve the user experience, reducing integration complexity and cost, streamlining new client onboarding and time to launch."
+"- Collaborated with cross-functional teams to optimize software performance and improve the user experience, reducing integration cost and streamlining new client onboarding."
 ].join("\n")},
 
 /* ------------------------------------------------------------- education */

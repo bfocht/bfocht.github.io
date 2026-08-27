@@ -1,4 +1,4 @@
-# Bryan Focht — Resume
+# Resume
 
 Two self-contained, static HTML pages, served with [GitHub Pages](https://bfocht.github.io/).
 
