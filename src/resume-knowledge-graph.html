@@ -1119,6 +1119,13 @@ function hlStrip(list){
 function select(n){
   skipIntro();
   dismissCoach();
+  if(n && !filters[n.type]){
+    filters[n.type] = true;
+    document.querySelector('.flt[data-k="'+n.type+'"]')?.classList.remove('off');
+    delete fadingOut[n.type];
+    fadingIn[n.type] = LAYER_FADE;
+    reheat();
+  }
   selected = n;
   document.querySelectorAll('.pitem').forEach(el=>el.classList.toggle('active', !!n && el.dataset.node===n.id));
   if(!n){ drawer.classList.remove('open'); selChip.style.display='none'; return; }
