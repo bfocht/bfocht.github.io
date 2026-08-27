@@ -89,7 +89,7 @@ const ENTRIES = [
 "## Senior Engineering Manager · GoDaddy",
 "*Jan 2012 - Oct 2020, Arizona*",
 "",
-"Bootstrapped a cross-functional agile team - software engineers, test engineers, product owner, and mareketing professional. Drove the roadmap in partnership with business development. Responsible for hiring, delivery and platform direction.",
+"Bootstrapped a cross-functional agile team - software engineers, test engineers, product owner, and marketing professional. Drove the roadmap in partnership with business development. Responsible for hiring, delivery and platform direction.",
 "",
 "Ran full-cycle recruiting for the team - budgeting, sourcing, screening, interview loops and closing",
 "",
