@@ -152,12 +152,16 @@ function buildPlainResumeHtml() {
     if (!hs || !hs.length) return '';
     return `<ul class="metrics">${hs.map(h => `<li><b>${esc(h.v)}</b> ${esc(h.k)}</li>`).join('')}</ul>`;
   }
+  // The profile's tagline is "role · [linkedin link]"; the role repeats the
+  // page header (name + title) and the link now lives in the header too, so
+  // pull it out here instead of rendering the tagline in the profile section.
+  const profileLinkMd = profile && profile.tagline
+    ? (profile.tagline.match(/^(.*?)\s*·\s*(\[[^\]]+\]\([^)]+\))$/) || [])[2]
+    : null;
+
   function orgLine(e) {
     if (e.tagline) {
-      // The profile's role repeats the page header (name + title), so only
-      // the link part of the tagline is shown here.
-      const m = e.key === 'profile' && e.tagline.match(/^(.*?)\s*·\s*(\[[^\]]+\]\([^)]+\))$/);
-      if (m) return `<p class="meta">${inline(m[2])}</p>`;
+      if (e.key === 'profile') return '';
       return `<p class="meta">${inline(e.tagline)}</p>`;
     }
     const names = (e.orgs || []).map(id => orgById.get(id)?.name).filter(Boolean);
@@ -266,7 +270,7 @@ ${CSS}
 <header>
 <p class="switch">View the <a href="${GRAPH_HREF}">interactive knowledge graph</a>.</p>
 ${profile && profile.photo ? `<img class="photo" src="${profile.photo}" alt="">\n` : ''}<h1>Bryan Focht</h1>
-<p>Director of Engineering · GoDaddy</p>
+<p>Director of Engineering · GoDaddy${profileLinkMd ? ` · ${inline(profileLinkMd)}` : ''}</p>
 <p class="meta">${YEARS.from} – ${YEARS.to} · ${positions.length} positions · ${SKILLS.length} skills · ${CREDS.length} credentials</p>
 </header>
 
