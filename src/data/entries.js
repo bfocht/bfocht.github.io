@@ -61,7 +61,7 @@ const ENTRIES = [
 "- Achieved **cost savings** integrating GoDaddy's $1.8 Billion Host Europe Group acquisition onto a single platform - shut down several costly e-commerce platforms, rebranding five HEG brands into GoDaddy while one kept its standalone identity.",
 "- Unlocked a new revenue stream from the $325M Poynt payments acquisition by integrating it directly into the catalog and ordering system, launching the product to GoDaddy's storefront.",
 "- Invested in **observability and alerting** to catch defects before they compound: caught a pricing bug projected to hit 10% of monthly orders and a cart bug with ~$1M exposure, driving both fixes into the owning services rather than patching downstream.",
-"- Treated operational reliability of *tier-0 services* as non-negotiable: root-caused a live catalog outage same-day and fixed the call path so a single slow dependency can't take the platform down.",
+"- Treated operational reliability of **tier-0 services** as non-negotiable: root-caused a live catalog outage same-day and fixed the call path so a single slow dependency can't take the platform down.",
 "",
 "### Platform ownership",
 "- Own the catalog, product-creation and basket platform - the merchandising and offer engine behind GoDaddy's storefront - designed around a variant/offer model behind a translation seam so every SKU (domains, hosting, email, add-ons, payments, and the emerging AI Credit reserve) prices consistently without breaking existing callers.",
