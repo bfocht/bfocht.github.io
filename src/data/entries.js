@@ -60,14 +60,14 @@ const ENTRIES = [
 "- Driving **AI adoption** across the org - an intern-built agent replaced a manual SOX tax-review process for a **10x productivity** gain; shipped AI infrastructure other teams now build on (Catalog MCP server, Product Creation Agent and workflow orchestration).",
 "- Achieved cost savings integrating GoDaddy's **$1.8 Billion Host Europe Group acquisition** onto a single platform - shut down several costly e-commerce platforms, rebranding five HEG brands into GoDaddy while one kept its standalone identity.",
 "- Integrated the $325M Poynt payments acquisition directly into the catalog and ordering system, launching the product to GoDaddy's storefront.",
-"- Caught two costly defects before they compounded: a pricing bug projected to hit **10-16% of 100K+ monthly orders**, and a cart bug with **~$1M exposure** - drove both fixes into the owning services rather than patching downstream.",
+"- Caught two costly defects before they compounded: a pricing bug projected to hit 10% of monthly orders, and a cart bug with ~$1M exposure. Drove both fixes into the owning services rather than patching downstream.",
 "- Root-caused a live catalog outage same-day and re-architected the call path so a single slow dependency can't take the platform down.",
 "",
 "### Platform ownership",
 "- **Catalog, product-creation and basket platform** - the pricing and offer engine behind GoDaddy's storefront. Re-architected around a variant/offer/product model behind a translation seam, so every SKU (domains, hosting, email, add-ons, payments, and the emerging AI Credit reserve) prices consistently without breaking existing callers.",
 "- **Commerce-stack migration** - moved order and basket traffic onto AWS in shadow mode, cutting over only once diffs were clean (**99.6% match**), protecting revenue-critical checkout from a high-risk migration.",
 "- **Resilience and standards** - circuit breakers, bounded caches, and connection-pool isolation so one slow dependency can't cascade into an outage at **10M+ monthly orders**; raised coverage requirements to 90% unit / 100% functional-API.",
-"- **Team, budget and vendor ownership** - built and grew three globally distributed teams; own the AWS and AI infrastructure budget across **3 global regions**, full-cycle recruiting, and contractor/vendor management (EPAM, Tech Systems, Globant, Apex Systems, Lviv IT).",
+"- **Team, budget and vendor ownership** - built and grew three globally distributed teams; own the AWS and AI infrastructure budget worldwide, full-cycle recruiting, and contractor/vendor management (EPAM, Tech Systems, Globant, Apex Systems, Lviv IT).",
 "- **Security and compliance** - vulnerability remediation, certificate automation, attestation management, and SOX review tooling.",
 "",
 "### Technology",
@@ -97,7 +97,7 @@ const ENTRIES = [
 "### Growth and reach",
 "- Grew the private label reseller program from **$55M to $126M in annual revenue** under my leadership.",
 "- Expanded the private label reseller program into **50+ global markets**, adding localization to the platform: multi-language, multi-currency and multi-brand support.",
-"- Launched a brand-new internationalized, responsive turnkey **storefront on Node.js, React, and Bootstrap**.",
+"- Launched a brand-new internationalized, responsive turnkey storefront on Node.js, React, and Bootstrap.",
 "- Onboarded recognizable partners onto the platform, including **WHMCS, Microsoft, and Amazon**.",
 "- Consistently delivered roadmap commitments on time.",
 "",
@@ -105,11 +105,11 @@ const ENTRIES = [
 "- Redesigned and launched a new **markup-based pricing platform**, replacing a rigid legacy pricing system - cutting cost and complexity while letting the platform scale past **25,000 resellers** with no added cost to the platform or storage.",
 "- Partnered directly with **Google** to build a secure OAuth flow allowing Google Apps and Gmail customers to link a GoDaddy-purchased domain (.NET and C#). Helped author the Domain Connect whitepaper.",
 "",
-"- Built a **RESTful e-commerce API** for partners building their own ecommerce stores, fully documented with OpenAPI so any platform can integrate.",
-"- Authored the companion **WordPress ecommerce plugin and storefront theme**.",
+"- Built a RESTful e-commerce API for partners building their own ecommerce stores, fully documented with OpenAPI so any platform can integrate.",
+"- Authored the companion WordPress ecommerce plugin and storefront theme.",
 "- Rapidly accelerated the pace of delivery and reduced the time to market for new features by fully automated CI/CD with Jenkins, building Docker images, and deploying to Kubernetes, including automated change-order creation for new releases.",
 "- Held **97% unit test coverage** plus integration tests across all core features.",
-"- Lead engineer on the **Web Pro platform** (Django/Python), launching the first send-cart, shared-shopping, and customer delegation experience. Added integration for WebPro Marketplace matching website builders with customers.",
+"- Lead engineer on the Web Pro platform (Django/Python), launching the first send-cart, shared-shopping, and customer delegation experience. Added integration for WebPro Marketplace matching website builders with customers.",
 "",
 "### Customer growth",
 "Started a **YouTube channel, Discord Server, and Twitter account** to improve onboarding for new customers to the reseller program. Worked well enough that I expanded the team to include a marketing professional, hosting monthly livestreams and social content. We held monthly **webinars where engineers can demo directly to customers**.",
@@ -142,9 +142,9 @@ const ENTRIES = [
   dates:'Oct 2005 - Dec 2011', tenure:'6 yr 3 mo', location:'Scottsdale, AZ',
   orgs:['O_FD'], y0:2005, y1:2011,
   highlights:[
-    { v:'Architectural', k:'Real-time Transaction Inquiry & sub millisecond SLA' },
-    { v:'Legacy Modernization', k:'AS/400 COBOL System to .NET and SQL Server' },
-    { v:'Payments Processing', k:'High Volume & Velocity Fraud Elimination' }
+    { v:'Real-time', k:'Low-latency transactions' },
+    { v:'Modernization', k:'AS/400 COBOL to .NET and SQL Server' },
+    { v:'Payments & Fraud', k:'High Volume & Velocity Fraud Elimination' }
   ],
   skills:['S_LEAD','S_CSHARP','S_J2EE','S_DOTNET','S_ASPNET','S_MSSQL','S_SSIS','S_COBOL','S_SQL','S_PAY','S_AGILE','S_ETL'],
   md:[
@@ -153,8 +153,8 @@ const ENTRIES = [
 "",
 "Tech lead for financial-systems applications on C# and J2EE, batch-processing new-account inquiries to eliminate fraud through velocity checks, identity verification, and KYC/OFAC screening.",
 "",
-"Designed and built a real-time payments scoring service on C++, delivering sub-millisecond transaction inquiry for high-volume payments processing.",
-"- Automated nightly failover of the scoring service, rebuilding in-memory scoring models from scratch on each cutover for fresh, consistent fraud scoring without manual intervention.",
+"Designed and built a real-time (sub-millisecond) payments scoring service on C++, delivering transaction inquiry for high-volume payments processing.",
+"Automated nightly failover of the scoring service, rebuilding in-memory scoring models from scratch on each cutover for consistent fraud scoring without manual intervention.",
 "",
 "Migrated an AS/400 COBOL system to .NET and SQL Server with zero data loss, using ASP.NET, C# and SSIS. Tech lead and ScrumMaster for the team.",
 
@@ -213,9 +213,9 @@ const ENTRIES = [
   dates:'2011 - 2024', location:'-',
   orgs:['O_SA','O_EXIN','O_ISC2','O_VU','O_LI','O_DC','O_LF'],
   highlights:[
-    { v:'3', k:'professional certifications' },
+    { v:'3', k:'Professional Certifications' },
     { v:'2', k:'AI / prompt engineering' },
-    { v:'2017', k:'Node.js Foundation member' }
+    { v:'3', k:'University Degrees' }
   ],
   skills:['S_AGILE','S_ITIL','S_PROMPT','S_SOX'],
   md:[
