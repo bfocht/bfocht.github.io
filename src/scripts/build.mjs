@@ -234,7 +234,7 @@ li{margin:4px 0}
 .note{color:#5a6a85;font-size:14px}
 .skills{font-size:14px;color:#3d4a60}
 ul.metrics{list-style:none;padding:0;margin:12px 0}
-ul.metrics li{display:inline-block;margin:0 18px 6px 0;font-size:14px;color:#3d4a60}
+ul.metrics li{display:inline-block;margin:0 18px 6px 0;font-size:14px;color:#28324a;font-weight:500}
 ul.metrics b{font-size:19px;color:#1c2330;display:block}
 ul.creds{list-style:none;padding:0}
 ul.creds li{margin:8px 0}

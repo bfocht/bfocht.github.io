@@ -44,7 +44,7 @@ const ENTRIES = [
   orgs:['O_GD'], y0:2020, y1:2026,
   highlights:[
     { v:'$2B+', k:'M&A platform integration' },
-    { v:'10M+', k:'monthly orders & renewals' },
+    { v:'10M+', k:'Monthly orders & renewals' },
     { v:'3', k:'Global AWS regions' },
   ],
   skills:['S_LEAD','S_GLOBAL','S_ROADMAP','S_MENTOR','S_PARTNER','S_CONTRACT','S_BUDGET','S_RECRUIT','S_ARCH','S_AGILE','S_TEST','S_SOX',
@@ -79,9 +79,9 @@ const ENTRIES = [
   dates:'Jan 2012 - Oct 2020', tenure:'8 yr 10 mo', location:'Arizona',
   orgs:['O_GD'], y0:2012, y1:2020,
   highlights:[
-    { v:'50+', k:'markets launched' },
-    { v:'$126M+', k:'revenue, 129% growth' },
-    { v:'4+', k:'major partners onboarded' }
+    { v:'50+', k:'Markets launched' },
+    { v:'$126M+', k:'Revenue, 129% growth' },
+    { v:'4+', k:'Major partners onboarded' }
   ],
   skills:['S_LEAD','S_HIRE','S_ROADMAP','S_PARTNER','S_CONTRACT','S_RECRUIT','S_GLOBAL','S_AGILE','S_ITIL','S_TEST',
           'S_I18N','S_NODE','S_REACT','S_JS','S_PYTHON','S_DJANGO','S_WP','S_REST','S_SWAGGER',
@@ -122,7 +122,7 @@ const ENTRIES = [
   dates:'Nov 2005 - Dec 2015', tenure:'10 yr 2 mo', location:'Remote & Onsite',
   orgs:['O_TSP'], y0:2005, y1:2015,
   highlights:[
-    { v:'10 yr', k:'consulting tenure' },
+    { v:'10 yr', k:'Consulting tenure' },
     { v:'ETL', k:'System Integration & Data Migration' },
     { v:'FDE', k:'Forward-Deployed Engineer' }
   ],
