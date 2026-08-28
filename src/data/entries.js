@@ -12,7 +12,7 @@ const ENTRIES = [
   orgs:['O_GD'],
   highlights:[
     { v:'28+ years', k:'Engineering & Leadership' },
-    { v:'$6B+', k:'Driving billion dollar global growth' },
+    { v:'$5B+', k:'Driving billion dollar global growth' },
     { v:'$1.4M', k:'AWS budget' },
     { v:'MBA', k:'Boston University' }
   ],
