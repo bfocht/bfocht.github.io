@@ -137,6 +137,8 @@ const SKILLS = [
     desc:'Applying prompt-engineering practice to production agent tooling, backed by formal training in the discipline.' },
   { id:'S_MCP',     label:'MCP',                     cat:'AI',
     desc:'Built a catalog MCP server exposing platform data to agent tooling over a standard protocol.' },
+  { id:'S_AIOPS',   label:'AIOps Alerting',          cat:'AI', alias:['AIOps','on-call automation'],
+    desc:'AI-powered on-call automation service for eCommerce engineering teams — autonomously queries Elasticsearch logs, correlates errors across clusters, and surfaces summaries to Slack, plus acts as an interactive chat assistant for on-call engineers. Built on Spring Boot 3 + Spring AI 1.0.0 with Claude Sonnet 4 (via GoDaddy’s GoCode gateway) as the reasoning engine, on Java 17, deployed via ECS.' },
 
   // ---- domain ----
   { id:'S_ECOM',    label:'E-commerce Platforms',    cat:'Domain', alias:['e-commerce','ecommerce','GPV','ARPU'],
