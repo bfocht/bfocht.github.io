@@ -18,9 +18,9 @@ const ENTRIES = [
   ],
   skills:['S_LEAD','S_GLOBAL','S_ROADMAP','S_ECOM','S_CATALOG','S_AWS','S_AGENTS','S_FDE'],
   md:[
-"Engineering executive with 28 years building enterprise software, currently owning technology strategy, budget and P&L for the platform behind GoDaddy's commerce stack - the systems that decide what can be sold, at what price, in which market, and how it reaches a cart.",
+"Engineering executive with 28 years building enterprise software, currently owning technology strategy and P&L for the platform behind GoDaddy's commerce stack - the systems that decide what can be sold, at what price, in which market, and how it reaches a cart.",
 "",
-"A consistent pattern across roles: taking on more organizational, financial and cross-functional scope at each step - from individual technical ownership to running global, multi-region engineering organizations with budget authority over infrastructure spend, vendor and contractor investment, and capital planning - while staying accountable for the business outcome, not just the delivery.",
+"A consistent pattern across roles: taking on more organizational, financial and cross-functional scope at each step - from individual technical ownership to running global, multi-region engineering teams with budget authority over infrastructure spend, vendor and contractor investment, and capital planning - while staying accountable for the **business outcome**, not just the **delivery**.",
 "",
 "### How I work",
 "- **Buy down risk before scale.** De-risk large-scale enterprise migrations by pioneering a framework of translation seams, shadow-mode validation, and granular feature switches; eliminate systemic deployment risks and ensure zero-downtime business continuity.",
