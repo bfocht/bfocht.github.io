@@ -138,25 +138,25 @@ const ENTRIES = [
 ].join("\n")},
 
 /* ------------------------------------------------------------ First Data */
-{ key:'fd_lead', title:'Lead Software Engineer', icon:'💳', kind:'position', tl:1, scale:.8,
+{ key:'fd_lead', title:'Software Engineering Manager', icon:'💳', kind:'position', tl:1, scale:.8,
   dates:'Oct 2005 - Dec 2011', tenure:'6 yr 3 mo', location:'Scottsdale, AZ',
   orgs:['O_FD'], y0:2005, y1:2011,
   highlights:[
-    { v:'Real-time', k:'Low-latency transactions' },
+    { v:'4', k:'Direct reports' },
     { v:'Modernization', k:'AS/400 COBOL to .NET and SQL Server' },
     { v:'Payments & Fraud', k:'High Volume & Velocity Fraud Elimination' }
   ],
-  skills:['S_LEAD','S_CSHARP','S_J2EE','S_DOTNET','S_ASPNET','S_MSSQL','S_SSIS','S_COBOL','S_SQL','S_PAY','S_AGILE','S_ETL'],
+  skills:['S_LEAD','S_HIRE','S_CSHARP','S_J2EE','S_DOTNET','S_ASPNET','S_MSSQL','S_SSIS','S_COBOL','S_SQL','S_PAY','S_AGILE','S_ETL'],
   md:[
-"## Lead Software Engineer · First Data",
+"## Software Engineering Manager · First Data",
 "*Oct 2005 - Dec 2011, Scottsdale, AZ*",
 "",
-"Tech lead for financial-systems applications on C# and J2EE, batch-processing new-account inquiries to eliminate fraud through velocity checks, identity verification, and KYC/OFAC screening.",
+"Managed a team of 4 engineers building financial-systems applications on C# and J2EE, batch-processing new-account inquiries to eliminate fraud through velocity checks, identity verification, and KYC/OFAC screening.",
 "",
-"Designed and built a real-time (sub-millisecond) payments scoring service on C++, delivering transaction inquiry for high-volume payments processing.",
+"Directed the design and build of a real-time (sub-millisecond) payments scoring service on C++, delivering transaction inquiry for high-volume payments processing.",
 "Automated nightly failover of the scoring service, rebuilding in-memory scoring models from scratch on each cutover for consistent fraud scoring without manual intervention.",
 "",
-"Migrated an AS/400 COBOL system to .NET and SQL Server with zero data loss, using ASP.NET, C# and SSIS. Tech lead and ScrumMaster for the team.",
+"Led a system migration off AS/400 mainframe (COBOL) to .NET and SQL Server with zero data loss, using ASP.NET, C# and SSIS. Also served as ScrumMaster.",
 
 ].join("\n")},
 
