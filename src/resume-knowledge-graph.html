@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- Capability gate. Written in ES5 and placed ahead of every other script so a browser that
+     cannot run the graph leaves for the plain resume before it has to parse anything modern.
+     Add ?graph=1 to force the graph anyway. -->
+<script>
+(function(){
+  if(document.location.search.indexOf('graph=1') > -1) return;
+  var ok = true;
+  try{
+    var c = document.createElement('canvas');
+    ok = !!(c.getContext && c.getContext('2d')) &&
+         !!window.requestAnimationFrame && !!window.Map && !!window.Set &&
+         !!window.devicePixelRatio && !!document.createTreeWalker &&
+         !!(document.body || document.documentElement).classList;
+    // Syntax the graph itself is written in, and the lookbehind its skill matcher needs.
+    if(ok) new Function('const f=(a=1,...r)=>`${a}`;class C{};let{x}=({x:1});for(const v of new Map()){}');
+    if(ok) new RegExp('(?<![A-Za-z])x');
+  }catch(e){ ok = false; }
+  if(!ok) document.location.replace('resume.html');
+})();
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MLCG36KPTV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MLCG36KPTV');
+</script>
+<title>Bryan Focht — Career Graph</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --bg:#070a13;
+    --bg-2:#0d1526;
+    --panel:rgba(13,21,38,.82);
+    --stroke:rgba(120,150,200,.18);
+    --stroke-2:rgba(120,150,200,.32);
+    --txt:#dbe6f5;
+    --txt-dim:#9aacc4;
+    --entry:#38486b;
+    --org:#3abff8;
+    --skill:#a78bfa;
+    --cred:#fbbf24;
+    --accent:#3abff8;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  /* let Chrome on Android apply the system font size (Tailwind-style resets set this to 100%, which opts out) */
+  html{-webkit-text-size-adjust:auto;text-size-adjust:auto}
+  .sr-only{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+  body{
+    margin:0;background:var(--bg);color:var(--txt);
+    font:.875rem/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    overflow:hidden;-webkit-font-smoothing:antialiased;
+  }
+  #app{display:grid;grid-template-columns:284px 1fr;height:100vh}
+  @supports (height:100dvh){ #app{height:100dvh} }
+
+  /* ---------- sidebar ---------- */
+  aside{
+    background:#0d1526;
+    border-right:1px solid var(--stroke);
+    display:flex;flex-direction:column;min-height:0;
+  }
+  .brand{padding:16px 18px 12px;border-bottom:1px solid var(--stroke)}
+  .brand h1{margin:0;font-size:.9375rem;letter-spacing:.3px}
+  .brand p{margin:3px 0 0;font-size:.7188rem;color:var(--txt-dim);letter-spacing:.4px;text-transform:uppercase}
+  .brand .plainlink{margin-top:11px;text-transform:none;letter-spacing:0}
+  /* Deliberately a button, not a footnote: it is the escape hatch for anyone who
+     does not want the graph, so it has to read as an offer at a glance. */
+  .brand .plainlink a{
+    display:block;text-align:center;padding:9px 12px;border-radius:8px;
+    font-size:.8438rem;font-weight:600;letter-spacing:.2px;text-decoration:none;
+    color:#06121f;background:var(--accent);
+    border:1px solid var(--accent);box-shadow:0 1px 10px rgba(58,191,248,.22);
+    transition:filter .15s ease,box-shadow .15s ease,transform .15s ease;
+  }
+  .brand .plainlink a:hover{filter:brightness(1.08);box-shadow:0 2px 14px rgba(58,191,248,.34)}
+  .brand .plainlink a:active{transform:translateY(1px)}
+  .brand .plainlink a:focus-visible{outline:2px solid #fff;outline-offset:2px}
+  /* One-shot callout after the coach tour ends, so first-time visitors notice the
+     printable CV escape hatch without it looking like a permanent, nagging badge. */
+  .brand .plainlink a.cta-flash{animation:cta-flash 1s ease-in-out 3}
+  @keyframes cta-flash{
+    0%,100%{border-color:var(--accent);box-shadow:0 1px 10px rgba(58,191,248,.22),0 0 0 0 rgba(255,209,64,.9);transform:none}
+    50%{border-color:#ffd440;box-shadow:0 1px 10px rgba(58,191,248,.22),0 0 0 7px rgba(255,209,64,0);transform:scale(1.045)}
+  }
+  .sec{padding:14px 18px;border-bottom:1px solid var(--stroke)}
+  .sec h2{margin:0 0 9px;font-size:.6562rem;letter-spacing:1.3px;text-transform:uppercase;color:var(--txt-dim);font-weight:600}
+  input[type=search]{
+    width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--stroke-2);
+    background:#0a1020;color:var(--txt);font-size:.8125rem;outline:none;
+  }
+  input[type=search]:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(58,191,248,.10)}
+  .filters{display:flex;flex-direction:column;gap:6px}
+  .flt{
+    display:flex;align-items:center;gap:9px;padding:6px 9px;border-radius:8px;cursor:pointer;
+    border:1px solid transparent;transition:.14s;user-select:none;font-size:.8125rem;
+  }
+  .flt:hover{background:rgba(255,255,255,.04)}
+  .flt.off{opacity:.35}
+  .dot{width:10px;height:10px;border-radius:50%;flex:none}
+  .flt .n{margin-left:auto;font-size:.6875rem;color:var(--txt-dim);font-variant-numeric:tabular-nums}
+  .plist{flex:1;overflow:auto;padding:12px 12px 24px;min-height:0}
+  .pitem{
+    padding:7px 11px;border-radius:8px;cursor:pointer;border:1px solid var(--stroke);
+    background:rgba(148,163,184,.06);margin-bottom:5px;transition:.14s;
+    min-width:0;overflow:hidden;
+  }
+  .pitem:hover{background:rgba(148,163,184,.14);border-color:rgba(148,163,184,.45);transform:translateX(2px)}
+  .pitem.active{background:rgba(148,163,184,.20);border-color:rgba(203,213,225,.55)}
+  .pitem b{
+    display:block;font-size:.7812rem;font-weight:600;line-height:1.3;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .pitem small{
+    display:block;font-size:.6562rem;color:var(--txt-dim);margin-top:1px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+
+  /* ---------- stage ---------- */
+  main{position:relative;min-width:0;overflow:hidden}
+  #iconLayer{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .proj-icon{
+    position:absolute;left:0;top:0;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Apple Color Emoji","Segoe UI Emoji",sans-serif;
+    line-height:1;will-change:transform,opacity;
+    filter:drop-shadow(0 1px 3px rgba(0,0,0,.55));
+  }
+  .proj-photo{
+    border-radius:50%;object-fit:cover;
+    border:2px solid rgba(255,255,255,.85);
+    box-shadow:0 1px 4px rgba(0,0,0,.55);
+  }
+  canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none;-webkit-tap-highlight-color:transparent}
+  canvas.grabbing{cursor:grabbing}
+  .hud{position:absolute;left:16px;top:14px;display:flex;gap:8px;align-items:center;pointer-events:none}
+  .chip{
+    background:var(--panel);border:1px solid var(--stroke);backdrop-filter:blur(14px);
+    padding:5px 11px;border-radius:999px;font-size:.7188rem;color:var(--txt-dim);
+  }
+  .chip b{color:var(--txt);font-variant-numeric:tabular-nums}
+  .ctrls{position:absolute;right:16px;bottom:16px;display:flex;gap:7px}
+  .ctrls button{
+    width:32px;height:32px;border-radius:8px;border:1px solid var(--stroke-2);
+    background:var(--panel);color:var(--txt);cursor:pointer;font-size:.9375rem;backdrop-filter:blur(14px);
+  }
+  .ctrls button:hover{border-color:var(--accent);color:var(--accent)}
+  .ctrls button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+  #tip{
+    position:absolute;pointer-events:none;opacity:0;transition:opacity .12s;
+    background:rgba(8,12,22,.94);border:1px solid var(--stroke-2);border-radius:8px;
+    padding:7px 10px;font-size:.75rem;max-width:260px;box-shadow:0 10px 30px rgba(0,0,0,.6);z-index:5;
+  }
+  #tip .t{font-weight:600}
+  #tip .s{color:var(--txt-dim);font-size:.6875rem}
+
+  /* ---------- "Ask about Bryan" box: sends the question to the chat site ---------- */
+  #chat{
+    position:absolute;left:16px;right:180px;bottom:16px;max-width:760px;z-index:4;
+  }
+  #chatSuggest{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px 6px}
+  .sugg{
+    font:inherit;font-size:.7812rem;line-height:1.3;padding:7px 14px;border-radius:999px;cursor:pointer;
+    color:var(--accent);background:var(--panel);border:1px solid var(--stroke-2);backdrop-filter:blur(14px);
+    box-shadow:0 4px 16px rgba(0,0,0,.35);transition:.14s;text-align:left;
+  }
+  .sugg:hover{border-color:var(--accent);background:rgba(58,191,248,.12);transform:translateY(-1px)}
+  .sugg:focus-visible{outline:2px solid #fff;outline-offset:2px}
+  #drawer.open ~ #chat{right:calc(min(560px,52%) + 16px)}
+  #chatForm{
+    display:flex;gap:8px;align-items:center;background:var(--panel);border:1px solid var(--stroke-2);
+    border-radius:999px;padding:9px 9px 9px 24px;backdrop-filter:blur(14px);
+    box-shadow:0 6px 24px rgba(0,0,0,.45);
+  }
+  #chatForm:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(58,191,248,.10),0 6px 24px rgba(0,0,0,.45)}
+  #chatInput{flex:1;min-width:0;background:none;border:none;outline:none;color:var(--txt);font:inherit;font-size:1rem}
+  #chatInput::placeholder{color:var(--txt-dim)}
+  #chatSend{
+    width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;flex:none;
+    background:var(--accent);color:#06121f;font-size:1.0625rem;
+  }
+  #chatSend:disabled{opacity:.45;cursor:default}
+  #chatSend:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+  /* ---------- coach marks ---------- */
+  .coach{
+    position:fixed;z-index:20;width:288px;
+    background:#f7fafd;border:1px solid rgba(15,23,42,.16);border-radius:12px;
+    padding:13px 15px 14px;box-shadow:0 22px 55px rgba(0,0,0,.65),0 0 24px rgba(247,250,253,.35);
+    opacity:0;transform:translateX(-10px);pointer-events:none;
+    transition:opacity .32s ease,transform .32s cubic-bezier(.4,0,.2,1);
+  }
+  .coach.show{opacity:1;transform:none;pointer-events:auto}
+  .coach::before{
+    content:"";position:absolute;left:-7px;top:var(--arrow,24px);width:12px;height:12px;background:#f7fafd;
+    border-left:1px solid rgba(15,23,42,.16);border-bottom:1px solid rgba(15,23,42,.16);transform:rotate(45deg);
+  }
+  .coach.at-above{max-width:calc(100vw - 24px)}
+  /* the write-up beat sits on the far side of the canvas, so it arrives from the right and aims right */
+  .coach.at-right:not(.show){transform:translateX(18px)}
+  .coach.at-right::before{
+    left:auto;right:-7px;
+    border-left:0;border-bottom:0;
+    border-right:1px solid rgba(15,23,42,.16);border-top:1px solid rgba(15,23,42,.16);
+  }
+  /* the chat beat sits above the chat box, so it drops in from below and aims down */
+  .coach.at-above:not(.show){transform:translateY(10px)}
+  .coach.at-above::before{
+    left:var(--arrow,24px);top:auto;bottom:-7px;
+    border-left:0;border-bottom:1px solid rgba(15,23,42,.16);border-right:1px solid rgba(15,23,42,.16);
+  }
+  .coach h4{margin:0 0 6px;font-size:.75rem;letter-spacing:.4px;color:#0b4a75}
+  .coach p{margin:0 0 9px;font-size:.7812rem;color:#1b2836;line-height:1.55}
+  .coach p:last-of-type{margin-bottom:0}
+  .coach a,.coach a:visited{color:#0369a1;text-decoration:none;border-bottom:1px dotted rgba(3,105,161,.5)}
+  .coach a:hover{border-bottom-style:solid}
+  .coach ul{margin:0;padding-left:16px;font-size:.7812rem;color:#1b2836;line-height:1.55}
+  .coach li{margin:4px 0}
+  .coach b{color:#0b1b2c}
+  .coach button{
+    margin-top:12px;width:100%;padding:6px 0;border-radius:8px;cursor:pointer;font-size:.75rem;
+    border:1px solid rgba(3,105,161,.35);background:rgba(3,105,161,.10);color:#0369a1;
+  }
+  .coach button:hover{background:rgba(3,105,161,.18)}
+  .coach-skip{
+    display:flex;align-items:center;gap:6px;margin:11px 0 0;font-size:.7188rem;color:#4b5d75;cursor:pointer;
+  }
+  .coach-skip input{margin:0;cursor:pointer}
+
+  /* ---------- detail drawer ---------- */
+  #drawer{
+    position:absolute;top:0;right:0;height:100%;width:min(560px,52%);
+    background:linear-gradient(180deg,rgba(11,17,32,.97),rgba(8,12,22,.98));
+    border-left:1px solid var(--stroke-2);backdrop-filter:blur(20px);
+    transform:translateX(102%);transition:transform .32s cubic-bezier(.4,0,.2,1);
+    display:flex;flex-direction:column;box-shadow:-30px 0 60px rgba(0,0,0,.5);
+  }
+  #drawer.open{transform:none}
+  .dhead{padding:18px 22px 14px;border-bottom:1px solid var(--stroke);display:flex;gap:12px;align-items:flex-start}
+  .dhead .kind{font-size:.625rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--txt-dim)}
+  .dhead h3{margin:2px 0 0;font-size:1.1875rem;line-height:1.25}
+  .dhead .dates{margin:3px 0 0;font-size:.7188rem;color:var(--accent);letter-spacing:.2px}
+  .dhead .dates a,.dhead .dates a:visited{color:var(--accent)}
+  .dhead .close{
+    margin-left:auto;background:none;border:1px solid var(--stroke-2);color:var(--txt-dim);
+    width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:.9375rem;flex:none;
+  }
+  .dhead .close:hover{color:#fff;border-color:var(--accent)}
+  .dhead .close:focus-visible{outline:2px solid #fff;outline-offset:2px}
+  #q:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .dbody{overflow:auto;padding:18px 22px 60px;min-height:0}
+  .dback{display:inline-block;margin-top:22px;padding:10px 4px;background:none;border:0;color:var(--accent);font:inherit;font-size:.875rem;cursor:pointer}
+  .dback:hover{text-decoration:underline}
+  .dback:focus-visible{outline:2px solid #fff;outline-offset:2px}
+  .rel{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px}
+  .tag{
+    font-size:.7188rem;padding:3px 9px;border-radius:999px;cursor:pointer;
+    border:1px solid var(--stroke-2);background:rgba(255,255,255,.03);transition:.13s;
+  }
+  .tag:hover{background:rgba(255,255,255,.1);transform:translateY(-1px)}
+  .relgrp{margin-bottom:14px}
+  .relgrp h4{margin:0 0 6px;font-size:.625rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt-dim)}
+
+  /* metric strip at the top of an entry */
+  .hl{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:8px;margin:0 0 18px}
+  .hl div{
+    background:rgba(58,191,248,.06);border:1px solid var(--stroke);
+    border-radius:8px;padding:9px 11px;min-width:0;
+  }
+  .hl b{display:block;font-size:1.0312rem;color:#fff;line-height:1.15;letter-spacing:-.2px;
+        overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .hl span{display:block;font-size:.625rem;color:#e7eefb;font-weight:600;
+           letter-spacing:.7px;margin-top:4px;line-height:1.35}
+
+  /* markdown */
+  .md{font-size:.85rem;line-height:1.72;color:#c8d6ea}
+  .md h2{font-size:1.0312rem;margin:22px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--stroke);color:#fff}
+  .md h3{font-size:.875rem;margin:18px 0 6px;color:#fff}
+  .md h2:first-child,.md h3:first-child{margin-top:0}
+  .md p{margin:9px 0}
+  .md ul,.md ol{margin:9px 0;padding-left:20px}
+  .md li{margin:5px 0}
+  .md strong{color:#fff}
+  .md em{color:var(--txt-dim)}
+  .md code{background:rgba(58,191,248,.1);color:var(--accent);padding:1px 5px;border-radius:4px;font-size:.7625rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .md a{color:#3abff8;text-decoration:none;border-bottom:1px dotted rgba(58,191,248,.45)}
+  .md a:hover{border-bottom-style:solid}
+  .md hr{border:none;border-top:1px solid var(--stroke);margin:18px 0}
+  .md blockquote{margin:10px 0;padding:2px 14px;border-left:2px solid var(--stroke-2);color:var(--txt-dim)}
+  .ent{
+    cursor:pointer;border-radius:4px;padding:0 3px;font-weight:600;
+    border-bottom:1px solid transparent;transition:.13s;white-space:nowrap;
+  }
+  .ent.skill{color:#c4b5fd;background:rgba(167,139,250,.13)}
+  .ent:hover{filter:brightness(1.25);box-shadow:0 0 0 1px currentColor}
+  .status{font-size:.625rem;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid currentColor}
+  .kv{display:grid;grid-template-columns:110px 1fr;gap:6px 12px;font-size:.8125rem;margin-bottom:18px}
+  .kv dt{color:var(--txt-dim)}
+  .kv dd{margin:0}
+  .skill-desc{font-size:.8438rem;line-height:1.6;color:#c8d6ea;margin:-6px 0 18px}
+  .skill-list{font-size:.8438rem;line-height:1.6;color:#c8d6ea;margin:-6px 0 18px;padding-left:18px}
+  .skill-list li{margin:0 0 4px}
+  .skill-list b{color:#e8edf6}
+  /* ---------- category drawer (left): opened by a deep link such as ?show=skills ---------- */
+  #catDrawer{
+    position:absolute;top:0;left:0;height:100%;width:min(340px,40%);z-index:3;
+    background:linear-gradient(180deg,rgba(11,17,32,.97),rgba(8,12,22,.98));
+    border-right:1px solid var(--stroke-2);backdrop-filter:blur(20px);
+    transform:translateX(-102%);transition:transform .32s cubic-bezier(.4,0,.2,1);
+    display:flex;flex-direction:column;box-shadow:30px 0 60px rgba(0,0,0,.5);
+  }
+  #catDrawer.open{transform:none}
+  #catDrawer:not(.open){visibility:hidden;transition:transform .32s cubic-bezier(.4,0,.2,1),visibility 0s .32s}
+  #catDrawer .dhead h3{font-size:1.0625rem}
+  #catDrawer .dhead .dates{color:var(--txt-dim)}
+  .cat-chip.active{background:rgba(255,255,255,.18);border-color:#fff!important}
+  .catrow{
+    display:block;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;
+    padding:7px 11px;border-radius:8px;border:1px solid var(--stroke);
+    background:rgba(148,163,184,.06);margin-bottom:5px;transition:.14s;
+  }
+  .catrow:hover{background:rgba(148,163,184,.14);border-color:rgba(148,163,184,.45)}
+  .catrow.active{background:rgba(148,163,184,.20);border-color:rgba(203,213,225,.55)}
+  .catrow b{display:block;font-size:.7812rem;font-weight:600;line-height:1.3}
+  .catrow small{display:block;font-size:.6562rem;color:var(--txt-dim);margin-top:1px}
+  body.cat-open .hud{left:calc(min(340px,40%) + 16px)}
+  body.cat-open #chat{left:calc(min(340px,40%) + 16px)}
+
+  /* ---------- narrow screens: sidebar becomes a slide-in drawer ---------- */
+  #navToggle,#navScrim{display:none}
+  @media (max-width:760px){
+    :root{--nav-btn:81px}
+    #app{grid-template-columns:1fr}
+    /* keep the off-screen detail drawer from widening the mobile layout viewport */
+    main{overflow:hidden}
+    aside{
+      position:fixed;top:0;left:0;bottom:0;z-index:30;width:min(284px,86vw);
+      transform:translateX(-102%);transition:transform .28s cubic-bezier(.4,0,.2,1);
+      box-shadow:30px 0 60px rgba(0,0,0,.5);
+    }
+    body.nav-open aside{transform:none}
+    #navScrim{
+      display:block;position:fixed;inset:0;z-index:29;background:rgba(3,6,12,.55);
+      opacity:0;pointer-events:none;transition:opacity .28s ease;
+    }
+    body.nav-open #navScrim{opacity:1;pointer-events:auto}
+    #navToggle{
+      display:flex;align-items:center;justify-content:center;
+      position:absolute;left:12px;top:12px;z-index:2;
+      width:var(--nav-btn);height:var(--nav-btn);border-radius:18px;border:1px solid var(--stroke-2);padding:0;
+      background:var(--panel);color:var(--txt);cursor:pointer;backdrop-filter:blur(14px);
+    }
+    #navToggle svg{width:44px;height:44px;display:block}
+    #navToggle:focus-visible{outline:2px solid #fff;outline-offset:2px}
+    .hud{left:calc(var(--nav-btn) + 24px);right:12px;top:14px;flex-wrap:wrap}
+    /* the node, relationship and date chips are desktop detail; on a phone the header stays clear */
+    .hud .stat{display:none}
+    #drawer{width:100%;z-index:4}
+    /* finger-sized close buttons on both drawers */
+    .dhead .close{width:60px;height:60px;border-radius:16px;font-size:1.875rem;display:flex;align-items:center;justify-content:center;padding:0}
+    /* the category list is a bottom sheet so the graph stays visible above it */
+    #catDrawer{
+      top:auto;left:0;right:0;bottom:0;width:100%;height:46%;
+      border-right:0;border-top:1px solid var(--stroke-2);box-shadow:0 -30px 60px rgba(0,0,0,.5);
+      transform:translateY(102%);
+    }
+    #catDrawer.open{transform:none}
+    body.cat-open .hud{left:calc(var(--nav-btn) + 24px)}
+    body.cat-open #chat{visibility:hidden}
+    #chat{left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom));max-width:none}
+    .ctrls{bottom:calc(168px + env(safe-area-inset-bottom))}
+    #drawer.open ~ #chat{right:12px;visibility:hidden}
+    /* 16px stops iOS Safari from zooming the page when the input gets focus */
+    #chatInput{font-size:1.0625rem}
+    #chatSend{width:50px;height:50px;font-size:1.1875rem}
+    /* the chat box is the main way to reach me on a phone, so it gets an accent border, a glow
+       that pulses a few times on arrival, and a taller touch target */
+    #chatForm{
+      min-height:64px;padding:7px 7px 7px 20px;border:2px solid var(--accent);background:#0d1a2f;
+      box-shadow:0 0 0 4px rgba(58,191,248,.16),0 10px 30px rgba(0,0,0,.6);
+      animation:chatPulse 2.2s ease-in-out 3;
+    }
+    #chatForm:focus-within{box-shadow:0 0 0 4px rgba(58,191,248,.28),0 10px 30px rgba(0,0,0,.6);animation:none}
+    @keyframes chatPulse{
+      50%{box-shadow:0 0 0 9px rgba(58,191,248,.05),0 10px 30px rgba(0,0,0,.6),0 0 26px rgba(58,191,248,.4)}
+    }
+    @media (prefers-reduced-motion:reduce){ #chatForm{animation:none} }
+    .sugg{font-size:.8438rem;padding:9px 16px}
+    /* one scrolling row of suggestions instead of a wrapped stack that eats the graph */
+    #chatSuggest{flex-wrap:nowrap;overflow-x:auto;margin-left:0;padding-bottom:2px;scrollbar-width:none}
+    #chatSuggest::-webkit-scrollbar{display:none}
+    .sugg{flex:none;white-space:nowrap}
+  }
+  .dbody::-webkit-scrollbar,.plist::-webkit-scrollbar{width:9px}
+  .dbody::-webkit-scrollbar-thumb,.plist::-webkit-scrollbar-thumb{background:rgba(120,150,200,.22);border-radius:8px}
+</style>
+</head>
+<body>
+<noscript>
+  <div style="max-width:560px;margin:15vh auto;padding:24px 28px;background:#0e1526;color:#dbe6f5;border:1px solid rgba(120,150,200,.32);border-radius:12px;font:.9375rem/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;text-align:center">
+    This interactive graph requires JavaScript.
+    <a href="resume.html" style="color:#3abff8">View the plain-text resume instead →</a>
+  </div>
+</noscript>
+<div id="app">
+  <aside id="nav">
+    <div class="brand">
+      <h1>Bryan Focht</h1>
+      <p>Engineering Executive · Cloud &amp; AI</p>
+      <p class="plainlink"><a id="printCvLink" href="resume.html" title="Careful, it's a little bright — no dark mode over there.">Printable CV →</a></p>
+    </div>
+    <div class="sec"><h2>Search</h2><label class="sr-only" for="q">Filter nodes</label><input id="q" type="search" placeholder="Filter nodes…" autocomplete="off"></div>
+    <div class="sec" id="layersSec"><h2>Layers</h2><div class="filters" id="filters"></div></div>
+    <div class="sec" style="border:none;padding-bottom:6px"><h2>Sections</h2></div>
+    <div class="plist" id="plist"></div>
+  </aside>
+  <div id="navScrim"></div>
+
+  <main>
+    <button id="navToggle" aria-label="Open menu" aria-controls="nav" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <canvas id="cv"></canvas>
+    <div id="iconLayer"></div>
+    <div class="hud">
+      <div class="chip stat" id="summaryChip"></div>
+      <div class="chip" id="selChip" style="display:none"></div>
+    </div>
+    <div class="ctrls">
+      <button id="zin" title="Zoom in" aria-label="Zoom in">+</button>
+      <button id="zout" title="Zoom out" aria-label="Zoom out">−</button>
+      <button id="fit" title="Fit to screen" aria-label="Fit to screen">⤢</button>
+      <button id="reheat" title="Re-run layout" aria-label="Re-run layout">↻</button>
+    </div>
+    <div id="tip"></div>
+    <div id="drawer">
+      <div class="dhead">
+        <div><div class="kind" id="dKind"></div><h3 id="dTitle"></h3><div class="dates" id="dDates"></div></div>
+        <button class="close" id="dClose" aria-label="Close">✕</button>
+      </div>
+      <div class="dbody" id="dBody"></div>
+    </div>
+    <section id="catDrawer" aria-label="Category list" aria-hidden="true">
+      <div class="dhead">
+        <div><div class="kind">Browsing</div><h3 id="cTitle"></h3><div class="dates" id="cSub"></div></div>
+        <button class="close" id="cClose" aria-label="Close list">✕</button>
+      </div>
+      <div class="dbody" id="cBody"></div>
+    </section>
+    <section id="chat" aria-label="Ask about Bryan">
+      <div id="chatSuggest" role="group" aria-label="Suggested questions">
+        <button type="button" class="sugg">What results have you delivered?</button>
+        <button type="button" class="sugg">What is your experience with AI?</button>
+        <button type="button" class="sugg">Have you led a digital transformation?</button>
+      </div>
+      <form id="chatForm" autocomplete="off">
+        <label class="sr-only" for="chatInput">Ask about Bryan</label>
+        <input id="chatInput" type="text" maxlength="500" placeholder="Ask me anything about Bryan…" enterkeyhint="go">
+        <button type="submit" id="chatSend" aria-label="Ask on the chat site" title="Opens the chat site with your question">➤</button>
+      </form>
+    </section>
+  </main>
+</div>
+
+<div id="coach" class="coach" role="dialog" aria-label="How to explore the graph">
+  <h4>Profile at the centre, career around it</h4>
+  <p><b>My profile</b> anchors the middle, with professional experience ringed <b>clockwise</b> around it from oldest to newest.</p>
+  <ul>
+    <li>Organizations, skills and credentials start hidden so the knowledge graph stays readable.</li>
+    <li>Use <b>Layers</b> to switch any of them back on.</li>
+  </ul>
+  <button id="coachOk">Got it</button>
+</div>
+
+<div id="coachC" class="coach at-above" role="dialog" aria-label="About the chat box">
+  <h4>Questions? Just ask me</h4>
+  <p>Type anything into the chat box, or tap a suggested question, and I'll answer it right here on my chat site. Happy to chat!</p>
+  <button id="coachCOk">Got it</button>
+</div>
+
+<div id="coach3" class="coach at-right" role="dialog" aria-label="About the detail drawer">
+  <h4>The write-up</h4>
+  <p>This panel holds all the details of a section, with my Experience, Organizations, Skills and Credentials.</p>
+  <button id="coach3Ok">Got it</button>
+</div>
+
+<div id="coach4" class="coach" role="dialog" aria-label="About the printable CV">
+  <h4>One more thing</h4>
+  <p>Prefer a printable CV to read?</p>
+  <p class="coach-note">Careful, it's a little bright — no dark mode over there.</p>
+  <label class="coach-skip"><input type="checkbox" id="coachSkip4"> Don't show these tips again</label>
+  <button id="coach4Ok">Got it</button>
+</div>
+
+<div id="coachM" class="coach at-above" role="dialog" aria-label="About the chat box and printable CV">
+  <h4>Questions? Just ask me</h4>
+  <p>Type anything into this chat box, or tap a suggested question. I'd love to chat!</p>
+  <p>Prefer a printable CV? Tap the <b>☰ menu</b> at the top for the <b>Printable CV</b>, plus search, layers and every section of the graph.</p>
+  <label class="coach-skip"><input type="checkbox" id="coachSkipM"> Don't show this again</label>
+  <button id="coachMOk">Got it</button>
+</div>
+
+<script src="data/orgs.js"></script>
+<script src="data/skills.js"></script>
+<script src="data/creds.js"></script>
+<script src="data/entries.js"></script>
+<script>
+/* ============================================================
+   2. GRAPH CONSTRUCTION
+   ============================================================ */
+const COLORS = { org:'#3abff8', skill:'#a78bfa', cred:'#fbbf24', entry:'#38486b' };
+const CRED_COLOR = { Degree:'#60a5fa', Certification:'#fbbf24', Training:'#f472b6', Membership:'#34d399' };
+const credColor = c => c.expired ? '#8b9cb5' : (CRED_COLOR[c.kind] || COLORS.cred);
+const DEFAULT_ENTRY_ICON = '◆';
+
+const nodes = [], links = [], byId = new Map();
+function addNode(n){ nodes.push(n); byId.set(n.id, n); return n; }
+function addLink(s,t,kind){
+  if(!byId.has(s)||!byId.has(t)||s===t) return;
+  const id = kind+'|'+s+'|'+t;
+  if(links.some(l=>l.id===id)) return;
+  links.push({ id, source:byId.get(s), target:byId.get(t), kind });
+}
+
+ORGS.forEach(o=>addNode({ id:o.id, type:'org', label:o.name, orgKind:o.kind, meta:o.meta, r:13 }));
+SKILLS.forEach(s=>addNode({ id:s.id, type:'skill', label:s.label, cat:s.cat, desc:s.desc||null, descList:s.descList||null, r:9 }));
+CREDS.forEach(c=>{
+  addNode({ id:c.id, type:'cred', label:c.label, title:c.title, credKind:c.kind,
+            issued:c.issued, expired:c.expired||null, note:c.note||null, orgId:c.orgId,
+            highlights:c.highlights||[], descList:c.descList||null, r:6.5 });
+  addLink(c.id, c.orgId, 'issued by');
+});
+ENTRIES.forEach(e=>addNode({
+  id:e.key, type:'entry', label:e.title, title:e.title, entryKind:e.kind,
+  md:e.md, icon:e.icon||DEFAULT_ENTRY_ICON, photo:e.photo||null, dates:e.dates, tenure:e.tenure||null,
+  role:e.role||null, location:e.location, tagline:e.tagline||null, highlights:e.highlights||[], tl:e.tl, y0:e.y0, y1:e.y1,
+  scale:e.scale||1, r:17*(e.scale||1)
+}));
+ENTRIES.forEach(e=>{
+  (e.orgs||[]).forEach(o=>addLink(e.key, o, 'at'));
+  (e.skills||[]).forEach(s=>addLink(e.key, s, 'uses'));
+});
+// A credential connects to every position it was earned during — this is what stops the
+// graph from collapsing into a star and gives the timeline real cross-links.
+const POSITIONS = ENTRIES.filter(e=>e.kind==='position');
+CREDS.forEach(c=>{
+  // an undated credential has no span to overlap, so it names its positions directly
+  (c.entries||[]).forEach(k=>addLink(c.id, k, 'earned during'));
+  if(c.y0==null) return;
+  POSITIONS.forEach(p=>{ if(p.y0!=null && c.y0<=p.y1 && c.y1>=p.y0) addLink(c.id, p.key, 'earned during'); });
+});
+
+const iconLayer = document.getElementById('iconLayer');
+const iconEls = new Map();
+ENTRIES.forEach(e=>{
+  let el;
+  if(e.photo){
+    el = document.createElement('img');
+    el.className = 'proj-icon proj-photo';
+    el.src = e.photo;
+    el.alt = e.title;
+  } else {
+    el = document.createElement('div');
+    el.className = 'proj-icon';
+    el.textContent = e.icon || DEFAULT_ENTRY_ICON;
+  }
+  iconLayer.appendChild(el);
+  iconEls.set(e.key, el);
+});
+
+// Every spelling of a skill that should light up in prose, resolved back to its node
+const skillByTerm = new Map();
+SKILLS.forEach(s=>{
+  skillByTerm.set(s.label.toLowerCase(), s.id);
+  (s.alias||[]).forEach(a=>skillByTerm.set(a.toLowerCase(), s.id));
+});
+const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+// \b cannot bound "C#" or ".NET" — the boundary characters are non-word — so the edges are
+// lookarounds instead. Longest first so "JavaScript" beats "Java" and "ASP.NET" beats ".NET".
+const SKILL_RE = new RegExp('(?<![A-Za-z0-9#+.])(' +
+  [...skillByTerm.keys()].sort((a,b)=>b.length-a.length).map(escRe).join('|') +
+  ')(?![A-Za-z0-9#+])','gi');
+
+nodes.forEach(n=>{ n.deg = 0; });
+links.forEach(l=>{ l.source.deg++; l.target.deg++; });
+nodes.forEach(n=>{ n.r = n.r + Math.min(6, Math.sqrt(n.deg)*1.6); });
+
+const neighbors = new Map(nodes.map(n=>[n.id,new Set()]));
+links.forEach(l=>{ neighbors.get(l.source.id).add(l.target.id); neighbors.get(l.target.id).add(l.source.id); });
+
+/* ============================================================
+   3. FORCE LAYOUT
+   ============================================================ */
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+let W=0, H=0, dpr=1;
+let view = { x:0, y:0, k:1 };
+let insetL = 0, insetB = 0;   // canvas area covered by the category drawer (left on desktop, bottom on mobile)
+let alpha = 1;
+
+nodes.forEach((n,i)=>{
+  const a = i * 2.399963, rad = 40 + 22*Math.sqrt(i);
+  n.x = Math.cos(a)*rad; n.y = Math.sin(a)*rad; n.vx = 0; n.vy = 0;
+});
+
+// Profile sits at the centre and every other section is pinned to an ellipse around it, so the
+// whole graph is one composition that fits a widescreen viewport instead of a strip that runs off
+// both edges. Chronology survives as angular order: oldest just clockwise of twelve, sweeping
+// round to the newest, with the undated sections closing the ring.
+const HUB_KEY = 'profile';
+const RING_START = -Math.PI/2 + 0.42;
+// The ring is only as wide as it needs to be to keep the section labels apart: the supporting
+// layers fade out after the intro, so a ring sized to hold them would rest as an empty donut.
+const RING_RX = 250;
+// The fit adds roughly this much bleed around the ring for dots, titles and date lines. Deriving
+// the vertical radius from it means the resting bounding box matches the canvas aspect, so the
+// composition fills the viewport instead of letterboxing.
+const RING_BLEED_X = 118, RING_BLEED_Y = 98;
+let RING_RY = 184;
+function layoutRing(){
+  const aspect = (W>0 && H>0) ? W/H : 1.4;
+  RING_RY = Math.max(120, Math.min(RING_RX, ((2*RING_RX + RING_BLEED_X)/aspect - RING_BLEED_Y)/2));
+  ring.forEach((e,i)=>{
+    const th = RING_START + (i/ring.length)*Math.PI*2;
+    const n = byId.get(e.key);
+    if(!n) return;
+    n.pinX = Math.cos(th)*RING_RX;
+    n.pinY = Math.sin(th)*RING_RY;
+  });
+}
+const ring = ENTRIES.filter(e=>e.key!==HUB_KEY)
+  .slice()
+  .sort((a,b)=>(a.tl==null?Infinity:a.tl) - (b.tl==null?Infinity:b.tl));
+layoutRing();
+const hub = byId.get(HUB_KEY);
+if(hub){ hub.pinX = 0; hub.pinY = 0; }
+// Skills, orgs and credentials settle in the disc between hub and ring; this is the clearance the
+// profile node keeps for itself so it is never buried by them. Both this and the link lengths
+// below scale with the tighter ring so the hidden layers still have room when they are toggled on.
+const CORE_CLEAR = 104;
+
+const LINK_DIST = { 'at':57, 'issued by':40, 'uses':80, 'earned during':93 };
+
+function simulate(){
+  if(alpha < 0.0025) return;
+  alpha += (0 - alpha) * 0.018;
+
+  for(let i=0;i<nodes.length;i++){
+    const a = nodes[i];
+    for(let j=i+1;j<nodes.length;j++){
+      const b = nodes[j];
+      let dx = b.x-a.x, dy = b.y-a.y;
+      let d2 = dx*dx+dy*dy || 0.01;
+      let d = Math.sqrt(d2);
+      const ee = a.type==='entry' && b.type==='entry';
+      const strength = ee ? 3100 / d2 : 2600 / d2;
+      const fx = dx/d*strength, fy = dy/d*strength;
+      a.vx -= fx; a.vy -= fy; b.vx += fx; b.vy += fy;
+      // Entries hold a wide berth from each other so their titles stay readable. The push is
+      // softened and capped because at this separation the normal coefficient injects enough
+      // energy on a drag to throw the layout apart.
+      const minD = a.r + b.r + (ee ? 95 : 7);
+      if(d < minD){
+        const push = ee ? Math.min((minD-d)*0.26, 6) : (minD-d)*0.4;
+        a.vx -= dx/d*push; a.vy -= dy/d*push;
+        b.vx += dx/d*push; b.vy += dy/d*push;
+      }
+    }
+  }
+  links.forEach(l=>{
+    const a=l.source,b=l.target;
+    const dx=b.x-a.x, dy=b.y-a.y;
+    const d = Math.sqrt(dx*dx+dy*dy)||0.01;
+    const target = LINK_DIST[l.kind]||110;
+    // Spread each spring over sqrt(degree): the GoDaddy org node carries dozens of links, and
+    // summing them undivided is enough stiffness to make this integrator diverge.
+    const f = (d-target)*0.08;
+    a.vx += dx/d*f/Math.sqrt(a.deg); a.vy += dy/d*f/Math.sqrt(a.deg);
+    b.vx -= dx/d*f/Math.sqrt(b.deg); b.vy -= dy/d*f/Math.sqrt(b.deg);
+  });
+  nodes.forEach(n=>{
+    // a pin replaces the centering force outright; unpinned nodes drift inward but are held out
+    // of the hub's clear zone
+    if(n.pinX!=null){ n.vx += (n.pinX-n.x)*0.10; n.vy += (n.pinY-n.y)*0.10; }
+    else {
+      n.vx -= n.x*0.006; n.vy -= n.y*0.006;
+      const d = Math.hypot(n.x, n.y) || 0.01;
+      if(d < CORE_CLEAR){
+        const push = (CORE_CLEAR-d)*0.05;
+        n.vx += n.x/d*push; n.vy += n.y/d*push;
+      }
+    }
+    if(n===dragging){ return; }
+    n.vx *= 0.86; n.vy *= 0.86;
+    n.x += n.vx*alpha*2.2; n.y += n.vy*alpha*2.2;
+  });
+}
+// Node motion scales with alpha, so past roughly 0.2 the steps get big enough to make this
+// integrator fly apart — a single drag was able to throw the layout thousands of units wide.
+const ALPHA = 0.14;
+function reheat(){ alpha = ALPHA; }
+
+// alpha decays every step, so a short run freezes the layout part-way through relaxing instead
+// of converging. Holding it steady lets the layout actually reach rest, leaving nothing for a
+// later reheat to finish.
+function settle(steps=1800){
+  for(let i=0;i<steps;i++){ alpha = ALPHA; simulate(); }
+  alpha = 0;
+  nodes.forEach(n=>{ n.vx = 0; n.vy = 0; });
+}
+
+// The pins are already centred on the hub, so this only trims whatever drift the unpinned
+// layers leave behind.
+function recenter(){
+  let cx=0, cy=0;
+  nodes.forEach(n=>{ cx += n.x; cy += n.y; });
+  cx /= nodes.length; cy /= nodes.length;
+  nodes.forEach(n=>{ n.x -= cx; n.y -= cy; });
+  nodes.forEach(n=>{ if(n.pinX!=null){ n.x = n.pinX; n.y = n.pinY; } });
+}
+
+let viewAnim = null;
+
+/* ============================================================
+   4. RENDER
+   ============================================================ */
+let hovered=null, selected=null, dragging=null;
+const filters = { org:true, skill:true, cred:true, entry:true };
+let query = '';
+
+function visible(n){ return !!filters[n.type]; }
+function matches(n){
+  if(!query) return true;
+  const hay = (n.label+' '+(n.title||'')+' '+(n.cat||'')+' '+(n.meta||'')+' '+(n.dates||'')+' '+(n.credKind||'')+' '+(n.desc||'')+' '+(n.descList||[]).join(' ')).toLowerCase();
+  return hay.includes(query);
+}
+function highlightSet(){
+  const focus = selected || hovered;
+  if(!focus) return null;
+  const s = new Set(neighbors.get(focus.id)); s.add(focus.id);
+  return s;
+}
+
+/* ---- entrance animation ---- */
+const NODE_POP = 0.62, LINK_DRAW = 0.5;
+let introT = 0, introDone = false, introEnd = 0, introCam = null;
+const clamp01 = v => v<0 ? 0 : v>1 ? 1 : v;
+const easeOutCubic = p => 1 - Math.pow(1-p, 3);
+const easeOutBack  = p => 1 + 2.2*Math.pow(p-1,3) + 1.4*Math.pow(p-1,2);
+const smoothstep   = p => p*p*(3-2*p);
+
+function stageIntro(){
+  // nodes arrive by layer: the profile hub, then the ring of sections, then orgs, skills, creds
+  const order = { entry:1, org:2, skill:3, cred:4 };
+  const seen = {};
+  nodes.forEach(n=>{
+    const lane = n.id===HUB_KEY ? 0 : order[n.type];
+    seen[lane] = (seen[lane]||0) + 1;
+    n.delay = lane*0.26 + seen[lane]*0.022;
+    n.tx = n.x; n.ty = n.y;
+    const a = Math.random()*Math.PI*2, jit = 24 + Math.random()*46;
+    n.sx = n.x*0.08 + Math.cos(a)*jit;
+    n.sy = n.y*0.08 + Math.sin(a)*jit;
+    n.x = n.sx; n.y = n.sy; n.vx = 0; n.vy = 0;
+  });
+  links.forEach(l=>{ l.delay = Math.max(l.source.delay, l.target.delay) + NODE_POP*0.45; });
+  introEnd = Math.max(...links.map(l=>l.delay)) + LINK_DRAW;
+  alpha = 0;
+  // The camera creeps to its final framing across the whole intro, so the graph is already
+  // composed by the time the last link lands and nothing has to move afterwards.
+  const frame = fitTarget(true);
+  introCam = { from:{ x:frame.x, y:frame.y, k:frame.k*0.88 }, to:frame };
+  view.x = introCam.from.x; view.y = introCam.from.y; view.k = introCam.from.k;
+}
+function advanceView(dt){
+  if(!viewAnim) return;
+  viewAnim.t += dt;
+  const p = easeOutCubic(clamp01(viewAnim.t / viewAnim.dur));
+  view.x = viewAnim.from.x + (viewAnim.to.x - viewAnim.from.x) * p;
+  view.y = viewAnim.from.y + (viewAnim.to.y - viewAnim.from.y) * p;
+  view.k = viewAnim.from.k + (viewAnim.to.k - viewAnim.from.k) * p;
+  if(viewAnim.t >= viewAnim.dur) viewAnim = null;
+}
+function advanceIntro(dt){
+  if(introDone) return;
+  introT += dt;
+  nodes.forEach(n=>{
+    const p = clamp01((introT - n.delay)/NODE_POP);
+    n.pop = p<=0 ? 0 : easeOutBack(p);
+    const e = easeOutCubic(p);
+    n.x = n.sx + (n.tx-n.sx)*e;
+    n.y = n.sy + (n.ty-n.sy)*e;
+  });
+  if(introCam){
+    const p = smoothstep(clamp01(introT/introEnd));
+    view.x = introCam.from.x + (introCam.to.x-introCam.from.x)*p;
+    view.y = introCam.from.y + (introCam.to.y-introCam.from.y)*p;
+    view.k = introCam.from.k + (introCam.to.k-introCam.from.k)*p;
+  }
+  if(introT >= introEnd){
+    introDone = true;
+    nodes.forEach(n=>{ n.pop = 1; n.x = n.tx; n.y = n.ty; n.vx = 0; n.vy = 0; });
+    landCamera();
+    afterIntro();
+  }
+}
+// Hands the camera back with no leftover motion: the layout is already at rest, so there is
+// nothing to reheat or re-fit.
+function landCamera(){
+  if(!introCam) return;
+  view.x = introCam.to.x; view.y = introCam.to.y; view.k = introCam.to.k;
+  introCam = null;
+}
+function releaseCamera(){ introCam = null; viewAnim = null; }
+function skipIntro(){
+  if(introDone) return;
+  introDone = true;
+  nodes.forEach(n=>{ n.x=n.tx; n.y=n.ty; n.vx=0; n.vy=0; n.pop=1; });
+  landCamera();
+  afterIntro();
+}
+
+/* ---- post-intro: the full graph is a lot to land on, so the supporting layers fade back
+   out once the entrance has played and the coach explains how to bring them back ---- */
+const OPENING_LAYERS = ['org','skill','cred'];
+const LAYER_FADE = 0.55;
+const fadingOut = {}, fadingIn = {};
+let introSettled = false;
+
+function layerAlpha(n){
+  const k = n.type;
+  if(filters[k]) return fadingIn[k] ? 1 - clamp01(fadingIn[k]/LAYER_FADE) : 1;
+  return fadingOut[k] ? clamp01(fadingOut[k]/LAYER_FADE) : 0;
+}
+function advanceFade(dt){
+  [fadingOut, fadingIn].forEach(m=>{
+    for(const k in m){
+      m[k] -= dt;
+      if(m[k] <= 0) delete m[k];
+    }
+  });
+}
+function afterIntro(){
+  if(introSettled) return;
+  introSettled = true;
+  OPENING_LAYERS.forEach(k=>{
+    if(!filters[k] || DEEP_LAYERS.includes(k)) return;
+    filters[k] = false;
+    fadingOut[k] = LAYER_FADE;
+    const el = fbox.querySelector('.flt[data-k="'+k+'"]');
+    if(el) el.classList.add('off');
+  });
+  fit();
+  if(!DEEP_LAYERS.length) setTimeout(showLayersCoach, 520);
+}
+function popOf(n){ return introDone ? 1 : Math.max(0, n.pop||0); }
+function linkProgress(l){ return introDone ? 1 : clamp01((introT - l.delay)/LINK_DRAW); }
+
+function resize(){
+  dpr = Math.min(window.devicePixelRatio||1, 2);
+  const rect = cv.getBoundingClientRect();
+  W = rect.width; H = rect.height;
+  cv.width = W*dpr; cv.height = H*dpr;
+}
+/* Text size follows the device setting. All CSS type is in rem, so it scales with the root size.
+   Safari on iOS ignores the Text Size setting unless a font uses -apple-system-body, so the root size is
+   taken from that font (17px at the default size = 16px root). The canvas labels use textScale to match. */
+let textScale = 1;
+function syncTextSize(){
+  try{
+    if(window.CSS && CSS.supports('font','-apple-system-body')){
+      const probe = document.createElement('span');
+      probe.style.cssText = 'font:-apple-system-body;position:absolute;visibility:hidden';
+      document.body.appendChild(probe);
+      const px = parseFloat(getComputedStyle(probe).fontSize);
+      probe.remove();
+      if(px > 0) document.documentElement.style.fontSize = (px*16/17)+'px';
+    }
+    const root = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    textScale = Math.min(2, Math.max(.85, root/16));
+  }catch(e){}
+}
+syncTextSize();
+document.addEventListener('visibilitychange', ()=>{ if(!document.hidden){ syncTextSize(); resize(); } });
+window.addEventListener('resize', ()=>{ syncTextSize(); resize(); });
+
+function toScreen(n){ return { x:(n.x+view.x)*view.k + W/2, y:(n.y+view.y)*view.k + H/2 }; }
+function toWorld(px,py){ return { x:(px-W/2)/view.k - view.x, y:(py-H/2)/view.k - view.y }; }
+
+let t = 0;
+function draw(){
+  t += 0.016;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  const g = ctx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'#080d18'); g.addColorStop(1,'#05080f');
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+  // grid
+  ctx.strokeStyle='rgba(120,150,200,.05)'; ctx.lineWidth=1;
+  const step = 46*view.k;
+  if(step>14){
+    const ox=((view.x*view.k+W/2)%step+step)%step, oy=((view.y*view.k+H/2)%step+step)%step;
+    ctx.beginPath();
+    for(let x=ox;x<W;x+=step){ ctx.moveTo(x,0); ctx.lineTo(x,H); }
+    for(let y=oy;y<H;y+=step){ ctx.moveTo(0,y); ctx.lineTo(W,y); }
+    ctx.stroke();
+  }
+
+  const hl = highlightSet();
+
+  // links
+  links.forEach(l=>{
+    const la = Math.min(layerAlpha(l.source), layerAlpha(l.target));
+    if(la<=0) return;
+    const a = toScreen(l.source), b = toScreen(l.target);
+    const lp = linkProgress(l);
+    if(lp<=0) return;
+    const on = !hl || (hl.has(l.source.id)&&hl.has(l.target.id));
+    const mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
+    const dx=b.x-a.x, dy=b.y-a.y;
+    const cx = mx - dy*0.11, cy = my + dx*0.11;
+    // during the intro the curve is split at lp so it appears to draw itself
+    const e = easeOutCubic(lp);
+    const c1x = a.x + (cx-a.x)*e, c1y = a.y + (cy-a.y)*e;
+    const q = 1-e;
+    const ex = q*q*a.x + 2*q*e*cx + e*e*b.x;
+    const ey = q*q*a.y + 2*q*e*cy + e*e*b.y;
+    // skill edges are the bulk of the graph, so they sit back visually
+    const toSkill = l.source.type==='skill' || l.target.type==='skill';
+    ctx.globalAlpha = (0.35 + 0.65*e) * (toSkill ? 0.45 : 1) * la;
+    ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.quadraticCurveTo(c1x,c1y,ex,ey);
+    if(on && hl){
+      ctx.strokeStyle = 'rgba(160,215,255,.95)'; ctx.lineWidth = toSkill ? 1.5 : 2;
+    } else {
+      ctx.strokeStyle = hl ? 'rgba(150,180,220,.12)' : 'rgba(165,195,235,.45)';
+      ctx.lineWidth = toSkill ? 0.9 : 1.25;
+    }
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+
+    // flowing particle on highlighted links
+    if(introDone && la>=1 && hl && on && l.source.id!==l.target.id){
+      const p = ((t*0.45)+ (l.id.length%10)/10) % 1;
+      const q2 = 1-p;
+      const px = q2*q2*a.x + 2*q2*p*cx + p*p*b.x;
+      const py = q2*q2*a.y + 2*q2*p*cy + p*p*b.y;
+      ctx.beginPath(); ctx.arc(px,py,2.1,0,7);
+      ctx.fillStyle='rgba(58,191,248,.9)'; ctx.fill();
+    }
+  });
+
+  // nodes
+  nodes.forEach(n=>{
+    const la = layerAlpha(n);
+    if(la<=0) return;
+    const pop = popOf(n);
+    if(pop<=0) return;
+    const s = toScreen(n);
+    const r = n.r*view.k*pop;
+    const dim = (hl && !hl.has(n.id)) || (query && !matches(n));
+    const col = n.type==='cred' ? credColor(n) : COLORS[n.type];
+    ctx.globalAlpha = (dim ? 0.13 : 1) * Math.min(1, pop*1.6) * la;
+
+    if(n===selected){
+      ctx.beginPath(); ctx.arc(s.x,s.y,r+4,0,7);
+      ctx.strokeStyle='rgba(255,255,255,.8)'; ctx.lineWidth=1.4; ctx.stroke();
+    }
+    ctx.beginPath(); ctx.arc(s.x,s.y,r,0,7);
+    ctx.fillStyle = col; ctx.fill();
+    if(n.type==='entry'){
+      ctx.strokeStyle = 'rgba(203,213,225,.42)'; ctx.lineWidth = 1.4; ctx.stroke();
+    }
+    if(n.type==='org'){
+      // dark inner ring + light outer halo so the sky-blue org hubs read clearly
+      ctx.strokeStyle = 'rgba(8,18,36,.9)'; ctx.lineWidth = 2.4; ctx.stroke();
+      ctx.beginPath(); ctx.arc(s.x,s.y,r+2.2,0,7);
+      ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.lineWidth = 1.3; ctx.stroke();
+    }
+    if(n===hovered){ ctx.strokeStyle='rgba(255,255,255,.55)'; ctx.lineWidth=1.2; ctx.stroke(); }
+
+    // label
+    const showLabel = (n.type==='entry' || n.type==='org' || view.k>0.72 || n===hovered || n===selected) && pop>0.55;
+    if(showLabel && !dim){
+      const isEntry = n.type==='entry';
+      const isOrg = n.type==='org';
+      const fs = (isEntry ? 14 : isOrg ? 11.5 : 11) * textScale;
+      ctx.font = (isEntry || isOrg ? '700 ' : '') + fs + 'px -apple-system,Segoe UI,Inter,sans-serif';
+      ctx.textAlign='center'; ctx.textBaseline='top';
+      const label = n.label;
+      if(isEntry){
+        // outline rather than a drop shadow, so the title stays readable over links and nodes
+        ctx.lineJoin='round'; ctx.lineWidth=3.2;
+        ctx.strokeStyle='rgba(4,8,16,.92)';
+        ctx.strokeText(label, s.x, s.y+r+5);
+      } else {
+        ctx.fillStyle='rgba(0,0,0,.6)';
+        ctx.fillText(label, s.x+0.6, s.y+r+5.6);
+      }
+      ctx.fillStyle = n===hovered||n===selected ? '#fff'
+        : isEntry ? '#fff'
+        : isOrg ? 'rgba(245,250,255,.96)'
+        : n.type==='cred' ? 'rgba(219,230,245,.6)'
+        : 'rgba(219,230,245,.82)';
+      ctx.fillText(label, s.x, s.y+r+5);
+      // the date line under an entry is what makes the clockwise ring read chronologically
+      if(isEntry && n.dates){
+        ctx.font=(10.5*textScale)+'px -apple-system,Segoe UI,sans-serif';
+        ctx.lineJoin='round'; ctx.lineWidth=3;
+        ctx.strokeStyle='rgba(4,8,16,.9)';
+        ctx.strokeText(n.dates, s.x, s.y+r+5+16*textScale);
+        ctx.fillStyle='rgba(58,191,248,.85)';
+        ctx.fillText(n.dates, s.x, s.y+r+5+16*textScale);
+      }
+      // the hub has no dates, so its role (e.g. current title) takes that second line instead
+      if(isEntry && !n.dates && n.role){
+        ctx.font=(10.5*textScale)+'px -apple-system,Segoe UI,sans-serif';
+        ctx.lineJoin='round'; ctx.lineWidth=3;
+        ctx.strokeStyle='rgba(4,8,16,.9)';
+        ctx.strokeText(n.role, s.x, s.y+r+5+16*textScale);
+        ctx.fillStyle='rgba(58,191,248,.85)';
+        ctx.fillText(n.role, s.x, s.y+r+5+16*textScale);
+      }
+      if(n.type==='skill' && (view.k>0.95 || n===hovered || n===selected)){
+        ctx.font=(9.5*textScale)+'px -apple-system,Segoe UI,sans-serif';
+        ctx.fillStyle='rgba(130,150,180,.8)';
+        ctx.fillText(n.cat, s.x, s.y+r+5+13*textScale);
+      }
+    }
+    ctx.globalAlpha = 1;
+  });
+
+  // DOM emoji layer — canvas fillText washes out color emoji; native rendering pops
+  nodes.forEach(n=>{
+    if(n.type!=='entry') return;
+    const el = iconEls.get(n.id);
+    if(!el) return;
+    if(!visible(n) || popOf(n)<=0){
+      el.style.visibility = 'hidden';
+      return;
+    }
+    const pop = popOf(n);
+    const s = toScreen(n);
+    const r = n.r*view.k*pop;
+    const dim = (hl && !hl.has(n.id)) || (query && !matches(n));
+    const size = Math.max(18, Math.min(r*1.55, 30*(n.scale||1)));
+    el.style.visibility = 'visible';
+    el.style.width = size + 'px';
+    el.style.height = size + 'px';
+    el.style.fontSize = (size*0.88) + 'px';
+    el.style.opacity = dim ? 0.18 : 1;
+    el.style.transform = 'translate(' + s.x + 'px,' + s.y + 'px) translate(-50%,-50%)';
+  });
+}
+
+function loop(){ advanceIntro(0.016); advanceFade(0.016); advanceView(0.016); simulate(); draw(); requestAnimationFrame(loop); }
+
+/* ============================================================
+   5. INTERACTION
+   ============================================================ */
+function pick(px,py){
+  let best=null, bestD=Infinity;
+  for(const n of nodes){
+    if(!visible(n)) continue;
+    const s = toScreen(n);
+    const d = Math.hypot(s.x-px, s.y-py);
+    if(d < Math.max(n.r*view.k+6, 10) && d<bestD){ best=n; bestD=d; }
+  }
+  return best;
+}
+const tip = document.getElementById('tip');
+let panning=false, last={x:0,y:0}, moved=false;
+
+cv.addEventListener('mousemove', e=>{
+  const rect = cv.getBoundingClientRect();
+  const px = e.clientX-rect.left, py = e.clientY-rect.top;
+  if(dragging){
+    const w = toWorld(px,py);
+    dragging.x = w.x; dragging.y = w.y; dragging.vx=0; dragging.vy=0;
+    moved = true; reheat(); return;
+  }
+  if(panning){
+    viewAnim = null;
+    view.x += (px-last.x)/view.k; view.y += (py-last.y)/view.k;
+    last={x:px,y:py}; moved=true; return;
+  }
+  const n = pick(px,py);
+  if(n!==hovered){ hovered=n; cv.style.cursor = n?'pointer':'grab'; }
+  if(n){
+    tip.style.opacity=1;
+    tip.style.left = Math.min(px+14, W-260)+'px';
+    tip.style.top = (py+14)+'px';
+    tip.innerHTML = tipHtml(n);
+  } else tip.style.opacity=0;
+});
+cv.addEventListener('mousedown', e=>{
+  skipIntro();
+  const rect = cv.getBoundingClientRect();
+  const px=e.clientX-rect.left, py=e.clientY-rect.top;
+  moved=false; last={x:px,y:py};
+  const n = pick(px,py);
+  if(n){ dragging=n; viewAnim=null; reheat(); }
+  else { panning=true; cv.classList.add('grabbing'); }
+});
+window.addEventListener('mouseup', e=>{
+  if(dragging && !moved) select(dragging);
+  else if(panning && !moved) select(null);
+  dragging=null; panning=false; cv.classList.remove('grabbing');
+});
+cv.addEventListener('wheel', e=>{
+  e.preventDefault();
+  releaseCamera();
+  const rect = cv.getBoundingClientRect();
+  const px=e.clientX-rect.left, py=e.clientY-rect.top;
+  const before = toWorld(px,py);
+  view.k = Math.max(0.22, Math.min(3.6, view.k * Math.pow(1.0016, -e.deltaY)));
+  const after = toWorld(px,py);
+  view.x += after.x-before.x; view.y += after.y-before.y;
+}, {passive:false});
+
+/* Touch: one finger drags a node if it lands on one, otherwise pans the whole canvas. A tap selects
+   (or clears the selection), and two fingers pinch-zoom. Browsers only synthesise mouse events for taps,
+   so none of the mouse handlers above ever see a finger drag. */
+let touchMode=null, touchStart=null, pinch=null;
+function touchPos(t){ const r = cv.getBoundingClientRect(); return { x:t.clientX-r.left, y:t.clientY-r.top }; }
+function pinchState(ts){
+  const a = touchPos(ts[0]), b = touchPos(ts[1]);
+  return { cx:(a.x+b.x)/2, cy:(a.y+b.y)/2, d:Math.max(1, Math.hypot(a.x-b.x, a.y-b.y)) };
+}
+cv.addEventListener('touchstart', e=>{
+  e.preventDefault();
+  skipIntro();
+  if(e.touches.length === 1){
+    const p = touchPos(e.touches[0]);
+    moved=false; last=p; touchStart=p; pinch=null;
+    const n = pick(p.x,p.y);
+    if(n){ touchMode='node'; dragging=n; viewAnim=null; reheat(); }
+    else { touchMode='pan'; panning=true; viewAnim=null; }
+  } else {
+    dragging=null; panning=false; moved=true;
+    touchMode='pinch'; pinch = pinchState(e.touches);
+  }
+}, { passive:false });
+cv.addEventListener('touchmove', e=>{
+  e.preventDefault();
+  if(touchMode === 'pinch' && e.touches.length >= 2 && pinch){
+    const s = pinchState(e.touches);
+    releaseCamera();
+    const before = toWorld(pinch.cx, pinch.cy);
+    view.k = Math.max(0.22, Math.min(3.6, view.k * s.d / pinch.d));
+    const after = toWorld(pinch.cx, pinch.cy);
+    view.x += after.x-before.x + (s.cx-pinch.cx)/view.k;
+    view.y += after.y-before.y + (s.cy-pinch.cy)/view.k;
+    pinch = s;
+    return;
+  }
+  if(e.touches.length !== 1 || (touchMode !== 'node' && touchMode !== 'pan')) return;
+  const p = touchPos(e.touches[0]);
+  if(!moved){
+    if(Math.hypot(p.x-touchStart.x, p.y-touchStart.y) < 6) return;
+    moved = true;
+  }
+  if(touchMode === 'node' && dragging){
+    const w = toWorld(p.x,p.y);
+    dragging.x = w.x; dragging.y = w.y; dragging.vx=0; dragging.vy=0;
+    reheat();
+  } else {
+    viewAnim = null;
+    view.x += (p.x-last.x)/view.k; view.y += (p.y-last.y)/view.k;
+  }
+  last = p;
+}, { passive:false });
+function endTouch(e, cancelled){
+  e.preventDefault();
+  if(e.touches.length > 0){ if(touchMode === 'pinch'){ touchMode='ignore'; pinch=null; } return; }
+  if(!cancelled){
+    if(touchMode === 'node' && dragging && !moved) select(dragging);
+    else if(touchMode === 'pan' && !moved) select(null);
+  }
+  dragging=null; panning=false; touchMode=null; pinch=null;
+}
+cv.addEventListener('touchend', e=>endTouch(e,false), { passive:false });
+cv.addEventListener('touchcancel', e=>endTouch(e,true), { passive:false });
+
+const KIND_LABEL = { profile:'Profile', position:'Role', education:'Education', credentials:'Credentials' };
+function tipHtml(n){
+  if(n.type==='entry')
+    return '<div class="t">'+esc(n.title)+'</div><div class="s">'+(KIND_LABEL[n.entryKind]||'Section')+
+           (n.dates ? ' · '+esc(n.dates) : '')+' · click to read</div>';
+  if(n.type==='skill')
+    return '<div class="t">'+esc(n.label)+'</div><div class="s">'+esc(n.cat)+' · '+
+           links.filter(l=>(l.source===n||l.target===n)&&l.kind==='uses').length+' sections</div>';
+  if(n.type==='org')
+    return '<div class="t">'+esc(n.label)+'</div><div class="s">'+esc(n.orgKind)+
+           (n.meta ? ' · '+esc(n.meta) : '')+'</div>';
+  return '<div class="t">'+esc(n.title)+'</div><div class="s">'+esc(n.credKind)+' · '+esc(n.issued)+
+         (n.expired ? '<br>expired '+esc(n.expired) : '')+'</div>';
+}
+
+document.getElementById('zin').onclick = ()=>{ releaseCamera(); view.k=Math.min(3.6,view.k*1.25); };
+document.getElementById('zout').onclick = ()=>{ releaseCamera(); view.k=Math.max(0.22,view.k/1.25); };
+document.getElementById('reheat').onclick = ()=>{ skipIntro(); reheat(); };
+document.getElementById('fit').onclick = ()=>{ skipIntro(); fit(); };
+function fitTarget(atRest){
+  const vis = nodes.filter(visible);
+  if(!vis.length) return { x:0, y:0, k:1 };
+  let minX=Infinity, maxX=-Infinity, minY=Infinity, maxY=-Infinity;
+  vis.forEach(n=>{
+    const x = atRest && n.tx!=null ? n.tx : n.x;
+    const y = atRest && n.ty!=null ? n.ty : n.y;
+    const r = n.r;
+    const side = r + 12;
+    let top = r + 10, bottom = r + 10;
+    // entries carry a title and a date line beneath the dot
+    if(n.type==='entry') bottom = r + 42;
+    else if(n.type==='org') bottom = r + 24;
+    minX = Math.min(minX, x - side);
+    maxX = Math.max(maxX, x + side);
+    minY = Math.min(minY, y - top);
+    maxY = Math.max(maxY, y + bottom);
+  });
+  const w = maxX-minX+48, h = maxY-minY+48;
+  const k = Math.max(0.22, Math.min(2, Math.min(Math.max(200, W-insetL)/w, Math.max(200, H-insetB)/h)));
+  // centre on the part of the canvas the category drawer leaves uncovered
+  return {
+    k,
+    x: -(minX+maxX)/2 + insetL/(2*k),
+    y: -(minY+maxY)/2 - insetB/(2*k)
+  };
+}
+function fit(instant){
+  const target = fitTarget();
+  if(instant){
+    view.x = target.x; view.y = target.y; view.k = target.k;
+    viewAnim = null;
+    return;
+  }
+  viewAnim = {
+    from: { x:view.x, y:view.y, k:view.k },
+    to: target,
+    t: 0,
+    dur: 1.05
+  };
+}
+
+/* ============================================================
+   6. MARKDOWN
+   ============================================================ */
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function inline(s){
+  return esc(s)
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+    .replace(/(^|[^*])\*([^*]+)\*/g,'$1<em>$2</em>');
+}
+function mdToHtml(md){
+  const lines = md.split('\n');
+  let out='', list=null;
+  const closeList=()=>{ if(list){ out+='</'+list+'>'; list=null; } };
+  for(let raw of lines){
+    const line = raw.trimEnd();
+    if(!line.trim()){ closeList(); continue; }
+    let m;
+    if((m=line.match(/^(#{1,6})\s+(.*)$/))){
+      closeList();
+      const lvl = Math.min(6, Math.max(2, m[1].length));
+      out += '<h'+lvl+'>'+inline(m[2])+'</h'+lvl+'>'; continue;
+    }
+    if(/^---+$/.test(line.trim())){ closeList(); out+='<hr>'; continue; }
+    if((m=line.match(/^\s*[-*]\s+(.*)$/))){
+      if(list!=='ul'){ closeList(); out+='<ul>'; list='ul'; }
+      out += '<li>'+inline(m[1])+'</li>'; continue;
+    }
+    if((m=line.match(/^\s*\d+\.\s+(.*)$/))){
+      if(list!=='ol'){ closeList(); out+='<ol>'; list='ol'; }
+      out += '<li>'+inline(m[1])+'</li>'; continue;
+    }
+    if((m=line.match(/^>\s?(.*)$/))){ closeList(); out+='<blockquote>'+inline(m[1])+'</blockquote>'; continue; }
+    closeList();
+    out += '<p>'+inline(line)+'</p>';
+  }
+  closeList();
+  return out;
+}
+// Turn skill mentions inside rendered markdown into clickable chips. Skill terms are far
+// denser than names would be, so only the FIRST mention of each skill per write-up is
+// marked — otherwise the prose reads as a wall of highlights.
+function linkEntities(root){
+  const seen = new Set();
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const targets=[];
+  while(walker.nextNode()){
+    const node = walker.currentNode;
+    if(node.parentElement.closest('a,code,.ent')) continue;
+    SKILL_RE.lastIndex = 0;
+    if(SKILL_RE.test(node.nodeValue)) targets.push(node);
+    SKILL_RE.lastIndex = 0;
+  }
+  targets.forEach(node=>{
+    const text = node.nodeValue;
+    const marks=[];
+    let m;
+    SKILL_RE.lastIndex=0;
+    while((m=SKILL_RE.exec(text))){
+      const id = skillByTerm.get(m[0].toLowerCase());
+      if(!id || seen.has(id)) continue;
+      seen.add(id);
+      marks.push({ s:m.index, e:m.index+m[0].length, txt:m[0], id });
+    }
+    if(!marks.length) return;
+    const frag = document.createDocumentFragment();
+    let pos=0;
+    marks.forEach(mk=>{
+      if(mk.s<pos) return;
+      frag.appendChild(document.createTextNode(text.slice(pos,mk.s)));
+      const sp = document.createElement('span');
+      sp.className='ent skill'; sp.textContent=mk.txt; sp.dataset.node=mk.id;
+      sp.title = 'Focus ' + byId.get(mk.id).label;
+      frag.appendChild(sp);
+      pos = mk.e;
+    });
+    frag.appendChild(document.createTextNode(text.slice(pos)));
+    node.parentNode.replaceChild(frag, node);
+  });
+}
+
+/* ============================================================
+   7. DRAWER / DETAILS
+   ============================================================ */
+const drawer=document.getElementById('drawer'), dKind=document.getElementById('dKind'),
+      dTitle=document.getElementById('dTitle'), dDates=document.getElementById('dDates'),
+      dBody=document.getElementById('dBody'), selChip=document.getElementById('selChip');
+document.getElementById('dClose').onclick = ()=>select(null);
+
+function tagStyle(n){
+  if(n.type==='cred'){
+    const c=credColor(n);
+    return 'color:'+c+';border-color:'+c+'55';
+  }
+  if(n.type==='entry'){
+    // entry node fill is a muted navy — use light slate for drawer tags
+    return 'color:#c8d6ea;border-color:rgba(148,163,184,.45);background:rgba(148,163,184,.12)';
+  }
+  const c=COLORS[n.type];
+  return 'color:'+c+';border-color:'+c+'55';
+}
+
+function tagsFor(ids,label){
+  if(!ids.length) return '';
+  return '<div class="relgrp"><h4>'+label+' ('+ids.length+')</h4><div class="rel">'+
+    ids.map(id=>{
+      const n=byId.get(id); if(!n) return '';
+      const txt = n.type==='skill' ? n.label+' · '+n.cat
+                : n.type==='cred'  ? n.label
+                : n.label;
+      return '<span class="tag" data-node="'+id+'" style="'+tagStyle(n)+'">'+esc(txt)+'</span>';
+    }).join('')+'</div></div>';
+}
+
+function hlStrip(list){
+  if(!list || !list.length) return '';
+  return '<div class="hl">'+list.map(h=>
+    '<div><b title="'+esc(h.v)+'">'+esc(h.v)+'</b><span>'+esc(h.k)+'</span></div>').join('')+'</div>';
+}
+
+function select(n){
+  skipIntro();
+  dismissCoach();
+  if(n && !filters[n.type]){
+    filters[n.type] = true;
+    document.querySelector('.flt[data-k="'+n.type+'"]')?.classList.remove('off');
+    delete fadingOut[n.type];
+    fadingIn[n.type] = LAYER_FADE;
+    reheat();
+  }
+  selected = n;
+  document.querySelectorAll('.pitem,.cat-chip,.catrow').forEach(el=>el.classList.toggle('active', !!n && el.dataset.node===n.id));
+  if(!n){ drawer.classList.remove('open'); selChip.style.display='none'; return; }
+  selChip.style.display=''; selChip.innerHTML='focused <b>'+esc(n.label)+'</b>';
+
+  const nb = [...neighbors.get(n.id)];
+  const of = ty => nb.filter(id=>byId.get(id).type===ty);
+  let html='';
+  dDates.textContent = '';
+
+  if(n.type==='entry'){
+    dKind.textContent = KIND_LABEL[n.entryKind] || 'Section';
+    dTitle.textContent = n.title;
+    dDates.innerHTML = n.tagline ? inline(n.tagline) : esc([n.dates, n.tenure, n.location].filter(Boolean).join(' · '));
+    html += hlStrip(n.highlights);
+    html += tagsFor(of('org'),'Organizations');
+    html += '<div class="md" id="mdHost">'+mdToHtml(n.md)+'</div>';
+    html += tagsFor(of('skill'),'Skills') + tagsFor(of('cred'),'Credentials earned');
+  } else if(n.type==='skill'){
+    dKind.textContent='Skill';
+    dTitle.textContent=n.label;
+    html += '<dl class="kv"><dt>Category</dt><dd>'+esc(n.cat)+'</dd>'+
+            '<dt>Connections</dt><dd>'+n.deg+'</dd></dl>';
+    if(n.desc) html += '<p class="skill-desc">'+esc(n.desc)+'</p>';
+    if(n.descList) html += '<ul class="skill-list">'+n.descList.map(li=>'<li>'+esc(li)+'</li>').join('')+'</ul>';
+    html += tagsFor(of('entry'),'Applied in');
+  } else if(n.type==='org'){
+    const ents = ENTRIES.filter(e=>(e.orgs||[]).includes(n.id));
+    const issued = CREDS.filter(c=>c.orgId===n.id);
+    dKind.textContent = n.orgKind==='school' ? 'School' : n.orgKind==='employer' ? 'Employer' : 'Institution';
+    dTitle.textContent = n.label;
+    dDates.textContent = n.meta || '';
+    html += '<dl class="kv"><dt>Type</dt><dd>'+esc(n.orgKind)+'</dd>'+
+            '<dt>Sections</dt><dd>'+ents.length+'</dd>'+
+            '<dt>Credentials</dt><dd>'+issued.length+'</dd></dl>';
+    html += tagsFor(ents.map(e=>e.key),'Resume sections');
+    if(issued.length){
+      html += '<div class="relgrp"><h4>Issued ('+issued.length+')</h4>'+
+        issued.map(c=>{ const cn=byId.get(c.id), col=credColor(cn);
+          return '<div class="tag" data-node="'+c.id+'" style="display:block;margin-bottom:6px;padding:8px 11px;border-radius:8px;border-color:'+col+'55">'+
+            '<span style="color:'+col+';font-weight:600">'+esc(c.title)+'</span>'+
+            '<span class="status" style="color:var(--txt-dim);float:right">'+esc(c.kind)+'</span>'+
+            '<div style="color:#c8d6ea;margin-top:3px;font-size:.7188rem">'+esc(c.issued)+'</div></div>';
+        }).join('')+'</div>';
+    }
+  } else {
+    const col = credColor(n);
+    dKind.textContent = n.credKind;
+    dTitle.textContent = n.title;
+    dDates.textContent = n.issued;
+    html += hlStrip(n.highlights);
+    html += '<dl class="kv"><dt>Type</dt><dd><span class="status" style="color:'+col+'">'+esc(n.credKind)+'</span></dd>'+
+            '<dt>Issuer</dt><dd>'+esc((byId.get(n.orgId)||{label:'—'}).label)+'</dd>'+
+            '<dt>Issued</dt><dd>'+esc(n.issued)+'</dd>'+
+            (n.expired ? '<dt>Expired</dt><dd style="color:#8b9cb5">'+esc(n.expired)+'</dd>' : '')+
+            (n.note ? '<dt>Note</dt><dd>'+esc(n.note)+'</dd>' : '')+
+            '</dl>';
+    if(n.descList) html += '<ul class="skill-list">'+n.descList.map(li=>'<li>'+esc(li)+'</li>').join('')+'</ul>';
+    html += tagsFor(of('org'),'Issued by') + tagsFor(of('entry'),'Earned during');
+  }
+
+  html += '<button type="button" class="dback" id="dBack">\u2190 Back</button>';
+  dBody.innerHTML = html;
+  document.getElementById('dBack').onclick = ()=>select(null);
+  dBody.scrollTop = 0;
+  const host = document.getElementById('mdHost');
+  if(host) linkEntities(host);
+  drawer.classList.add('open');
+
+  // gently pull the focus node toward the visible half of the canvas
+  viewAnim = null;
+  view.x = -n.x + (drawer.classList.contains('open') ? -W*0.16/view.k : 0);
+  view.y = -n.y;
+}
+
+dBody.addEventListener('click', e=>{
+  const el = e.target.closest('[data-node]');
+  if(el && byId.has(el.dataset.node)) select(byId.get(el.dataset.node));
+});
+
+/* ============================================================
+   8. SIDEBAR
+   ============================================================ */
+const LAYERS = [
+  { key:'entry', label:'Career' },
+  { key:'org',   label:'Organizations' },
+  { key:'skill', label:'Skills' },
+  { key:'cred',  label:'Credentials' }
+];
+const fbox = document.getElementById('filters');
+fbox.innerHTML = LAYERS.map(l=>
+  '<div class="flt" data-k="'+l.key+'"><span class="dot" style="background:'+COLORS[l.key]+';color:'+COLORS[l.key]+'"></span>'+
+  l.label+'<span class="n">'+nodes.filter(n=>n.type===l.key).length+'</span></div>').join('');
+fbox.addEventListener('click', e=>{
+  const el = e.target.closest('.flt'); if(!el) return;
+  const k = el.dataset.k;
+  filters[k] = !filters[k];
+  el.classList.toggle('off', !filters[k]);
+  delete fadingOut[k]; delete fadingIn[k];
+  (filters[k] ? fadingIn : fadingOut)[k] = LAYER_FADE;
+  dismissCoach();
+  if(selected && !filters[selected.type]) select(null);
+  reheat();
+});
+
+/* The coach runs in four beats: what the layers and the timeline do, then the chat box
+   along the bottom, then the profile opened and a hop across the canvas to point at the
+   write-up it landed in, then back to the sidebar to call out the printable CV escape hatch
+   as the closing beat. On narrow screens the sidebar is tucked behind the menu button, so a single beat points there instead. */
+const coach = document.getElementById('coach'), coach3 = document.getElementById('coach3'),
+      coach4 = document.getElementById('coach4'),
+      coachM = document.getElementById('coachM'), coachC = document.getElementById('coachC');
+const PROFILE_KEY = 'profile';
+const COACH_COOKIE = 'rkg_hide_coach';
+let coachDismissed = false, coachAnchor = null, autoSelecting = false, printCvFlashTimer = null;
+
+function getCookie(name){
+  return document.cookie.split('; ').reduce((acc,c)=>{
+    const [k,v] = c.split('=');
+    return k===name ? decodeURIComponent(v) : acc;
+  }, null);
+}
+function setCookie(name, value, days){
+  const expires = new Date(Date.now() + days*864e5).toUTCString();
+  document.cookie = name+'='+encodeURIComponent(value)+'; expires='+expires+'; path=/; SameSite=Lax';
+}
+const coachSkipped = getCookie(COACH_COOKIE) === '1';
+function maybeSkip(checkboxId){
+  const cb = document.getElementById(checkboxId);
+  if(cb && cb.checked){ setCookie(COACH_COOKIE, '1', 365); dismissCoach(); return true; }
+  return false;
+}
+
+// The sidebar beats hang off the sidebar's edge so they line up; the drawer beat sits just
+// clear of the drawer instead of covering the write-up it is pointing at.
+function placeCoach(){
+  if(!coachAnchor || !coachAnchor.el.isConnected) return;
+  const { el, target, side } = coachAnchor;
+  const r = target.getBoundingClientRect();
+  if(side === 'above'){
+    const x = Math.max(12, Math.min(r.left + 24, window.innerWidth - el.offsetWidth - 12));
+    el.style.left = x + 'px';
+    el.style.top = Math.max(12, r.top - el.offsetHeight - 14) + 'px';
+    el.style.setProperty('--arrow', '34px');
+    return;
+  }
+  const top = Math.max(12, Math.min(r.top - 10, window.innerHeight - el.offsetHeight - 12));
+  const gutter = document.querySelector('aside').getBoundingClientRect().right + 14;
+  const x = side === 'right'
+    ? Math.max(gutter, r.left - el.offsetWidth - 14)
+    : gutter;
+  el.style.left = x + 'px';
+  el.style.top = top + 'px';
+  el.style.setProperty('--arrow', Math.max(10, r.top + r.height/2 - top - 6) + 'px');
+}
+function showCoach(el, target, side){
+  if(coachDismissed || !target) return;
+  coachAnchor = { el, target, side };
+  placeCoach();
+  el.classList.add('show');
+  if(el === coach4) printCvFlashTimer = setTimeout(flashPrintCV, 1000);
+}
+function flashPrintCV(){
+  const el = document.getElementById('printCvLink');
+  if(!el) return;
+  el.classList.add('cta-flash');
+  el.addEventListener('animationend', ()=> el.classList.remove('cta-flash'), { once:true });
+}
+function dismissCoach(){
+  if(autoSelecting) return;
+  coachDismissed = true;
+  coachAnchor = null;
+  coach.classList.remove('show');
+  coach3.classList.remove('show');
+  coach4.classList.remove('show');
+  coachM.classList.remove('show');
+  coachC.classList.remove('show');
+  if(printCvFlashTimer){ clearTimeout(printCvFlashTimer); printCvFlashTimer = null; }
+}
+function showLayersCoach(){
+  if(coachSkipped) return;
+  if(NARROW.matches) showCoach(coachM, document.getElementById('chat'), 'above');
+  else showCoach(coach, document.getElementById('layersSec'));
+}
+
+document.getElementById('coachOk').onclick = ()=>{
+  coach.classList.remove('show');
+  const chat = document.getElementById('chat');
+  if(!chat || getComputedStyle(chat).visibility === 'hidden'){ openProfileBeat(); return; }
+  setTimeout(()=>showCoach(coachC, chat, 'above'), 420);
+};
+document.getElementById('coachCOk').onclick = ()=>{
+  coachC.classList.remove('show');
+  setTimeout(openProfileBeat, 420);
+};
+function openProfileBeat(){
+  if(coachDismissed) return;
+  const n = byId.get(PROFILE_KEY);
+  if(!n){ dismissCoach(); return; }
+  autoSelecting = true;
+  select(n);
+  autoSelecting = false;
+  const item = document.querySelector('.pitem.active');
+  if(item) item.scrollIntoView({ block:'nearest' });
+  const head = document.querySelector('.dhead');
+  if(!head || !drawer.classList.contains('open')){ dismissCoach(); return; }
+  setTimeout(()=>showCoach(coach3, head, 'right'), 420);
+}
+document.getElementById('coach3Ok').onclick = ()=>{
+  coach3.classList.remove('show');
+  const link = document.getElementById('printCvLink');
+  if(!link){ dismissCoach(); return; }
+  setTimeout(()=>showCoach(coach4, link), 420);
+};
+document.getElementById('coach4Ok').onclick = ()=>{ maybeSkip('coachSkip4'); dismissCoach(); };
+document.getElementById('coachMOk').onclick = ()=>{ maybeSkip('coachSkipM'); dismissCoach(); };
+document.addEventListener('keydown', e=>{
+  if(e.key !== 'Enter') return;
+  if(e.target && e.target.closest && e.target.closest('#chat')) return;
+  const active = [coach, coachC, coach3, coach4, coachM].find(c=>c.classList.contains('show'));
+  if(!active) return;
+  e.preventDefault();
+  document.getElementById(active.id+'Ok').click();
+});
+cv.addEventListener('mousedown', dismissCoach);
+cv.addEventListener('touchstart', dismissCoach, { passive:true });
+window.addEventListener('resize', placeCoach);
+
+/* On narrow screens the sidebar is an off-canvas drawer: the menu button opens it, and
+   tapping the scrim, pressing Escape, or picking a section closes it again. */
+const NARROW = window.matchMedia('(max-width:760px)');
+const navToggle = document.getElementById('navToggle');
+function setNav(open){
+  document.body.classList.toggle('nav-open', open);
+  navToggle.setAttribute('aria-expanded', String(open));
+  navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+}
+navToggle.addEventListener('click', ()=>{
+  const fromCoach = coachM.classList.contains('show');
+  setNav(!document.body.classList.contains('nav-open'));
+  if(fromCoach){ dismissCoach(); setTimeout(flashPrintCV, 320); }
+});
+document.getElementById('navScrim').addEventListener('click', ()=> setNav(false));
+NARROW.addEventListener('change', ()=>{ setNav(false); resize(); if(NARROW.matches) dismissCoach(); });
+
+document.getElementById('plist').innerHTML = ENTRIES.map(e=>
+  '<div class="pitem" data-node="'+e.key+'"><b title="'+esc(e.title)+'">'+(e.icon||DEFAULT_ENTRY_ICON)+' '+esc(e.title)+'</b>'+
+  '<small>'+esc(e.role || [e.dates, e.tenure].filter(Boolean).join(' · '))+'</small></div>').join('');
+document.getElementById('plist').addEventListener('click', e=>{
+  const el=e.target.closest('.pitem'); if(!el) return;
+  select(byId.get(el.dataset.node));
+  if(NARROW.matches) setNav(false);
+});
+document.getElementById('plist').addEventListener('scroll', placeCoach);
+
+document.getElementById('q').addEventListener('input', e=>{
+  query = e.target.value.trim().toLowerCase();
+});
+window.addEventListener('keydown', e=>{
+  if(e.key !== 'Escape') return;
+  if(document.body.classList.contains('nav-open')) setNav(false);
+  else if(selected) select(null);
+  else closeCat();
+});
+
+// same summary line as the printable resume, from the same data tables
+{
+  const ys = ENTRIES.flatMap(e=>[e.y0, e.y1]).filter(y=>typeof y === 'number');
+  document.getElementById('summaryChip').textContent =
+    Math.min(...ys)+' – '+Math.max(...ys)+' · '+POSITIONS.length+' roles · '+SKILLS.length+' skills · '+CREDS.length+' credentials';
+}
+
+/* ---------- "Ask about Bryan" box ----------
+   Hands the question to the chat site, which reads ?q= and starts a fresh chat with it.
+   Navigates in this same window. */
+const CHAT_ORIGIN = 'https://chat.bryanfocht.com';
+const chatForm = document.getElementById('chatForm'), chatInput = document.getElementById('chatInput');
+function askChat(q){
+  const url = CHAT_ORIGIN+'/?q='+encodeURIComponent(q.trim().slice(0, 500));
+  window.location.href = url;
+}
+chatForm.addEventListener('submit', e=>{
+  e.preventDefault();
+  const q = chatInput.value.trim();
+  if(!q){ chatInput.focus(); return; }
+  askChat(q);
+  chatInput.value = '';
+});
+document.getElementById('chatSuggest').addEventListener('click', e=>{
+  const b = e.target.closest('.sugg'); if(b) askChat(b.textContent);
+});
+chatInput.addEventListener('keydown', e=>{
+  if(e.key === 'Escape'){ e.stopPropagation(); chatInput.blur(); }
+});
+
+/* ============================================================
+   9. DEEP LINKS
+   ============================================================
+   index.html?show=skills            opens with the Skills layer on and a list of every skill on the left
+   index.html?show=credentials       same for credentials (certifications, degrees, training, memberships)
+   index.html?show=organizations     same for employers, schools and issuing institutions
+   Combine with commas (?show=skills,credentials). The same values work as a hash (#skills). */
+const DEEP_ALIASES = {
+  skills:'skill', skill:'skill',
+  credentials:'cred', credential:'cred', creds:'cred', cred:'cred', certifications:'cred', certs:'cred',
+  organizations:'org', organization:'org', orgs:'org', org:'org', employers:'org', schools:'org'
+};
+function parseDeepLayers(){
+  const out = [];
+  const take = v => String(v||'').toLowerCase().split(/[,\s+]+/).forEach(t=>{
+    const k = DEEP_ALIASES[t]; if(k && !out.includes(k)) out.push(k);
+  });
+  try{
+    const q = new URLSearchParams(location.search);
+    take(q.get('show'));
+    const h = location.hash.replace(/^#/, '');
+    if(h) take(h.includes('=') ? new URLSearchParams(h).get('show') : h);
+  }catch(e){}
+  return out;
+}
+const DEEP_LAYERS = parseDeepLayers();
+
+const catDrawer = document.getElementById('catDrawer'), cTitle = document.getElementById('cTitle'),
+      cSub = document.getElementById('cSub'), cBody = document.getElementById('cBody');
+const CAT_TITLE = { skill:'Skills', cred:'Credentials', org:'Organizations' };
+const ORG_GROUPS = [['employer','Employers'], ['school','Schools'], ['institution','Institutions']];
+const orderedGroups = (items, keyOf) => {
+  const m = new Map();
+  items.forEach(n=>{ const g = keyOf(n); if(!m.has(g)) m.set(g, []); m.get(g).push(n); });
+  return m;
+};
+function catSection(layer){
+  const items = nodes.filter(n=>n.type===layer);
+  let groups;
+  if(layer==='skill') groups = [...orderedGroups(items, n=>n.cat)].map(([g,list])=>({ name:g, list }));
+  else if(layer==='cred') groups = [...orderedGroups(items, n=>n.credKind)].map(([g,list])=>({ name:g, list }));
+  else groups = ORG_GROUPS.map(([kind,name])=>({ name, list:items.filter(n=>n.orgKind===kind) })).filter(g=>g.list.length);
+  const body = groups.map(g=>{
+    const rows = layer==='skill'
+      ? '<div class="rel">'+g.list.map(n=>'<span class="tag cat-chip" data-node="'+n.id+'" style="'+tagStyle(n)+'">'+esc(n.label)+'</span>').join('')+'</div>'
+      : g.list.map(n=>{
+          const sub = layer==='cred' ? [n.issued, (byId.get(n.orgId)||{}).label].filter(Boolean).join(' · ') : n.meta;
+          return '<button type="button" class="catrow" data-node="'+n.id+'"><b>'+esc(layer==='cred' ? n.title : n.label)+'</b>'+
+                 (sub ? '<small>'+esc(sub)+'</small>' : '')+'</button>';
+        }).join('');
+    return '<div class="relgrp"><h4>'+esc(g.name)+' ('+g.list.length+')</h4>'+rows+'</div>';
+  }).join('');
+  return { items, body };
+}
+function openCat(layers){
+  if(!layers.length) return;
+  const secs = layers.map(catSection);
+  const total = secs.reduce((a,s)=>a+s.items.length, 0);
+  cTitle.textContent = layers.map(k=>CAT_TITLE[k]).join(' & ');
+  cSub.textContent = total+' items · select one to open it';
+  cBody.innerHTML = secs.map((s,i)=> layers.length>1 ? '<h2 class="md" style="font-size:.875rem;margin:'+(i?'20px':'0')+' 0 10px;color:#fff">'+CAT_TITLE[layers[i]]+'</h2>'+s.body : s.body).join('');
+  cBody.scrollTop = 0;
+  catDrawer.classList.add('open');
+  catDrawer.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('cat-open');
+  syncCatInset();
+}
+function closeCat(){
+  if(!catDrawer.classList.contains('open')) return;
+  catDrawer.classList.remove('open');
+  catDrawer.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('cat-open');
+  insetL = insetB = 0;
+  fit();
+}
+function syncCatInset(){
+  const open = catDrawer.classList.contains('open');
+  insetL = open && !NARROW.matches ? catDrawer.offsetWidth : 0;
+  insetB = open && NARROW.matches ? catDrawer.offsetHeight : 0;
+}
+document.getElementById('cClose').onclick = closeCat;
+cBody.addEventListener('click', e=>{
+  const el = e.target.closest('[data-node]');
+  if(el && byId.has(el.dataset.node)) select(byId.get(el.dataset.node));
+});
+window.addEventListener('resize', ()=>{ syncCatInset(); });
+
+/* ============================================================
+   10. WEBMCP (read-only tools for in-browser agents)
+   ============================================================
+   WebMCP is a draft Web ML Community Group API. The entry point is document.modelContext in the
+   current draft and navigator.modelContext in earlier previews; browsers without either skip all of
+   this. Every tool reads the graph data above, and show_layer only opens a drawer. */
+(function registerWebMCP(){
+  const mc = [document.modelContext, navigator.modelContext].find(m=>m && typeof m.registerTool === 'function');
+  if(!mc) return;
+
+  const TYPE_NAME = { org:'organization', skill:'skill', cred:'credential', entry:'position_or_section' };
+  const LAYER_ENUM = ['skills', 'credentials', 'organizations'];
+  const label = id => (byId.get(id)||{}).label;
+  const flat = v => Array.isArray(v) ? v.join('\n') : String(v||'');
+  const related = n => [...neighbors.get(n.id)].map(id=>byId.get(id)).filter(Boolean)
+                        .map(m=>({ id:m.id, type:TYPE_NAME[m.type], name:m.label }));
+  const summary = n => ({ id:n.id, type:TYPE_NAME[n.type], name:n.type==='cred' ? n.title : n.label });
+  const detail = n => {
+    const d = summary(n);
+    if(n.type==='org'){ d.kind = n.orgKind; d.about = n.meta; }
+    else if(n.type==='skill'){ d.category = n.cat; d.about = n.desc || flat(n.descList) || null; }
+    else if(n.type==='cred'){
+      d.kind = n.credKind; d.issued = n.issued; d.expired = n.expired; d.note = n.note;
+      d.issuer = label(n.orgId); d.highlights = n.highlights; d.details = n.descList;
+    } else {
+      d.kind = n.entryKind; d.role = n.role; d.dates = n.dates; d.tenure = n.tenure; d.location = n.location;
+      d.tagline = n.tagline; d.highlights = n.highlights; d.text = flat(n.md);
+    }
+    d.related = related(n);
+    return d;
+  };
+  const haystack = n => [n.label, n.title, n.cat, n.role, n.meta, n.desc, n.tagline, flat(n.md), flat(n.descList)]
+                          .filter(Boolean).join(' ').toLowerCase();
+  const text = o => ({ content:[{ type:'text', text:JSON.stringify(o, null, 2) }] });
+  const fail = msg => ({ content:[{ type:'text', text:msg }], isError:true });
+  const find = ref => {
+    const k = String(ref||'').trim().toLowerCase();
+    return byId.get(String(ref).trim()) || nodes.find(n=>n.id.toLowerCase()===k || (n.label||'').toLowerCase()===k || (n.title||'').toLowerCase()===k);
+  };
+
+  const tools = [
+    { name:'search_career_graph', title:'Search the career graph',
+      description:"Keyword search across Bryan Focht's positions, skills, credentials and organizations. Returns matching items (id, type, name); pass an id to get_item for full detail.",
+      inputSchema:{ type:'object', properties:{
+        query:{ type:'string', description:'Words to look for, e.g. "AWS", "hiring" or "MBA".' },
+        type:{ type:'string', enum:['skill','credential','organization','position_or_section'], description:'Optional: restrict to one kind of item.' } },
+        required:['query'] },
+      execute({ query, type }){
+        const terms = String(query||'').toLowerCase().split(/\s+/).filter(Boolean);
+        if(!terms.length) return fail('query is empty');
+        const hits = nodes.filter(n=>(!type || TYPE_NAME[n.type]===type) && terms.every(t=>haystack(n).includes(t)));
+        return text({ total:hits.length, items:hits.slice(0, 25).map(summary) });
+      } },
+    { name:'get_item', title:'Get one career graph item',
+      description:'Full detail for one skill, credential, organization, position or resume section, plus the items it connects to. Accepts an id from search_career_graph or list_items, or the exact name.',
+      inputSchema:{ type:'object', properties:{ id:{ type:'string', description:'Item id or exact name.' } }, required:['id'] },
+      execute({ id }){
+        const n = find(id);
+        return n ? text(detail(n)) : fail('No item matches "'+id+'". Use search_career_graph to find ids.');
+      } },
+    { name:'list_items', title:'List career graph items',
+      description:'List every item of one kind with its id and name: all skills, credentials, organizations (employers, schools, issuers) or positions and resume sections.',
+      inputSchema:{ type:'object', properties:{
+        type:{ type:'string', enum:['skill','credential','organization','position_or_section'] } }, required:['type'] },
+      execute({ type }){
+        const items = nodes.filter(n=>TYPE_NAME[n.type]===type);
+        return items.length ? text({ total:items.length, items:items.map(summary) }) : fail('Unknown type "'+type+'".');
+      } },
+    { name:'show_layer', title:'Show a layer on the page',
+      description:"Opens the visitor's drawer listing every skill, credential or organization and switches that layer on in the graph. Changes what the visitor sees; does not change any data.",
+      inputSchema:{ type:'object', properties:{ layer:{ type:'string', enum:LAYER_ENUM } }, required:['layer'] },
+      execute({ layer }){
+        const k = DEEP_ALIASES[String(layer||'').toLowerCase()];
+        if(!k) return fail('layer must be one of: '+LAYER_ENUM.join(', '));
+        skipIntro();
+        dismissCoach();
+        if(!filters[k]){
+          filters[k] = true;
+          document.querySelector('.flt[data-k="'+k+'"]')?.classList.remove('off');
+          delete fadingOut[k];
+          fadingIn[k] = LAYER_FADE;
+          reheat();
+        }
+        openCat([k]);
+        return text({ shown:layer, items:nodes.filter(n=>n.type===k).length });
+      } }
+  ];
+
+  tools.forEach(t=>{
+    try{
+      const done = mc.registerTool({ ...t, annotations:{ readOnlyHint:t.name!=='show_layer' } });
+      if(done && done.catch) done.catch(()=>{});
+    }catch(e){}
+  });
+})();
+
+/* boot */
+resize();
+layoutRing();
+settle();
+recenter();
+if(DEEP_LAYERS.length){
+  // Land on the requested layers: they stay on, the rest follow the normal post-intro fade,
+  // and the entrance animation and the first-visit coach are skipped.
+  coachDismissed = true;
+  openCat(DEEP_LAYERS);
+}
+stageIntro();
+if(DEEP_LAYERS.length) skipIntro();
+loop();
+</script>
+</body>
+</html>
