@@ -477,7 +477,7 @@
 
 <div id="coach" class="coach" role="dialog" aria-label="How to explore the graph">
   <h4>Profile at the centre, career around it</h4>
-  <p><b>My profile</b> anchors the middle, with professional experience ringed <b>clockwise</b> around it from oldest to newest.</p>
+  <p><b>My profile</b> anchors the middle, with professional experience ringed around it: my current role starts at the top and moves <b>clockwise</b> back to where I started my career.</p>
   <ul>
     <li>Organizations, skills and credentials start hidden so the knowledge graph stays readable.</li>
     <li>Use <b>Layers</b> to switch any of them back on.</li>
@@ -626,10 +626,10 @@ nodes.forEach((n,i)=>{
 
 // Profile sits at the centre and every other section is pinned to an ellipse around it, so the
 // whole graph is one composition that fits a widescreen viewport instead of a strip that runs off
-// both edges. Chronology survives as angular order: oldest just clockwise of twelve, sweeping
-// round to the newest, with the undated sections closing the ring.
+// both edges. Chronology survives as angular order: the current role sits at twelve o'clock and
+// each earlier role follows clockwise, with the undated sections closing the ring on the left.
 const HUB_KEY = 'profile';
-const RING_START = -Math.PI/2 + 0.42;
+const RING_START = -Math.PI/2;
 // The ring is only as wide as it needs to be to keep the section labels apart: the supporting
 // layers fade out after the intro, so a ring sized to hold them would rest as an empty donut.
 const RING_RX = 250;
@@ -651,7 +651,7 @@ function layoutRing(){
 }
 const ring = ENTRIES.filter(e=>e.key!==HUB_KEY)
   .slice()
-  .sort((a,b)=>(a.tl==null?Infinity:a.tl) - (b.tl==null?Infinity:b.tl));
+  .sort((a,b)=>(b.tl==null?-Infinity:b.tl) - (a.tl==null?-Infinity:a.tl));
 layoutRing();
 const hub = byId.get(HUB_KEY);
 if(hub){ hub.pinX = 0; hub.pinY = 0; }

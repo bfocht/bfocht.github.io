@@ -126,7 +126,7 @@ function buildPlainResumeHtml() {
   const byKey = new Map(ENTRIES.map(e => [e.key, e]));
 
   const profile = byKey.get('profile');
-  // The graph rings positions oldest-to-newest; a resume reads newest first.
+  // Newest first, matching the graph ring (current role at twelve, earlier roles clockwise).
   const positions = ENTRIES.filter(e => e.kind === 'position')
     .slice()
     .sort((a, b) => (b.tl ?? -Infinity) - (a.tl ?? -Infinity));

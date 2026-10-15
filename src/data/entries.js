@@ -118,7 +118,7 @@ const ENTRIES = [
 ].join("\n")},
 
 /* -------------------------------------------------------- TheServicePro */
-{ key:'tsp_consultant', title:'Senior Technical Consultant', icon:'🧩', kind:'position', tl:1.6, scale:1.5,
+{ key:'tsp_consultant', title:'Senior Technical Consultant', icon:'🧩', kind:'position', tl:1.6, scale:.9,
   dates:'Nov 2005 - Dec 2015', tenure:'10 yr 2 mo', location:'Remote & Onsite',
   orgs:['O_TSP'], y0:2005, y1:2015,
   highlights:[
@@ -179,7 +179,7 @@ const ENTRIES = [
 ].join("\n")},
 
 /* ------------------------------------------------------------- education */
-{ key:'education', title:'Education · MBA', icon:'🎓', kind:'education', tl:null,
+{ key:'education', title:'Education · MBA', icon:'🎓', kind:'education', tl:null, scale:.8,
   dates:'1998 - 2022', location:'Arizona · Boston',
   orgs:['O_BU','O_ASU','O_UOP','O_GCC'],
   highlights:[
@@ -209,7 +209,7 @@ const ENTRIES = [
 ].join("\n")},
 
 /* ----------------------------------------------------------- credentials */
-{ key:'credentials', title:'Certifications', icon:'📜', kind:'credentials', tl:null,
+{ key:'credentials', title:'Certifications', icon:'📜', kind:'credentials', tl:null, scale:.8,
   dates:'2011 - 2024', location:'Online',
   orgs:['O_SA','O_EXIN','O_ISC2','O_VU','O_LI','O_DC','O_LF','O_GAL'],
   highlights:[
