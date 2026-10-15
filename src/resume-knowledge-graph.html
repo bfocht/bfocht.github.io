@@ -584,6 +584,10 @@ ENTRIES.forEach(e=>{
 
 // Every spelling of a skill that should light up in prose, resolved back to its node
 const skillByTerm = new Map();
+// `noMatch` skills ("Strategic", "Achiever"...) are ordinary words, so they only link when
+// they appear in bold (the credentials write-up); skillByTermAll adds them for that case.
+const skillByTermAll = new Map();
+SKILLS.forEach(s=>{ if(s.noMatch) skillByTermAll.set(s.label.toLowerCase(), s.id); });
 SKILLS.filter(s=>!s.noMatch).forEach(s=>{
   skillByTerm.set(s.label.toLowerCase(), s.id);
   (s.alias||[]).forEach(a=>skillByTerm.set(a.toLowerCase(), s.id));
@@ -591,9 +595,13 @@ SKILLS.filter(s=>!s.noMatch).forEach(s=>{
 const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 // \b cannot bound "C#" or ".NET" — the boundary characters are non-word — so the edges are
 // lookarounds instead. Longest first so "JavaScript" beats "Java" and "ASP.NET" beats ".NET".
-const SKILL_RE = new RegExp('(?<![A-Za-z0-9#+.])(' +
-  [...skillByTerm.keys()].sort((a,b)=>b.length-a.length).map(escRe).join('|') +
+const mkSkillRe = keys => new RegExp('(?<![A-Za-z0-9#+.])(' +
+  [...keys].sort((a,b)=>b.length-a.length).map(escRe).join('|') +
   ')(?![A-Za-z0-9#+])','gi');
+const SKILL_RE = mkSkillRe(skillByTerm.keys());
+skillByTermAll.forEach((id,t)=>skillByTerm.set(t,id));
+const SKILL_RE_BOLD = mkSkillRe(skillByTerm.keys());
+const reFor = node => node.parentElement.closest('strong') ? SKILL_RE_BOLD : SKILL_RE;
 
 nodes.forEach(n=>{ n.deg = 0; });
 links.forEach(l=>{ l.source.deg++; l.target.deg++; });
@@ -1305,16 +1313,18 @@ function linkEntities(root){
   while(walker.nextNode()){
     const node = walker.currentNode;
     if(node.parentElement.closest('a,code,.ent')) continue;
-    SKILL_RE.lastIndex = 0;
-    if(SKILL_RE.test(node.nodeValue)) targets.push(node);
-    SKILL_RE.lastIndex = 0;
+    const re = reFor(node);
+    re.lastIndex = 0;
+    if(re.test(node.nodeValue)) targets.push(node);
+    re.lastIndex = 0;
   }
   targets.forEach(node=>{
     const text = node.nodeValue;
     const marks=[];
     let m;
-    SKILL_RE.lastIndex=0;
-    while((m=SKILL_RE.exec(text))){
+    const re = reFor(node);
+    re.lastIndex=0;
+    while((m=re.exec(text))){
       const id = skillByTerm.get(m[0].toLowerCase());
       if(!id || seen.has(id)) continue;
       seen.add(id);
