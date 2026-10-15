@@ -208,7 +208,9 @@ ${tag || ''}
     return `<li><b>${esc(c.title || c.label)}</b><span class="meta"> — ${esc(bits.join(' · '))}</span>${c.note ? `<br><span class="note">${esc(c.note)}</span>` : ''}</li>`;
   }).join('')}</ul>`);
 
-  const skillRows = groupedSection(SKILLS, 'cat', cat => cat, items =>
+  // The CliftonStrengths skills exist for the graph; the resume already lists them under certifications.
+  const resumeSkills = SKILLS.filter(s => s.cat !== 'Strengths');
+  const skillRows = groupedSection(resumeSkills, 'cat', cat => cat, items =>
     `<p class="skills">${items.map(s => esc(s.label)).join(' · ')}</p>`);
 
   const CSS = `
@@ -285,7 +287,7 @@ ${CSS}
 <p class="switch">View the <a href="${GRAPH_HREF}">interactive knowledge graph</a>.</p>
 ${profile && profile.photo ? `<img class="photo" src="${profile.photo}" alt="">\n` : ''}<h1>Bryan Focht</h1>
 <p>Engineering Executive · Cloud &amp; AI${profileLinkMd ? ` · ${inline(profileLinkMd)}` : ''}</p>
-<p class="meta">${YEARS.from} – ${YEARS.to} · ${positions.length} roles · ${SKILLS.length} skills · ${CREDS.length} credentials</p>
+<p class="meta">${YEARS.from} – ${YEARS.to} · ${positions.length} roles · ${resumeSkills.length} skills · ${CREDS.length} credentials</p>
 </header>
 
 ${profile ? section(profile) : ''}
