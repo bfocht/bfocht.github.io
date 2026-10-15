@@ -167,5 +167,18 @@ const SKILLS = [
   { id:'S_RESIL',   label:'Resilience Engineering',  cat:'Domain', alias:['circuit breaker','resilience'],
     desc:'Timeouts, circuit breakers, bounded caches and connection-pool isolation that keep one slow dependency from taking down the whole platform.' },
   { id:'S_MIGRATE', label:'Large-scale Migration',   cat:'Domain', alias:['migration','shadow mode'],
-    desc:'Shipping large migrations behind translation seams, shadow-mode comparison and per-item feature switches instead of a single high-risk cutover.' }
+    desc:'Shipping large migrations behind translation seams, shadow-mode comparison and per-item feature switches instead of a single high-risk cutover.' },
+
+  // ---- CliftonStrengths top 5 (Gallup, Feb 2018) ----
+  // `noMatch` keeps these ordinary words ("strategic") from lighting up inside position write-ups.
+  { id:'S_ACTIVATOR', label:'Activator', cat:'Strengths', noMatch:true,
+    desc:'CliftonStrengths #1, in the Influencing domain. I turn thoughts into action and would rather do than simply talk. In practice that means getting a decision made, a prototype built or a migration started instead of letting a plan sit in review.' },
+  { id:'S_FUTURISTIC', label:'Futuristic', cat:'Strengths', noMatch:true,
+    desc:'CliftonStrengths #2, in the Strategic Thinking domain. I vividly imagine the future and energize others with that vision. It shapes the multi-year platform roadmap and how I frame the case for AI adoption to the teams doing the work.' },
+  { id:'S_IDEATION', label:'Ideation', cat:'Strengths', noMatch:true,
+    desc:'CliftonStrengths #3, in the Strategic Thinking domain. I am fascinated by ideas and see connections others do not, such as carrying a pattern from one system or business problem over to a different one.' },
+  { id:'S_STRATEGIC', label:'Strategic', cat:'Strengths', noMatch:true,
+    desc:'CliftonStrengths #4, in the Strategic Thinking domain. I spot patterns and issues others miss, then weigh alternative paths and pick the most effective one. It is the habit behind sequencing large changes so risk gets bought down before scale.' },
+  { id:'S_ACHIEVER', label:'Achiever', cat:'Strengths', noMatch:true,
+    desc:'CliftonStrengths #5, in the Executing domain. I work hard with great stamina and take satisfaction in being busy and productive, which keeps delivery moving week after week.' }
 ];

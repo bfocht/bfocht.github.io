@@ -542,6 +542,7 @@ CREDS.forEach(c=>{
             issued:c.issued, expired:c.expired||null, note:c.note||null, orgId:c.orgId,
             highlights:c.highlights||[], descList:c.descList||null, r:6.5 });
   addLink(c.id, c.orgId, 'issued by');
+  (c.skills||[]).forEach(s=>addLink(c.id, s, 'demonstrates'));
 });
 ENTRIES.forEach(e=>addNode({
   id:e.key, type:'entry', label:e.title, title:e.title, entryKind:e.kind,
@@ -583,7 +584,7 @@ ENTRIES.forEach(e=>{
 
 // Every spelling of a skill that should light up in prose, resolved back to its node
 const skillByTerm = new Map();
-SKILLS.forEach(s=>{
+SKILLS.filter(s=>!s.noMatch).forEach(s=>{
   skillByTerm.set(s.label.toLowerCase(), s.id);
   (s.alias||[]).forEach(a=>skillByTerm.set(a.toLowerCase(), s.id));
 });
@@ -1443,7 +1444,7 @@ function select(n){
             (n.note ? '<dt>Note</dt><dd>'+esc(n.note)+'</dd>' : '')+
             '</dl>';
     if(n.descList) html += '<ul class="skill-list">'+n.descList.map(li=>'<li>'+esc(li)+'</li>').join('')+'</ul>';
-    html += tagsFor(of('org'),'Issued by') + tagsFor(of('entry'),'Earned during');
+    html += tagsFor(of('skill'),'Strengths') + tagsFor(of('org'),'Issued by') + tagsFor(of('entry'),'Earned during');
   }
 
   html += '<button type="button" class="dback" id="dBack">\u2190 Back</button>';

@@ -22,18 +22,12 @@ const CREDS = [
 
   { id:'C_CLIFTON',label:'Top 5 Strengths',title:'CliftonStrengths (StrengthsFinder) Top 5', kind:'Certification', orgId:'O_GAL',  issued:'Feb 2018',    y0:2018, y1:2018,
     note:'Activator · Futuristic · Ideation · Strategic · Achiever',
+    skills:['S_ACTIVATOR','S_FUTURISTIC','S_IDEATION','S_STRATEGIC','S_ACHIEVER'],
     highlights:[
       { v:'Activator', k:'1 · INFLUENCING' },
       { v:'Futuristic', k:'2 · STRATEGIC THINKING' },
       { v:'Ideation', k:'3 · STRATEGIC THINKING' },
       { v:'Strategic', k:'4 · STRATEGIC THINKING' },
       { v:'Achiever', k:'5 · EXECUTING' }
-    ],
-    descList:[
-      'Activator: turns thoughts into action and would rather do than simply talk.',
-      'Futuristic: vividly imagines the future and energizes others with that vision.',
-      'Ideation: fascinated by ideas, and sees connections others do not.',
-      'Strategic: spots patterns and issues others miss, then weighs alternative paths and picks the most effective one.',
-      'Achiever: works hard with great stamina and takes satisfaction in being busy and productive.'
     ] }
 ];
