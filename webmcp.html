@@ -39,6 +39,14 @@
   th{color:var(--dim);font-weight:600;font-size:.8125rem}
   .note{background:var(--panel);border:1px solid var(--stroke);border-left:3px solid var(--accent);border-radius:8px;padding:10px 14px;color:var(--dim);margin:14px 0}
   .tbl{overflow-x:auto}
+  .status{background:var(--panel);border:1px solid var(--stroke);border-radius:12px;padding:16px 18px;margin:22px 0 0}
+  .status .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .pill{display:inline-block;border-radius:999px;padding:3px 12px;font-size:.8125rem;font-weight:700}
+  .pill.on{background:rgba(52,211,153,.15);color:#34d399;border:1px solid #34d399}
+  .pill.off{background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid #fbbf24}
+  .status ol{margin:10px 0 0;padding-left:22px}
+  .status p{margin:8px 0 0}
+  .status .small{color:var(--dim);font-size:.875rem}
   footer{margin-top:48px;color:var(--dim);font-size:.875rem}
 </style>
 </head>
@@ -59,8 +67,22 @@
     </div>
   </header>
 
+  <section class="status" id="mcp-status" aria-live="polite">
+    <div class="row"><strong>Your browser:</strong> <span id="mcp-browser">checking&hellip;</span> <span class="pill off" id="mcp-pill">Checking</span></div>
+    <div id="mcp-help"><p class="small">This check needs JavaScript. Without it, see the enable steps for <a href="#enable">each browser</a> below.</p></div>
+  </section>
+
   <h2>What this is</h2>
   <p><a href="https://github.com/webmachinelearning/webmcp">WebMCP</a> is a draft web standard (Web Machine Learning Community Group) that lets a page register tools for an agent running in the browser, using <code>document.modelContext.registerTool()</code>. Earlier previews used <code>navigator.modelContext</code>, and the resume registers through whichever is present. The tools run in your tab, read the same data you see on the page, and need no server or API key. Browsers without WebMCP support skip all of it and the page works as usual.</p>
+
+  <h2 id="enable">Enable WebMCP in your browser</h2>
+  <p>WebMCP is a draft, so the steps differ by browser and will change. As of this page's last update:</p>
+  <ul>
+    <li><b>Chrome 149 or later:</b> open <code>chrome://flags/#enable-webmcp-testing</code>, set it to <b>Enabled</b>, and relaunch. Chrome also runs an origin trial for deployed sites.</li>
+    <li><b>Edge 150 or later:</b> the origin trial is live. No flag is documented, so try <code>edge://flags</code> and search for "WebMCP".</li>
+    <li><b>Brave:</b> Chromium-based. Try <code>brave://flags</code> and search for "WebMCP". Brave's own support is experimental and limited to its Leo assistant.</li>
+    <li><b>Firefox and Safari:</b> no WebMCP support yet. Use Chrome or Edge.</li>
+  </ul>
 
   <h2>Available tools</h2>
   <div class="tbl">
@@ -108,5 +130,107 @@ Bryan Focht's engineering leadership experience.</code></pre>
 
   <footer><a href="index.html">&larr; Back to the resume</a></footer>
 </main>
+<script>
+(function(){
+  var ua = navigator.userAgent, uad = navigator.userAgentData;
+  var el = function(id){ return document.getElementById(id); };
+  var ver = function(re){ var m = ua.match(re); return m ? parseInt(m[1], 10) : null; };
+  var flags = {
+    chrome: 'chrome://flags/#enable-webmcp-testing',
+    edge: 'edge://flags',
+    brave: 'brave://flags'
+  };
+
+  function detect(){
+    var brands = uad && uad.brands ? uad.brands.map(function(b){ return b.brand; }).join(' ') : '';
+    if(/iPhone|iPad|iPod/.test(ua)) return { id:'ios', name:'a browser on iOS', mobile:true };
+    if(/Edg\//.test(ua)) return { id:'edge', name:'Microsoft Edge', v:ver(/Edg\/(\d+)/) };
+    if(/OPR\//.test(ua)) return { id:'opera', name:'Opera', v:ver(/OPR\/(\d+)/) };
+    if(/Firefox\//.test(ua)) return { id:'firefox', name:'Firefox', v:ver(/Firefox\/(\d+)/) };
+    if(/Chrome\//.test(ua)){
+      var v = ver(/Chrome\/(\d+)/);
+      if(navigator.brave && typeof navigator.brave.isBrave === 'function') return { id:'brave', name:'Brave', v:v, async:true };
+      if(/Android/.test(ua)) return { id:'chrome', name:'Chrome on Android', v:v, mobile:true };
+      if(/Brave/.test(brands)) return { id:'brave', name:'Brave', v:v };
+      return { id:'chrome', name:'Chrome (or another Chromium browser)', v:v };
+    }
+    if(/Safari\//.test(ua)) return { id:'safari', name:'Safari', v:ver(/Version\/(\d+)/) };
+    return { id:'other', name:'an unrecognized browser' };
+  }
+
+  function enabled(){
+    return [document.modelContext, navigator.modelContext].some(function(m){ return m && typeof m.registerTool === 'function'; });
+  }
+
+  function li(parent, text, code){
+    var i = document.createElement('li');
+    i.appendChild(document.createTextNode(text));
+    if(code){ var c = document.createElement('code'); c.textContent = code; i.appendChild(c); }
+    parent.appendChild(i);
+  }
+
+  function render(b){
+    var on = enabled();
+    el('mcp-browser').textContent = b.name + (b.v ? ' ' + b.v : '');
+    var pill = el('mcp-pill');
+    pill.textContent = on ? 'WebMCP enabled' : 'WebMCP not enabled';
+    pill.className = 'pill ' + (on ? 'on' : 'off');
+    var help = el('mcp-help');
+    help.textContent = '';
+    var p = document.createElement('p');
+    if(on){
+      p.textContent = 'This browser exposes the WebMCP API, so an agent in it can use the tools on the interactive resume.';
+      help.appendChild(p);
+      return;
+    }
+    var ol = document.createElement('ol');
+    var small = document.createElement('p');
+    small.className = 'small';
+    if(b.id === 'chrome' || b.id === 'brave' || b.id === 'edge'){
+      var minV = b.id === 'edge' ? 150 : 149;
+      if(b.v && b.v < minV){
+        li(ol, 'Update to version ' + minV + ' or later (yours is ' + b.v + ').');
+      }
+      if(b.id === 'chrome'){
+        li(ol, 'Open this address in a new tab: ', flags.chrome);
+        li(ol, 'Set the flag to Enabled, then relaunch the browser.');
+      } else {
+        li(ol, 'Open ' + (b.id === 'edge' ? 'edge://flags' : 'brave://flags') + ' in a new tab and search for "WebMCP".');
+        li(ol, 'If you find a WebMCP flag, set it to Enabled and relaunch. Otherwise this build does not expose it yet; Chrome 149+ does.');
+      }
+      li(ol, 'Reload this page. The status above should turn green.');
+      p.textContent = 'This browser can support WebMCP, but it is not turned on:';
+      small.textContent = b.id === 'chrome'
+        ? 'If you use another Chromium browser (Arc, Vivaldi and so on), try its own flags page and search for "WebMCP".'
+        : 'The flag name for this browser is not documented, so these steps are a best guess.';
+      help.appendChild(p); help.appendChild(ol); help.appendChild(small);
+      return;
+    }
+    if(b.mobile){
+      p.textContent = 'WebMCP is not available in mobile browsers yet. Open this page in desktop Chrome 149+ or Edge 150+, then follow the steps below.';
+    } else if(b.id === 'firefox' || b.id === 'safari'){
+      p.textContent = b.name + ' has no WebMCP support yet. Open this page in Chrome 149+ or Edge 150+ and enable it there.';
+    } else {
+      p.textContent = 'I could not tell whether this browser supports WebMCP. Chrome 149+ and Edge 150+ do (see the steps below).';
+    }
+    help.appendChild(p);
+    var a = document.createElement('p');
+    a.className = 'small';
+    var link = document.createElement('a');
+    link.href = '#enable';
+    link.textContent = 'Enable steps for each browser';
+    a.appendChild(link);
+    help.appendChild(a);
+  }
+
+  var b = detect();
+  if(b.async){
+    navigator.brave.isBrave().then(function(yes){ if(!yes) b = { id:'chrome', name:'Chrome (or another Chromium browser)', v:b.v }; render(b); },
+                                   function(){ render(b); });
+  } else {
+    render(b);
+  }
+})();
+</script>
 </body>
 </html>
