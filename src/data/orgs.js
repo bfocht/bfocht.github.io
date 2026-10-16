@@ -5,7 +5,7 @@ const ORGS = [
   { id:'O_TSP',  name:'TheServicePro',             kind:'employer',    meta:'Software & data consulting · Columbus, OH' },
   { id:'O_FD',   name:'First Data',                kind:'employer',    meta:'Payments processing · Scottsdale, AZ' },
   { id:'O_FMC',  name:'FMC Corporation',           kind:'employer',    meta:'Industrial / field-service software' },
-  { id:'O_BU',   name:'Boston University',         kind:'school',      meta:'Questrom · MBA' },
+  { id:'O_BU',   name:'Boston University',         kind:'school',      meta:'Questrom School of Business · MBA' },
   { id:'O_ASU',  name:'Arizona State University',  kind:'school',      meta:'Engineering Studies' },
   { id:'O_UOP',  name:'University of Phoenix',     kind:'school',      meta:'BS, Information Technology' },
   { id:'O_GCC',  name:'Glendale Community College',kind:'school',      meta:'AA' },

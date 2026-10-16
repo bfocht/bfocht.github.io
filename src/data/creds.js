@@ -5,7 +5,7 @@
 // Optional `highlights` ([{v,k}]) draw the metric strip in the node's detail drawer and
 // `descList` adds a bullet list under it.
 const CREDS = [
-  { id:'C_MBA',    label:'MBA',            title:'Master of Business Administration',        kind:'Degree',        orgId:'O_BU',   issued:'2020 – 2022', y0:2020, y1:2022 },
+  { id:'C_MBA',    label:'MBA',            title:'Master of Business Administration',        kind:'Degree',        orgId:'O_BU',   issued:'2020 – 2022', y0:2020, y1:2022, note:'Questrom School of Business' },
   { id:'C_ASU',    label:'ASU Eng',        title:'Engineering coursework',                   kind:'Degree',        orgId:'O_ASU',  issued:'2002 – 2005', y0:2002, y1:2005 },
   { id:'C_BSIT',   label:'BS IT',          title:'BS, Information Technology',               kind:'Degree',        orgId:'O_UOP',  issued:'2002 – 2004', y0:2002, y1:2004 },
   { id:'C_AA',     label:'AA',             title:'Associate of Arts',                        kind:'Degree',        orgId:'O_GCC',  issued:'1998 – 2002', y0:1998, y1:2002 },

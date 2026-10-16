@@ -190,7 +190,7 @@ const ENTRIES = [
   md:[
 "## Education",
 "",
-"### Boston University",
+"### Boston University · Questrom School of Business",
 "**Master of Business Administration** · 2020 - 2022",
 "Completed while running a **director-level organization**.",
 "",
