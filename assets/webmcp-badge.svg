@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 596 596" width="596" height="596" role="img" aria-label="MCP">
+  <title>MCP</title>
+  <defs>
+    <linearGradient id="globe" gradientUnits="userSpaceOnUse" x1="0" y1="83" x2="0" y2="513">
+      <stop offset="0" stop-color="#1BEBF7"/>
+      <stop offset="1" stop-color="#1A98EE"/>
+    </linearGradient>
+  </defs>
+  <circle cx="298" cy="298" r="298" fill="#132F4F"/>
+  <g fill="none" stroke="url(#globe)" stroke-width="14" stroke-linecap="butt">
+    <circle cx="298" cy="298" r="215"/>
+    <ellipse cx="298" cy="298" rx="110" ry="215"/>
+    <line x1="298" y1="83" x2="298" y2="513"/>
+    <path d="M144 148 Q298 208 452 148"/>
+    <path d="M144 448 Q298 388 452 448"/>
+  </g>
+  <!-- knock the globe out behind the lettering -->
+  <rect x="40" y="206" width="516" height="184" rx="20" fill="#132F4F"/>
+  <g fill="#FFFFFF" fill-rule="evenodd">
+    <!-- M -->
+    <path d="M69 368V228H98L145.500 305L193 228H222V368H187V290L158 338H133L104 290V368Z"/>
+    <!-- C -->
+    <path d="M347.800 261.200A52 52 0 1 0 347.800 334.800" fill="none" stroke="#FFFFFF" stroke-width="36"/>
+    <!-- P -->
+    <path d="M404 228H480A44 44 0 0 1 480 316H440V368H404ZM440 258V286H476A14 14 0 0 0 476 258Z"/>
+  </g>
+</svg>

@@ -6,8 +6,9 @@ Two self-contained, static HTML pages, served with [GitHub Pages](https://bfocht
 | --- | --- |
 | `index.html` | Interactive resume: a force-directed knowledge graph of positions, organizations, skills and credentials. Requires modern browser (canvas, `requestAnimationFrame`). |
 | `resume.html` | Plain no-JavaScript fallback and printable version — where older browsers and screen readers land. |
+| `webmcp.html` | Hand-written (not generated) page describing the WebMCP tools the graph registers and how to connect Claude Code or Codex. Linked from the badge at the bottom right of `index.html`. |
 
-Both are generated output, not hand-edited. They're built from the source.
+`index.html` and `resume.html` are generated output, not hand-edited. They're built from the source.
 
 ## Deep links
 
