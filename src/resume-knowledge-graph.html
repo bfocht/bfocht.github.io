@@ -488,7 +488,7 @@
 </div>
 
 <div id="coach" class="coach" role="dialog" aria-label="How to explore the graph">
-  <h4>Profile at the centre, career around it</h4>
+  <h4>Profile at the center, career around it</h4>
   <p><b>My profile</b> anchors the middle, with professional experience ringed around it: my current role starts at the top and moves <b>clockwise</b> back to where I started my career.</p>
   <ul>
     <li>Organizations, skills and credentials start hidden so the knowledge graph stays readable.</li>
@@ -636,7 +636,7 @@ nodes.forEach((n,i)=>{
   n.x = Math.cos(a)*rad; n.y = Math.sin(a)*rad; n.vx = 0; n.vy = 0;
 });
 
-// Profile sits at the centre and every other section is pinned to an ellipse around it, so the
+// Profile sits at the center and every other section is pinned to an ellipse around it, so the
 // whole graph is one composition that fits a widescreen viewport instead of a strip that runs off
 // both edges. Chronology survives as angular order: the current role sits at twelve o'clock and
 // each earlier role follows clockwise, with the undated sections closing the ring on the left.
@@ -742,7 +742,7 @@ function settle(steps=1800){
   nodes.forEach(n=>{ n.vx = 0; n.vy = 0; });
 }
 
-// The pins are already centred on the hub, so this only trims whatever drift the unpinned
+// The pins are already centered on the hub, so this only trims whatever drift the unpinned
 // layers leave behind.
 function recenter(){
   let cx=0, cy=0;
@@ -1254,7 +1254,7 @@ function fitTarget(atRest){
   });
   const w = maxX-minX+48, h = maxY-minY+48;
   const k = Math.max(0.22, Math.min(2, Math.min(Math.max(200, W-insetL)/w, Math.max(200, H-insetB)/h)));
-  // centre on the part of the canvas the category drawer leaves uncovered
+  // center on the part of the canvas the category drawer leaves uncovered
   return {
     k,
     x: -(minX+maxX)/2 + insetL/(2*k),
