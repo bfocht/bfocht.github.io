@@ -68,17 +68,217 @@ Generated on ${generated}
 }
 
 /* ============================================================
- * resume.html — plain no-JavaScript fallback, generated from src/data
+ * shared: data tables, site constants, SEO head block
  * ============================================================ */
 
-function buildPlainResumeHtml() {
+function loadData() {
   // The data tables are plain `const X = [...]` scripts written for a
   // <script src> tag, so a bare VM context is all it takes to read them here.
   const ctx = createContext({});
   const tables = DATA_FILES.map(f => readFileSync(resolve(srcRoot, 'data', f), 'utf8')).join('\n');
   // One script, because a top-level `const` in a VM script is scoped to that script.
-  const { ORGS, SKILLS, CREDS, ENTRIES } =
-    runInContext(tables + '\n;({ ORGS, SKILLS, CREDS, ENTRIES })', ctx, { filename: 'resume-data' });
+  return runInContext(tables + '\n;({ ORGS, SKILLS, CREDS, ENTRIES })', ctx, { filename: 'resume-data' });
+}
+
+const DATA = loadData();
+
+// Where GitHub Pages serves this repo. Absolute URLs are required by Open Graph,
+// Twitter cards, canonical links and the sitemap.
+const SITE = 'https://bfocht.github.io/';
+const SOCIAL = {
+  linkedin: 'https://www.linkedin.com/in/bfocht/',
+  github: 'https://github.com/bfocht',
+  chat: 'https://chat.bryanfocht.com/',
+};
+const HEADLINE = 'Engineering Executive · Cloud & AI';
+const OG_IMAGE = { path: 'assets/og-card.png', width: 1200, height: 630 }; // src/scripts/og-image.py
+const TODAY = new Date().toISOString().slice(0, 10);
+
+const escAttr = s => String(s)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+// Markdown -> plain sentence, for descriptions.
+const plain = md => String(md)
+  .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/[`*_>#]/g, '').replace(/\s+/g, ' ').trim();
+
+// Everything the two pages (and webmcp.html, by hand) need in <head> for search
+// engines and link previews. `page` is one of PAGES below.
+function seoHead(page) {
+  const url = SITE + (page.path === 'index.html' ? '' : page.path);
+  const img = SITE + OG_IMAGE.path;
+  return [
+    `<meta name="description" content="${escAttr(page.description)}">`,
+    `<meta name="author" content="Bryan Focht">`,
+    `<meta name="robots" content="index,follow,max-image-preview:large">`,
+    `<link rel="canonical" href="${url}">`,
+    `<meta property="og:type" content="${page.ogType}">`,
+    `<meta property="og:site_name" content="Bryan Focht">`,
+    `<meta property="og:locale" content="en_US">`,
+    `<meta property="og:url" content="${url}">`,
+    `<meta property="og:title" content="${escAttr(page.ogTitle)}">`,
+    `<meta property="og:description" content="${escAttr(page.description)}">`,
+    `<meta property="og:image" content="${img}">`,
+    `<meta property="og:image:secure_url" content="${img}">`,
+    `<meta property="og:image:type" content="image/png">`,
+    `<meta property="og:image:width" content="${OG_IMAGE.width}">`,
+    `<meta property="og:image:height" content="${OG_IMAGE.height}">`,
+    `<meta property="og:image:alt" content="Bryan Focht, ${HEADLINE}">`,
+    page.ogType === 'profile' ? `<meta property="profile:first_name" content="Bryan">\n<meta property="profile:last_name" content="Focht">` : null,
+    `<meta name="twitter:card" content="summary_large_image">`,
+    `<meta name="twitter:title" content="${escAttr(page.ogTitle)}">`,
+    `<meta name="twitter:description" content="${escAttr(page.description)}">`,
+    `<meta name="twitter:image" content="${img}">`,
+    `<meta name="twitter:image:alt" content="Bryan Focht, ${HEADLINE}">`,
+    `<script type="application/ld+json">${JSON.stringify(jsonLd(page))}</script>`,
+  ].filter(Boolean).join('\n');
+}
+
+/* ---------- schema.org JSON-LD, built from the same tables as the pages ---------- */
+
+const MONTHS = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
+// "Oct 2020 - Present" -> { startDate: "2020-10", endDate: undefined }; "May 2011" -> start only.
+function parseDates(s) {
+  const toIso = part => {
+    const m = String(part || '').trim().match(/^(?:([A-Za-z]{3})[a-z]*\s+)?(\d{4})$/);
+    if (!m) return undefined;
+    return m[1] ? `${m[2]}-${MONTHS[m[1].toLowerCase()]}` : m[2];
+  };
+  const [a, b] = String(s || '').split(/\s*[-–]\s*/);
+  return { startDate: toIso(a), endDate: /present/i.test(b || '') ? undefined : toIso(b) };
+}
+
+function personJsonLd() {
+  const { ORGS, SKILLS, CREDS, ENTRIES } = DATA;
+  const orgById = new Map(ORGS.map(o => [o.id, o]));
+  const profile = ENTRIES.find(e => e.key === 'profile');
+  const positions = ENTRIES.filter(e => e.kind === 'position').slice()
+    .sort((a, b) => (b.tl ?? -Infinity) - (a.tl ?? -Infinity));
+  const current = positions[0];
+
+  const org = (id, type = 'Organization') => {
+    const o = orgById.get(id);
+    return o ? { '@type': type, name: o.name } : undefined;
+  };
+  const credCategory = { Degree: 'degree', Certification: 'certification', Training: 'certificate', Membership: 'membership' };
+
+  return {
+    '@type': 'Person',
+    '@id': SITE + '#person',
+    name: 'Bryan Focht',
+    givenName: 'Bryan',
+    familyName: 'Focht',
+    url: SITE,
+    image: SITE + 'assets/bryan-focht.jpg',
+    jobTitle: current?.title,
+    description: plain(String(profile?.md || '').split('\n')[0]),
+    email: 'mailto:bryan@bryanfocht.com',
+    address: { '@type': 'PostalAddress', addressRegion: 'AZ', addressCountry: 'US' },
+    sameAs: [SOCIAL.linkedin, SOCIAL.github, SOCIAL.chat],
+    hasOccupation: current ? {
+      '@type': 'Occupation',
+      name: current.title,
+      occupationLocation: current.location ? { '@type': 'Place', name: current.location } : undefined,
+    } : undefined,
+    // Employment history as OrganizationRole wrapping each employer: the schema.org
+    // pattern for a dated role at an organization (same property name on both sides).
+    worksFor: positions.map(p => {
+      const d = parseDates(p.dates);
+      return {
+        '@type': 'OrganizationRole',
+        roleName: p.title,
+        startDate: d.startDate,
+        endDate: d.endDate,
+        worksFor: org(p.orgs?.[0]),
+      };
+    }),
+    alumniOf: CREDS.filter(c => c.kind === 'Degree')
+      .map(c => org(c.orgId, 'EducationalOrganization')).filter(Boolean),
+    hasCredential: CREDS.filter(c => c.kind !== 'Membership').map(c => ({
+      '@type': 'EducationalOccupationalCredential',
+      name: c.title || c.label,
+      credentialCategory: credCategory[c.kind] || c.kind.toLowerCase(),
+      recognizedBy: org(c.orgId),
+      ...(c.note && c.kind === 'Degree' ? { description: c.note } : {}),
+    })),
+    knowsAbout: SKILLS.filter(s => s.cat !== 'Strengths').map(s => s.label),
+    knowsLanguage: 'en',
+  };
+}
+
+function jsonLd(page) {
+  const person = personJsonLd();
+  const url = SITE + (page.path === 'index.html' ? '' : page.path);
+  const website = {
+    '@type': 'WebSite',
+    '@id': SITE + '#website',
+    url: SITE,
+    name: 'Bryan Focht · Career Graph',
+    description: PAGES.graph.description,
+    author: { '@id': person['@id'] },
+    inLanguage: 'en',
+  };
+  const webpage = {
+    '@type': page.schemaType,
+    '@id': url,
+    url,
+    name: page.title,
+    description: page.description,
+    isPartOf: { '@id': website['@id'] },
+    about: { '@id': person['@id'] },
+    mainEntity: { '@id': person['@id'] },
+    primaryImageOfPage: { '@type': 'ImageObject', url: SITE + OG_IMAGE.path, width: OG_IMAGE.width, height: OG_IMAGE.height },
+    dateModified: TODAY,
+    inLanguage: 'en',
+  };
+  return { '@context': 'https://schema.org', '@graph': [person, website, webpage] };
+}
+
+/* ---------- page catalogue: titles, descriptions, sitemap entries ---------- */
+
+const COUNTS = (() => {
+  const { SKILLS, CREDS, ENTRIES } = DATA;
+  return {
+    roles: ENTRIES.filter(e => e.kind === 'position').length,
+    skills: SKILLS.filter(s => s.cat !== 'Strengths').length,
+    creds: CREDS.length,
+  };
+})();
+
+const PAGES = {
+  graph: {
+    path: 'index.html',
+    title: `Bryan Focht · ${HEADLINE}`,
+    ogTitle: `Bryan Focht · ${HEADLINE} · Interactive Career Graph`,
+    description: `Interactive career graph of Bryan Focht, an engineering executive with 25+ years building enterprise commerce platforms, AWS cloud infrastructure and AI agents. Explore ${COUNTS.roles} roles, ${COUNTS.skills} skills and ${COUNTS.creds} credentials, with a WebMCP interface for AI agents.`,
+    ogType: 'profile',
+    schemaType: 'ProfilePage',
+    priority: '1.0',
+    changefreq: 'weekly',
+  },
+  resume: {
+    path: 'resume.html',
+    title: `Bryan Focht · Resume · ${HEADLINE}`,
+    ogTitle: `Bryan Focht · Resume · ${HEADLINE}`,
+    description: `Printable resume of Bryan Focht, an engineering executive with 25+ years in enterprise commerce platforms, AWS cloud and AI. ${COUNTS.roles} roles at GoDaddy, First Data, TheServicePro and FMC, an MBA from Boston University, and ${COUNTS.skills} skills.`,
+    ogType: 'profile',
+    schemaType: 'ProfilePage',
+    priority: '0.8',
+    changefreq: 'monthly',
+  },
+  webmcp: {
+    // Hand-written page; its <head> carries a copy of this block, kept in step by hand.
+    path: 'webmcp.html',
+    priority: '0.5',
+    changefreq: 'monthly',
+  },
+};
+
+/* ============================================================
+ * resume.html — plain no-JavaScript fallback, generated from src/data
+ * ============================================================ */
+
+function buildPlainResumeHtml() {
+  const { ORGS, SKILLS, CREDS, ENTRIES } = DATA;
 
   const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   function inline(s) {
@@ -271,12 +471,12 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid #dde3ec;font-size:1
 
   gtag('config', 'G-MLCG36KPTV');
 </script>
-<title>Bryan Focht — Resume</title>
+<title>${esc(PAGES.resume.title)}</title>
+${seoHead(PAGES.resume)}
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<meta name="description" content="Bryan Focht — Director of Engineering at GoDaddy. Plain-text resume, ${YEARS.from}–${YEARS.to}.">
 <style>
 ${CSS}
 </style>
@@ -344,12 +544,43 @@ function inlineLocalScripts(html, htmlDir, sourceRoot) {
   return { html: out, inlined };
 }
 
+// The graph's <head> carries a `<!-- @seo:graph -->` marker right after its <title>;
+// the build swaps in the same generated block the plain resume gets.
+const SEO_MARKER = '<!-- @seo:graph -->';
+
 function buildGraphHtml() {
   const input = resolve(srcRoot, 'resume-knowledge-graph.html');
   const sourceHtml = readFileSync(input, 'utf8');
-  const { html, inlined } = inlineLocalScripts(sourceHtml, dirname(input), srcRoot);
+  if (!sourceHtml.includes(SEO_MARKER)) {
+    throw new Error(`${SEO_MARKER} marker missing from ${input}; the graph would ship without its SEO head.`);
+  }
+  const withSeo = sourceHtml
+    .replace(SEO_MARKER, seoHead(PAGES.graph))
+    .replace(/<title>[^<]*<\/title>/, `<title>${PAGES.graph.title.replace(/&/g, '&amp;')}</title>`);
+  const { html, inlined } = inlineLocalScripts(withSeo, dirname(input), srcRoot);
   return { input, html, inlined };
 }
+
+/* ============================================================
+ * sitemap.xml + robots.txt
+ * ============================================================ */
+
+function gitDate(file) {
+  const r = spawnSync('git', ['log', '-1', '--format=%cs', '--', file], { cwd: repoRoot, encoding: 'utf8' });
+  return r.status === 0 && r.stdout.trim() ? r.stdout.trim() : TODAY;
+}
+
+function buildSitemap() {
+  const rows = Object.values(PAGES).map(p => {
+    const loc = SITE + (p.path === 'index.html' ? '' : p.path);
+    // The two generated pages are rewritten by this build; the hand-written one keeps its last commit date.
+    const lastmod = p.path === 'webmcp.html' ? gitDate(p.path) : TODAY;
+    return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${p.changefreq}</changefreq>\n    <priority>${p.priority}</priority>\n  </url>`;
+  });
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${rows.join('\n')}\n</urlset>\n`;
+}
+
+const ROBOTS = `User-agent: *\nAllow: /\n\nSitemap: ${SITE}sitemap.xml\n`;
 
 /* ============================================================
  * shared: minify one HTML string with html-minifier-terser via npx
@@ -426,3 +657,8 @@ const graphAfter = statSync(graphOutput).size;
 console.log(
   `Wrote ${graphOutput} (${fmt(graphBefore)} → ${fmt(graphAfter)}, −${((1 - graphAfter / graphBefore) * 100).toFixed(1)}%)`,
 );
+
+console.log('\nWriting sitemap.xml and robots.txt...');
+writeFileSync(resolve(repoRoot, 'sitemap.xml'), buildSitemap(), 'utf8');
+writeFileSync(resolve(repoRoot, 'robots.txt'), ROBOTS, 'utf8');
+console.log(`Wrote sitemap.xml (${Object.keys(PAGES).length} URLs) and robots.txt`);
