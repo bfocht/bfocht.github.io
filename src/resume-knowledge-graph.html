@@ -584,7 +584,7 @@ ENTRIES.forEach(e=>{
     el = document.createElement('img');
     el.className = 'proj-icon proj-photo';
     el.src = e.photo;
-    el.alt = e.title;
+    el.alt = e.photoAlt || e.title;
   } else {
     el = document.createElement('div');
     el.className = 'proj-icon';
@@ -1075,7 +1075,8 @@ function draw(){
     const s = toScreen(n);
     const r = n.r*view.k*pop;
     const dim = (hl && !hl.has(n.id)) || (query && !matches(n));
-    const size = Math.max(18, Math.min(r*1.55, 30*(n.scale||1)));
+    // a photo fills 90% of its node circle; emoji stay capped so they don't swamp the node
+    const size = n.photo ? Math.max(18, r*1.8) : Math.max(18, Math.min(r*1.55, 30*(n.scale||1)));
     el.style.visibility = 'visible';
     el.style.width = size + 'px';
     el.style.height = size + 'px';

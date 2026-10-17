@@ -6,7 +6,7 @@
 const ENTRIES = [
 
 /* ------------------------------------------------------------------ profile */
-{ key:'profile', title:'Bryan Focht', icon:'👤', photo:'assets/bryan-focht.jpg', kind:'profile', tl:5.4, scale:3,
+{ key:'profile', title:'Bryan Focht', icon:'👤', photo:'assets/bryan-focht.jpg', photoAlt:'Bryan Focht smiling in front of a gray backdrop, wearing the token blue button-down that every profile photo requires', kind:'profile', tl:5.4, scale:3,
   tagline:'Engineering Executive · [linkedin.com/in/bfocht](https://www.linkedin.com/in/bfocht/)',
    role:'Engineering Executive',
   orgs:['O_GD'],
