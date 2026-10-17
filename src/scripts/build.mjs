@@ -169,14 +169,14 @@ function personJsonLd() {
     familyName: 'Focht',
     url: SITE,
     image: SITE + 'assets/bryan-focht.jpg',
-    jobTitle: current?.title,
+    // The profile's role ("Engineering Executive"), not the formal title, matching the page headline.
+    jobTitle: profile?.role || current?.title,
     description: plain(String(profile?.md || '').split('\n')[0]),
-    email: 'mailto:bryan@bryanfocht.com',
     address: { '@type': 'PostalAddress', addressRegion: 'AZ', addressCountry: 'US' },
     sameAs: [SOCIAL.linkedin, SOCIAL.github, SOCIAL.chat],
     hasOccupation: current ? {
       '@type': 'Occupation',
-      name: current.title,
+      name: profile?.role || current.title,
       occupationLocation: current.location ? { '@type': 'Place', name: current.location } : undefined,
     } : undefined,
     // Employment history as OrganizationRole wrapping each employer: the schema.org
