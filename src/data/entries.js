@@ -65,7 +65,7 @@ const ENTRIES = [
 "",
 "### Platform ownership",
 "- Own the catalog, product-creation and basket platform - the merchandising and offer engine behind GoDaddy's storefront - designed around a variant/offer model behind a translation seam so every SKU (domains, hosting, email, add-ons, payments, and the emerging AI Credit reserve) prices consistently without breaking existing callers.",
-"- Led the commerce-stack migration, moving order and basket traffic onto AWS in shadow mode and cutting over only once diffs were clean (99.6% match), **protecting revenue-critical checkout** through a high-risk migration.",
+"- Led the commerce-stack migration, moving order and basket traffic onto AWS in shadow mode and cutting over only once diffs were clean (99.6% match), **protecting revenue-critical checkout** through a high-risk migration. The build spanned **7 teams, 7 services, 600K+ lines of code and 700+ launches**.",
 "- Set the **resilience standard** with circuit breakers, bounded caches, connection-pool isolation, and AI-driven anomaly detection, so one slow dependency can't cascade into an outage at **10M+ monthly orders**; raised coverage requirements to 90-95% unit and functional-API.",
 "- Built and grew three **globally distributed teams**, and own the AWS and AI infrastructure budget worldwide, full-cycle recruiting, and contractor/vendor management, flexing in contractors for capacity when needed (EPAM, Tech Systems, Globant, Apex Systems, Lviv IT).",
 "- Own **security and compliance**, spanning vulnerability remediation, certificate automation, attestation management, and SOX review tooling.",
