@@ -133,6 +133,15 @@ const SKILLS = [
       'Platform — a multi-domain catalog agent and an intern-built agent that replaced a manual review process',
       'This site — this resume itself is an agentic build: the knowledge-graph visualization, drawer UI and content pipeline were built end-to-end working with Claude Code rather than hand-authoring it'
     ] },
+  { id:'S_FACTORY', label:'Software Factory',        cat:'AI', alias:['software factory','AI software factory','human on the loop','human-in-the-loop'],
+    desc:'Building an AI-enabled delivery pipeline where agents turn tickets into pull requests and the pipeline, not a person, enforces quality, with humans on the loop at defined gates:',
+    descList:[
+      'Pipeline — Claude Code, Cursor and Codex generate the code (75%+ across the organization); agents turn Jira tickets into pull requests, and AI-assisted review precedes human approval, backed by 90-95% unit and functional-API coverage gates, staged promotion and feature switches',
+      'Governance — working with the governance group to decide, gate by gate, where humans can step back from the loop without breaking SOX and ITGC controls as a publicly traded company',
+      'Operating model — running two teams with two different styles as experiments, one of them built from scratch in a language none of its engineers knew, to learn how to move from human-in-the-loop toward human-on-the-loop',
+      'Scale — a few engineers used AI to raise pull requests and fix broken pipelines across roughly 1,400 repositories in about two and a half weeks',
+      'Next — experimenting with AI built into the operating system, so a workflow such as change-order review runs from a terminal prompt instead of a separate coding tool'
+    ] },
   { id:'S_PROMPT',  label:'Prompt Engineering',      cat:'AI',
     desc:'Applying prompt-engineering practice to production agent tooling, backed by formal training in the discipline.' },
   { id:'S_MCP',     label:'MCP',                     cat:'AI',

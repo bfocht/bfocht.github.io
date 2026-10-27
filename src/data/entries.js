@@ -16,7 +16,7 @@ const ENTRIES = [
     { v:'$1.4M', k:'AWS budget' },
     { v:'MBA', k:'Boston University' }
   ],
-  skills:['S_LEAD','S_GLOBAL','S_ROADMAP','S_ECOM','S_CATALOG','S_AWS','S_AGENTS','S_FDE'],
+  skills:['S_LEAD','S_GLOBAL','S_ROADMAP','S_ECOM','S_CATALOG','S_AWS','S_AGENTS','S_FACTORY','S_FDE'],
   md:[
 "Engineering executive with 25+ years building enterprise software, currently owning technology strategy and P&L for the platform behind GoDaddy's commerce stack - the systems that decide what can be sold, at what price, in which market, and how it reaches a cart.",
 "",
@@ -49,7 +49,7 @@ const ENTRIES = [
   ],
   skills:['S_LEAD','S_GLOBAL','S_ROADMAP','S_MENTOR','S_PARTNER','S_CONTRACT','S_BUDGET','S_RECRUIT','S_ARCH','S_AGILE','S_TEST','S_SOX',
           'S_JAVA','S_SPRING','S_AWS','S_MICRO','S_REST','S_SQL','S_MSSQL','S_DDB','S_REDIS','S_CACHE',
-          'S_OBS','S_RESIL','S_MIGRATE','S_CATALOG','S_ECOM','S_AGENTS','S_MCP','S_PROMPT','S_AIOPS'],
+          'S_OBS','S_RESIL','S_MIGRATE','S_CATALOG','S_ECOM','S_AGENTS','S_FACTORY','S_MCP','S_PROMPT','S_AIOPS'],
   md:[
 "## Director of Engineering · GoDaddy",
 "*Oct 2020 - Present · Arizona, with teams across US, Latin America, Europe and India*",
@@ -58,6 +58,7 @@ const ENTRIES = [
 "",
 "### Selected impact",
 "- Driving **AI adoption** across the org where an intern-built agent replaced a manual SOX tax-review process for a **10x productivity** gain; shipped AI infrastructure other teams now build on (Catalog MCP server, Product Creation Agent and workflow orchestration) and my organization consistently averages over **75% AI-generated code** delivery.",
+"- Building toward an AI **software factory**: agents turn tickets into pull requests, a pipeline of 90-95% coverage gates, review and staged promotion decides what ships, and humans move from *in* the loop to *on* the loop at gates agreed with SOX/ITGC governance. Running two teams with different operating styles as deliberate experiments, including one that shipped in a language none of its engineers knew beforehand.",
 "- Achieved **cost savings** integrating GoDaddy's $1.8 Billion Host Europe Group acquisition onto a single platform - shut down several costly e-commerce platforms, rebranding five HEG brands into GoDaddy while one kept its standalone identity.",
 "- Unlocked a new revenue stream from the $325M Poynt payments acquisition by integrating it directly into the catalog and ordering system, launching the product to GoDaddy's storefront.",
 "- Invested in observability and AIOps alerting to catch defects before they compound: caught a pricing bug projected to hit 10% of monthly orders and a cart bug with ~$1M exposure, driving both fixes into the owning services rather than patching downstream.",
